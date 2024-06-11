@@ -8,7 +8,6 @@ We're a team of 4 students working on a project to offer our users personalized 
 # What is Smart'Hike ?
 Smart'Hike is a mobile application that allows you to create personalized hiking routes.
 
-
 # Technologies
 ![](https://img.shields.io/badge/Flutter-ED8B00?style=for-the-badge&logo=flutter&color=20232a)
 ![](https://img.shields.io/badge/Dart-ED8B00?style=for-the-badge&logo=dart&color=20232a)  
@@ -17,9 +16,10 @@ Smart'Hike is a mobile application that allows you to create personalized hiking
 ![](https://img.shields.io/badge/MapBox-ED8B00?style=for-the-badge&logo=mapbox&color=20232a)
 
 ## Authors
-
-- [@Charlotte L](https://github.com/charlottelaurent50)
-- [@Julien M](https://github.com/JuMercourt)
-- [@Eloi J](https://github.com/EloiJhn)
-- [@Valentin R](https://github.com/ValentinRgt)
-- [@Alexandre T](https://github.com/PikPakPik)
+| Name              | Role            | Github Profile |
+|-------------------|-----------------|----------------|
+| Eloi JAHAN        | Project Manager | [@Eloi J](https://github.com/EloiJhn) |
+| Julien MERCOUT    | Developer       | [@Julien M](https://github.com/JuMercourt) |
+| Charlotte LAURENT | Developer       | [@Charlotte L](https://github.com/charlottelaurent50) |
+| Valentin RAGOT    | Developer       | [@Valentin R](https://github.com/ValentinRgt) |
+| Alexendre TRESSEL | Developer       | [@Alexandre T](https://github.com/PikPakPik) |
