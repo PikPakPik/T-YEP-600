@@ -18,7 +18,7 @@ Smart'Hike is a mobile application that allows you to create personalized hiking
 ## Authors
 | Name              | Role                          | Github Profile |
 |-------------------|-------------------------------|----------------|
-| Eloi JAHAN        | Project Manager / Développeur | [@Eloi J](https://github.com/EloiJhn) |
+| Eloi JAHAN        | Project Manager / Developer  | [@Eloi J](https://github.com/EloiJhn) |
 | Julien MERCOUT    | Developer                     | [@Julien M](https://github.com/JuMercourt) |
 | Charlotte LAURENT | Developer                     | [@Charlotte L](https://github.com/charlottelaurent50) |
 | Valentin RAGOT    | Developer                     | [@Valentin R](https://github.com/ValentinRgt) |
