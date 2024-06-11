@@ -21,4 +21,5 @@ Smart'Hike is a mobile application that allows you to create personalized hiking
 - [@Charlotte L](https://github.com/charlottelaurent50)
 - [@Julien M](https://github.com/JuMercourt)
 - [@Eloi J](https://github.com/EloiJhn)
+- [@Valentin R](https://github.com/ValentinRgt)
 - [@Alexandre T](https://github.com/PikPakPik)
