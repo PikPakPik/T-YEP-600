@@ -1,0 +1,42 @@
+stages:
+  - lints
+  - tests
+  - build
+
+before_script:
+  - cd smarthike
+  - flutter pub get
+  - flutter clean
+lints:
+  image: ghcr.io/cirruslabs/flutter
+  stage: lints
+  script:
+    - flutter analyze --no-fatal-infos --no-fatal-warnings
+  only:
+    changes:
+      - smarthike/**/*
+unit tests:
+  image: ghcr.io/cirruslabs/flutter
+  stage: tests
+  script:
+    - flutter test --coverage ./lib
+    - lcov -r coverage/lcov.info -o coverage/lcov_cleaned.info
+    - genhtml coverage/lcov_cleaned.info --output=coverage
+  artifacts:
+    paths:
+      - coverage
+  only:
+    changes:
+      - smarthike/**/*
+android:
+  image: ghcr.io/cirruslabs/flutter
+  stage: build
+  script:
+    - flutter build apk --release --build-number ${CI_JOB_ID:0:8}
+    - flutter build appbundle --release --build-number ${CI_JOB_ID:0:8}
+    - mv build/app/outputs/flutter-apk/app-release.apk build/artifacts/app-release-${CI_JOB_ID:0:8}.apk
+  artifacts:
+    paths:
+      - build/artifacts/
+  only:
+    - main

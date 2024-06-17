@@ -1,0 +1,9 @@
+image: ubuntu:18.04 
+
+stages:
+  - lints
+  - tests
+  - build
+
+include:
+  - "smarthike/.ci/.gitlab-flutter.yml"
