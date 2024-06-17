@@ -1,7 +1,9 @@
-from app import app
+import datetime
+from app import app, db
 import re
-from flask import json, request
 from models.User import User
+from models.Session import Session
+from flask import json, request
 from flask_bcrypt import generate_password_hash, check_password_hash
 import jwt
 
@@ -33,7 +35,6 @@ def login():
         return response
 
     user = User.query.filter_by(email=email).first()
-
     if (user is None) or (not check_password_hash(user.password, password)):
         response = app.response_class(
             response=json.dumps({
@@ -44,7 +45,20 @@ def login():
         )
         return response
 
-    encoded_token = jwt.encode({"some": "payload"}, "secret", algorithm="HS256")
+    encoded_token = jwt.encode(
+        {
+            "identifier": user.email,
+            "aud": "smarthike_app",
+            "iat": datetime.datetime.now(tz=datetime.timezone.utc),
+            "exp": datetime.datetime.now(tz=datetime.timezone.utc) + datetime.timedelta(hours=24),
+        },
+        app.config['JWT_KEY'],
+        algorithm="HS256"
+    )
+
+    session = Session(user=user.id, token=encoded_token)
+    db.session.add(session)
+    db.session.commit()
 
     response = app.response_class(
         response=json.dumps({

@@ -1,7 +1,9 @@
 from app import app
 from flask import json
+from flask_login import login_required
 
 @app.route("/api/user", methods = ['GET'])
+@login_required
 def user():
     data = {
         "name": "John Doe",
