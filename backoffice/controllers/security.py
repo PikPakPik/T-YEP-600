@@ -9,25 +9,35 @@ import jwt
 
 @app.route("/api/login", methods = ['POST'])
 def login():
-    if len(request.form.get('email')) > 0 and re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", request.form.get('email')):
-        email = request.form.get('email')
-    else:
-        response = app.response_class(
-            response=json.dumps({
-                'i18n': 'security.login.invalid_email'
-            }),
-            status=400,
-            mimetype='application/json'
-        )
-        return response
+    try:
+        if len(request.form.get('email')) > 0 and re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", request.form.get('email')):
+            email = request.form.get('email')
+        else:
+            response = app.response_class(
+                response=json.dumps({
+                    'i18n': 'security.login.invalid_email'
+                }),
+                status=400,
+                mimetype='application/json'
+            )
+            return response
 
-    if len(request.form.get('password')) >= 8:
-        password = request.form.get('password')
-    else:
+        if len(request.form.get('password')) >= 8:
+            password = request.form.get('password')
+        else:
+            response = app.response_class(
+                response=json.dumps({
+                    'greaterOrEqualThan': len(request.form.get('password')) >= 8,
+                    'i18n': 'security.login.invalid_password'
+                }),
+                status=400,
+                mimetype='application/json'
+            )
+            return response
+    except:
         response = app.response_class(
             response=json.dumps({
-                'greaterOrEqualThan': len(request.form.get('password')) >= 8,
-                'i18n': 'security.login.invalid_password'
+                'i18n': 'security.login.invalid_credentials'
             }),
             status=400,
             mimetype='application/json'
