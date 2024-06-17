@@ -14,7 +14,7 @@ lints:
     - flutter analyze --no-fatal-infos --no-fatal-warnings
   only:
     changes:
-      - smarthike/**/*
+      - ./**/*
 unit tests:
   image: ghcr.io/cirruslabs/flutter
   stage: tests
@@ -27,7 +27,7 @@ unit tests:
       - coverage
   only:
     changes:
-      - smarthike/**/*
+      - ./**/*
 android:
   image: ghcr.io/cirruslabs/flutter
   stage: build
