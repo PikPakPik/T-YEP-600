@@ -2,7 +2,6 @@ import datetime
 from app import app, login_manager
 from models.Session import Session
 
-
 @login_manager.request_loader
 def load_user_from_request(request):
     authorization_header = request.headers.get('Authorization')
