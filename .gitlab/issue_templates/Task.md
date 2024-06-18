@@ -6,7 +6,8 @@
 ### Type of Task
 [ ] New Feature  
 [ ] Bug Fix  
-[ ] Documentation  
+[ ] Documentation
+[ ] Test  
 [ ] Refactoring  
 [ ] Other  
 
