@@ -6,6 +6,7 @@
 - [ ] New feature (nouvelle fonctionnalité)
 - [ ] Breaking change (correction ou fonctionnalité qui pourrait entraîner un changement non rétrocompatible)
 - [ ] Documentation update (mise à jour de la documentation)
+- [ ] Mise à jour du swagger
 - [ ] Autre (précisez) : 
 
 ## Checklist

@@ -13,9 +13,6 @@ def load_user_from_request(request):
 
     session = Session.query.filter_by(token=token).first()
     if (session is None) or (session.expireAt <= datetime.datetime.now()):
-        if (session.expireAt <= datetime.datetime.now()):
-            db.session.delete(session)
-            db.session.commit()
         return None
     
     session.lastUsedAt = datetime.datetime.now()

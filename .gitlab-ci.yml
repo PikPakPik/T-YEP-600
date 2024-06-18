@@ -11,11 +11,11 @@ pages:
   image: node:alpine
   stage: build
   script:
-  - npm install -g redoc-cli
-  - redoc-cli bundle -o public/index.html backoffice/swagger.json
+    - npm install -g redoc-cli
+    - redoc-cli bundle -o public/index.html backoffice/swagger.json
   artifacts:
     paths:
-    - public
+      - public
   rules:
     - if: '$CI_COMMIT_BRANCH == "develop"'
       changes:
