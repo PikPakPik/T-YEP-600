@@ -1,5 +1,6 @@
 import datetime
-from app import login_manager
+from app import db, login_manager
+from models.User import User
 from models.Session import Session
 
 @login_manager.request_loader
@@ -11,7 +12,15 @@ def load_user_from_request(request):
     token = authorization_header[7:]
 
     session = Session.query.filter_by(token=token).first()
-    if (session is None) or (session.lastUsedAt <= datetime.datetime.now()):
+    if (session is None) or (session.expireAt <= datetime.datetime.now()):
+        if (session.expireAt <= datetime.datetime.now()):
+            db.session.delete(session)
+            db.session.commit()
         return None
     
-    return session.user
+    session.lastUsedAt = datetime.datetime.now()
+    db.session.commit()
+    
+    user = User.query.filter_by(id=session.user).first()
+    
+    return user

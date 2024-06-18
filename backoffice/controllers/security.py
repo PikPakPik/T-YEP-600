@@ -54,6 +54,9 @@ def login():
             mimetype='application/json'
         )
         return response
+    
+    user.lastLogin = datetime.datetime.now()
+    db.session.commit()
 
     encoded_token = createJwt(user)
 
