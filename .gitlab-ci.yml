@@ -17,7 +17,7 @@ pages:
     paths:
     - public
   only:
-  - develop
+    - develop
   rules:
     - changes:
         - backoffice/swagger.json
