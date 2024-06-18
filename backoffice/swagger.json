@@ -9,6 +9,10 @@
         {
             "name": "Authentication",
             "description": "Route to manage authentication"
+        },
+        {
+            "name": "User",
+            "description": "Route to manage user"
         }
     ],
     "schemes": [
@@ -129,6 +133,33 @@
                                 "i18n": "security.register.invalid_credentials"
                             }
                         }
+                    }
+                }
+            }
+        },
+        "/api/user": {
+            "get": {
+                "tags": ["User"],
+                "summary": "Get user information",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "id": 1,
+                                "firstname": "Firstname of User",
+                                "lastname": "Lastname of User",
+                                "email": "user@tyep600.org",
+                                "lastLogin": "2024-06-18T12:45:10",
+                                "createdAt": "2024-06-18T11:23:20",
+                                "updatedAt": "2024-06-18T12:45:10"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
                     }
                 }
             }

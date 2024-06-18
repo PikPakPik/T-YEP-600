@@ -4,10 +4,9 @@
 **Describe the task to be done**
 
 ### Type of Task
-[ ] New Feature  
-[ ] Bug Fix  
-[ ] Documentation
-[ ] Test  
-[ ] Refactoring  
-[ ] Other  
-
+- [ ] New Feature  
+- [ ] Bug Fix  
+- [ ] Documentation
+- [ ] Test  
+- [ ] Refactoring  
+- [ ] Other  

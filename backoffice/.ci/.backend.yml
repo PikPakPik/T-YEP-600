@@ -32,7 +32,7 @@ tests_back:
     - apk add --no-cache make gcc g++ bash docker-compose
     - cd ../
     - make build ENV=test
-    - sleep 60
+    - sleep 30
     - make test ENV=test
   only:
     changes:
