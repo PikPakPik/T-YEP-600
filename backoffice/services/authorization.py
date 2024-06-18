@@ -1,5 +1,5 @@
 import datetime
-from app import app, login_manager
+from app import login_manager
 from models.Session import Session
 
 @login_manager.request_loader
