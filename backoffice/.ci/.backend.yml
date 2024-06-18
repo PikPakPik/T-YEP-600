@@ -13,9 +13,10 @@ lints_back:
   script:
     - cd backoffice
     - echo "Lint OK"
-  only:
-    changes:
-      - backoffice/**/*
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "develop" && $CI_COMMIT_BRANCH != "main"'
+      changes:
+        - backoffice/**/*
 
 tests_back:
   image: docker:latest
@@ -34,6 +35,7 @@ tests_back:
     - make build ENV=test
     - sleep 30
     - make test ENV=test
-  only:
-    changes:
-      - backoffice/**/*
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "develop" && $CI_COMMIT_BRANCH != "main"'
+      changes:
+        - backoffice/**/*

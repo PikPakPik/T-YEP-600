@@ -7,9 +7,10 @@ lints_front:
     - flutter pub get
     - flutter clean
     - flutter analyze --no-fatal-infos --no-fatal-warnings
-  only:
-    changes:
-      - smarthike/**/*
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "develop" && $CI_COMMIT_BRANCH != "main"'
+      changes:
+        - smarthike/**/*
 
 tests_front:
   stage: tests
@@ -24,9 +25,10 @@ tests_front:
     paths:
       - coverage
     expire_in: 10 mins
-  only:
-    changes:
-      - smarthike/**/*
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "develop" && $CI_COMMIT_BRANCH != "main"'
+      changes:
+        - smarthike/**/*
 
 build_front:
   stage: build
