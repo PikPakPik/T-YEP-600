@@ -16,8 +16,7 @@ pages:
   artifacts:
     paths:
     - public
-  only:
-    - develop
   rules:
-    - changes:
+    - if: '$CI_COMMIT_BRANCH == "develop"'
+      changes:
         - backoffice/swagger.json
