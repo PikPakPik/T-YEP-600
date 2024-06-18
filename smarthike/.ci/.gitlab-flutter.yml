@@ -38,5 +38,6 @@ android:
   artifacts:
     paths:
       - build/artifacts/
+    expire_in: 2 days
   only:
     - main

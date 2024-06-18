@@ -1,0 +1,32 @@
+stages:
+  - lints
+  - tests
+  - build
+
+before_script:
+  - cd backoffice
+
+lints:
+  stage: tests
+  script:
+    - echo "Lint OK"
+  only:
+    changes:
+      - ./**/*
+
+tests:
+  image: docker
+  stage: tests
+  script:
+    - make build
+    - make test
+  only:
+    changes:
+      - ./**/*
+
+build:
+  stage: build
+  script:
+    - echo "Build OK"
+  only:
+    - main

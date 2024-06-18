@@ -7,3 +7,4 @@ stages:
 
 include:
   - "smarthike/.ci/.gitlab-flutter.yml"
+#  - "backoffice/.ci/.backend.yml"

@@ -17,3 +17,7 @@ re-build:
 .PHONY: logs
 logs:
 	docker compose -f $(DOCKER_COMPOSE_FILE) logs -f
+
+.PHONY: test
+test:
+	docker compose -f $(DOCKER_COMPOSE_FILE) exec python pytest -s tests/security/*.py
