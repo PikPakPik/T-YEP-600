@@ -1,6 +1,8 @@
 import datetime
 from app import app, db
 import re
+from forms.register import RegisterForm
+from forms.login import LoginForm
 from models.User import User
 from models.Session import Session
 from flask import json, request
@@ -9,43 +11,21 @@ import jwt
 
 @app.route("/api/login", methods = ['POST'])
 def login():
-    try:
-        if len(request.form.get('email')) > 0 and re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", request.form.get('email')):
-            email = request.form.get('email')
-        else:
-            response = app.response_class(
-                response=json.dumps({
-                    'i18n': 'security.login.invalid_email'
-                }),
-                status=400,
-                mimetype='application/json'
-            )
-            return response
+    form = LoginForm(request.form)
 
-        if len(request.form.get('password')) >= 8:
-            password = request.form.get('password')
-        else:
-            response = app.response_class(
-                response=json.dumps({
-                    'greaterOrEqualThan': len(request.form.get('password')) >= 8,
-                    'i18n': 'security.login.invalid_password'
-                }),
-                status=400,
-                mimetype='application/json'
-            )
-            return response
-    except:
+    if form.validate() is False:
         response = app.response_class(
             response=json.dumps({
-                'i18n': 'security.login.invalid_credentials'
+                'i18n': 'security.login.invalid_credentials',
+                'errors': form.errors
             }),
             status=400,
             mimetype='application/json'
         )
         return response
 
-    user = User.query.filter_by(email=email).first()
-    if (user is None) or (not check_password_hash(user.password, password)):
+    user = User.query.filter_by(email=form.email.data).first()
+    if (user is None) or (not check_password_hash(user.password, form.password.data)):
         response = app.response_class(
             response=json.dumps({
                 'i18n': 'security.login.invalid_credentials'
@@ -72,66 +52,20 @@ def login():
 
 @app.route("/api/register", methods = ['POST'])
 def register():
-    try:
-        if len(request.form.get('firstname')) > 0 and re.match(r"(^[a-zA-Z]+$)", request.form.get('firstname')):
-            firstname = request.form.get('firstname')
-        else:
-            response = app.response_class(
-                response=json.dumps({
-                    'i18n': 'security.register.invalid_firstname'
-                }),
-                status=400,
-                mimetype='application/json'
-            )
-            return response
-        
-        if len(request.form.get('lastname')) > 0 and re.match(r"(^[a-zA-Z]+$)", request.form.get('lastname')):
-            lastname = request.form.get('lastname')
-        else:
-            response = app.response_class(
-                response=json.dumps({
-                    'i18n': 'security.register.invalid_lastname'
-                }),
-                status=400,
-                mimetype='application/json'
-            )
-            return response
-        
-        if len(request.form.get('email')) > 0 and re.match(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)", request.form.get('email')):
-            email = request.form.get('email')
-        else:
-            response = app.response_class(
-                response=json.dumps({
-                    'i18n': 'security.register.invalid_email'
-                }),
-                status=400,
-                mimetype='application/json'
-            )
-            return response
+    form = RegisterForm(request.form)
 
-        if len(request.form.get('password')) >= 8:
-            password = request.form.get('password')
-        else:
-            response = app.response_class(
-                response=json.dumps({
-                    'greaterOrEqualThan': len(request.form.get('password')) >= 8,
-                    'i18n': 'security.register.invalid_password'
-                }),
-                status=400,
-                mimetype='application/json'
-            )
-            return response
-    except:
+    if form.validate() is False:
         response = app.response_class(
             response=json.dumps({
-                'i18n': 'security.register.invalid_credentials'
+                'i18n': 'security.register.invalid_credentials',
+                'errors': form.errors
             }),
             status=400,
             mimetype='application/json'
         )
         return response
     
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(email=form.email.data).first()
     if user is not None:
         response = app.response_class(
             response=json.dumps({
@@ -142,7 +76,7 @@ def register():
         )
         return response
     
-    user = User(firstname=firstname, lastname=lastname, email=email, password=generate_password_hash(password, 12).decode('utf-8'))
+    user = User(firstname=form.firstname.data, lastname=form.lastname.data, email=form.email.data, password=generate_password_hash(form.password.data, 12).decode('utf-8'))
     db.session.add(user)
     db.session.commit()
 

@@ -64,8 +64,11 @@
                         "description": "Success",
                         "schema": {
                             "type": "object",
-                            "example": {
-                                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                            "properties": {
+                                "token": {
+                                    "type": "string",
+                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                                }
                             }
                         }
                     },
@@ -73,8 +76,15 @@
                         "description": "Bad request",
                         "schema": {
                             "type": "object",
-                            "example": {
-                                "i18n": "security.login.invalid_credentials"
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "security.login.invalid_credentials"
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "example": "{...}"
+                                }
                             }
                         }
                     }
@@ -120,8 +130,11 @@
                         "description": "Success",
                         "schema": {
                             "type": "object",
-                            "example": {
-                                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                            "properties": {
+                                "token": {
+                                    "type": "string",
+                                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                                }
                             }
                         }
                     },
@@ -129,8 +142,15 @@
                         "description": "Bad request",
                         "schema": {
                             "type": "object",
-                            "example": {
-                                "i18n": "security.register.invalid_credentials"
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "security.register.invalid_credentials"
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "example": "{...}"
+                                }
                             }
                         }
                     }

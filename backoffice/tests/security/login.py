@@ -19,7 +19,7 @@ def test_login_with_invalid_email():
     response = client.post('/api/login', content_type='multipart/form-data', data=data)
     response_data = response.data.decode('utf-8')
     response_json = json.loads(response_data)
-    assert response_json.get('i18n') == "security.login.invalid_email"
+    assert response_json.get('i18n') == "security.login.invalid_credentials"
     assert response.status_code == 400
 
 def test_login_with_invalid_password():
@@ -31,7 +31,7 @@ def test_login_with_invalid_password():
     response = client.post('/api/login', content_type='multipart/form-data', data=data)
     response_data = response.data.decode('utf-8')
     response_json = json.loads(response_data)
-    assert response_json.get('i18n') == "security.login.invalid_password"
+    assert response_json.get('i18n') == "security.login.invalid_credentials"
     assert response.status_code == 400
 
 def test_login():
