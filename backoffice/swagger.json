@@ -182,6 +182,53 @@
                         "description": "Unauthorized"
                     }
                 }
+            },
+            "put": {
+                "tags": ["User"],
+                "summary": "Update user information",
+                "consumes": ["multipart/form-data"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "firstname",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "lastname",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "email",
+                        "in": "formData",
+                        "type": "string",
+                        "format": "email",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "id": 1,
+                                "firstname": "Firstname of User",
+                                "lastname": "Lastname of User",
+                                "email": "user@tyep600.org",
+                                "lastLogin": "2024-06-18T12:45:10",
+                                "createdAt": "2024-06-18T11:23:20",
+                                "updatedAt": "2024-06-18T12:45:10"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
             }
         }
     }

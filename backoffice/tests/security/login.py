@@ -46,5 +46,5 @@ def test_login():
     token = response_json.get('token')
     assert response.status_code == 200
 
-    decoded_token = jwt.decode(token, app.config['SECRET_KEY'], audience='smarthike_app' ,algorithms=['HS256'])
+    decoded_token = jwt.decode(token, app.config['SECRET_KEY'], audience='smarthike_app', algorithms=['HS256'])
     assert decoded_token.get('identifier') == "admin@tyep600.org"

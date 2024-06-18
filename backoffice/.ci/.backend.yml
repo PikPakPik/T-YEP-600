@@ -1,22 +1,15 @@
-build_back:
-  image: alpine
-  stage: build
-  script:
-    - cd backoffice
-    - echo "Build OK"
-  only:
-    - main
-
 lints_back:
   stage: lints
   image: alpine
   script:
     - cd backoffice
     - echo "Lint OK"
-  rules:
-    - if: '$CI_COMMIT_BRANCH != "develop" && $CI_COMMIT_BRANCH != "main"'
-      changes:
-        - backoffice/**/*
+  only:
+    changes:
+      - backoffice/**/*
+  except:
+    - main
+    - develop
 
 tests_back:
   image: docker:latest
@@ -35,7 +28,18 @@ tests_back:
     - make build ENV=test
     - sleep 30
     - make test ENV=test
-  rules:
-    - if: '$CI_COMMIT_BRANCH != "develop" && $CI_COMMIT_BRANCH != "main"'
-      changes:
-        - backoffice/**/*
+  only:
+    changes:
+      - backoffice/**/*
+  except:
+    - main
+    - develop
+
+build_back:
+  image: alpine
+  stage: build
+  script:
+    - cd backoffice
+    - echo "Build OK"
+  only:
+    - main
