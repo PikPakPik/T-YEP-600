@@ -121,7 +121,7 @@ def register():
     except:
         response = app.response_class(
             response=json.dumps({
-                'i18n': 'security.login.invalid_credentials'
+                'i18n': 'security.register.invalid_credentials'
             }),
             status=400,
             mimetype='application/json'

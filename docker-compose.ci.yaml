@@ -24,34 +24,5 @@ services:
     ports:
       - "3306:3306"
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    ports:
-      - "8081:80"
-    environment:
-      PMA_HOST: database
-      PMA_ARBITRARY: 1
-      MYSQL_ROOT_PASSWORD: root
-      UPLOAD_LIMIT: 1G
-
-  swagger-ui:
-    image: swaggerapi/swagger-ui
-    container_name: "swagger-ui"
-    ports:
-      - "8082:8080"
-    volumes:
-      - ./backoffice/swagger.json:/openapi.json
-    environment:
-      SWAGGER_JSON: /openapi.json
-
-  mailer:
-    image: axllent/mailpit
-    ports:
-      - "1025:1025"
-      - "8025:8025"
-    environment:
-      MP_SMTP_AUTH_ACCEPT_ANY: 1
-      MP_SMTP_AUTH_ALLOW_INSECURE: 1
-
 volumes:
   db_data: {}
