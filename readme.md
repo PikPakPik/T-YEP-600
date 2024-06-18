@@ -24,3 +24,6 @@ Smart'Hike is a mobile application that allows you to create personalized hiking
 | Valentin RAGOT    | Developer                     | [@Valentin R](https://github.com/ValentinRgt) |
 | Alexendre TRESSEL | Developer                     | [@Alexandre T](https://github.com/PikPakPik) |
 
+
+## API Documentation
+[Swagger by Redoc](http://tyep600.valentinrgt.fr/)
