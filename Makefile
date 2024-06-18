@@ -1,5 +1,14 @@
 SHELL := /bin/bash
-DOCKER_COMPOSE_FILE := docker-compose.dev.yaml
+
+ENV ?= dev
+
+ifeq ($(ENV), prod)
+    DOCKER_COMPOSE_FILE := docker-compose.yaml
+else ifeq ($(ENV), ci)
+    DOCKER_COMPOSE_FILE := docker-compose.ci.yaml
+else
+    DOCKER_COMPOSE_FILE := docker-compose.dev.yaml
+endif
 
 .PHONY: build
 build:
@@ -20,4 +29,4 @@ logs:
 
 .PHONY: test
 test:
-	docker compose -f $(DOCKER_COMPOSE_FILE) exec python pytest -s tests/security/*.py
+	docker compose -f $(DOCKER_COMPOSE_FILE) exec python sh -c "pytest -s tests/security/*.py"
