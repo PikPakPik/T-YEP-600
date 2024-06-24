@@ -1,6 +1,6 @@
 services:
-  python:
-    build: .docker/python
+  backend_python:
+    image: registry.gitlab.com/epitech-msc-2026/t-yep-600/backend-tyep600-nan1:${BACKEND_TAG:-dev}
     volumes:
       - ./backoffice:/usr/src/app
     ports:
@@ -10,6 +10,8 @@ services:
       SECRET_KEY: "s3cr3t"
       JWT_KEY: "s3cr3t"
       DATABASE_URI: "mysql://yep600:yep600@database/yep600"
+    depends_on:
+      - database
 
   database:
     image: mariadb:latest
@@ -33,6 +35,8 @@ services:
       PMA_ARBITRARY: 1
       MYSQL_ROOT_PASSWORD: root
       UPLOAD_LIMIT: 1G
+    depends_on:
+      - database
 
   swagger-ui:
     image: swaggerapi/swagger-ui
@@ -43,6 +47,8 @@ services:
       - ./backoffice/swagger.json:/openapi.json
     environment:
       SWAGGER_JSON: /openapi.json
+    depends_on:
+      - backend_python
 
   mailer:
     image: axllent/mailpit

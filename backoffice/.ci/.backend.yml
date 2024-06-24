@@ -4,12 +4,11 @@ lints_back:
   script:
     - cd backoffice
     - echo "Lint OK"
-  only:
-    changes:
-      - backoffice/**/*
-  except:
-    - main
-    - develop
+  rules:
+    - if: "$CI_COMMIT_BRANCH =~ /^(feature|feat|fix|hotfix)/"
+      when: manual
+    - if: "$CI_MERGE_REQUEST_IID || $CI_COMMIT_BRANCH =~ /^(develop|main)/"
+      when: always
 
 tests_back:
   image: docker:latest
@@ -28,18 +27,8 @@ tests_back:
     - make build ENV=test
     - sleep 30
     - make test ENV=test
-  only:
-    changes:
-      - backoffice/**/*
-  except:
-    - main
-    - develop
-
-build_back:
-  image: alpine
-  stage: build
-  script:
-    - cd backoffice
-    - echo "Build OK"
-  only:
-    - main
+  rules:  
+    - if: "$CI_MERGE_REQUEST_IID || $CI_COMMIT_BRANCH =~ /^(develop|main)/"
+      when: always
+    - if: "$CI_COMMIT_BRANCH =~ /^(feature|feat|fix|hotfix)/"
+      when: manual
