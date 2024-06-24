@@ -1,6 +1,5 @@
 import datetime
 from app import app, db
-import re
 from forms.register import RegisterForm
 from forms.login import LoginForm
 from models.User import User
