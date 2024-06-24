@@ -15,4 +15,4 @@
 - [ ] Mes changements ont nécessité une mise à jour de la documentation.
 
 ## Issues liées
-```Closes #X```
+Closes #X

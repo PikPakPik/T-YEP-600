@@ -6,8 +6,10 @@ ifeq ($(ENV), prod)
     DOCKER_COMPOSE_FILE := docker-compose.yaml
 else ifeq ($(ENV), ci)
     DOCKER_COMPOSE_FILE := docker-compose.ci.yaml
-else
+else ifeq ($(ENV), dev)
     DOCKER_COMPOSE_FILE := docker-compose.dev.yaml
+else
+    DOCKER_COMPOSE_FILE := docker-compose.local.yaml
 endif
 
 .PHONY: build
