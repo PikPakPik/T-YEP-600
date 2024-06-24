@@ -1,5 +1,5 @@
 services:
-  python:
+  backend_python:
     build: .docker/python
     volumes:
       - ./backoffice:/usr/src/app
