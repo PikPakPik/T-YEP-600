@@ -8,5 +8,6 @@
 - [ ] Bug Fix  
 - [ ] Documentation
 - [ ] Test  
-- [ ] Refactoring  
+- [ ] Refactoring
+- [ ] Design
 - [ ] Other  
