@@ -31,9 +31,9 @@ logs:
 
 .PHONY: install
 install:
-	docker compose -f docker-compose.ci.yaml exec backend_python sh -c "flask database:create"
-	docker compose -f docker-compose.ci.yaml exec backend_python sh -c "flask database:fixtures"
-	docker compose -f docker-compose.ci.yaml exec backend_python sh -c "flask import:hikes all_france_hiking_no_geom.csv"
+	docker compose -f $(DOCKER_COMPOSE_FILE) exec backend_python sh -c "flask database:create"
+	docker compose -f $(DOCKER_COMPOSE_FILE) exec backend_python sh -c "flask database:fixtures"
+	docker compose -f $(DOCKER_COMPOSE_FILE) exec backend_python sh -c "flask import:hikes all_france_hiking_no_geom.csv"
 
 .PHONY: test
 test:
