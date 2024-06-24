@@ -15,6 +15,12 @@ Smart'Hike is a mobile application that allows you to create personalized hiking
 ![](https://img.shields.io/badge/Flask-ED8B00?style=for-the-badge&logo=flask&color=20232a)  
 ![](https://img.shields.io/badge/MapBox-ED8B00?style=for-the-badge&logo=mapbox&color=20232a)
 
+## Run projet
+```bash
+make build
+make install
+```
+
 ## Authors
 | Name              | Role                          | Github Profile |
 |-------------------|-------------------------------|----------------|

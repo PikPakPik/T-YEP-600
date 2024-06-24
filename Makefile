@@ -29,6 +29,12 @@ re-build:
 logs:
 	docker compose -f $(DOCKER_COMPOSE_FILE) logs -f
 
+.PHONY: install
+install:
+	docker compose -f docker-compose.ci.yaml exec backend_python sh -c "flask database:create"
+	docker compose -f docker-compose.ci.yaml exec backend_python sh -c "flask database:fixtures"
+	docker compose -f docker-compose.ci.yaml exec backend_python sh -c "flask import:hikes all_france_hiking_no_geom.csv"
+
 .PHONY: test
 test:
 	docker compose -f $(DOCKER_COMPOSE_FILE) exec backend_python sh -c "pytest -s tests/**/*.py"

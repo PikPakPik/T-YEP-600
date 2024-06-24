@@ -26,7 +26,7 @@ tests_back:
     - cd ../
     - make build ENV=ci
     - sleep 60
-    - docker compose -f docker-compose.ci.yaml exec backend_python sh -c "flask database:create && flask database:fixtures"
+    - make install ENV=ci
     - make test ENV=ci
   rules:  
     - if: "$CI_MERGE_REQUEST_IID || $CI_COMMIT_BRANCH =~ /^(develop|main)/"
