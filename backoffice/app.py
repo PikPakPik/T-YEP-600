@@ -15,10 +15,8 @@ db = SQLAlchemy()
 login_manager = LoginManager()
 
 from controllers import *
+from commands import *
 import services.authorization
 
 db.init_app(app)
 login_manager.init_app(app)
-
-with app.app_context():
-    db.create_all()
