@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-ENV ?= dev
+ENV ?= local
 
 ifeq ($(ENV), prod)
     DOCKER_COMPOSE_FILE := docker-compose.yaml
