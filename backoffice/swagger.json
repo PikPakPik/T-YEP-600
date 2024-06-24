@@ -225,6 +225,88 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "user.invalid.credentials"
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "example": "{...}"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
+            }
+        },"/api/user/password": {
+            "put": {
+                "tags": ["User"],
+                "summary": "Update user password",
+                "consumes": ["multipart/form-data"],
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "currentPassword",
+                        "in": "formData",
+                        "type": "string",
+                        "format": "password",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "type": "string",
+                        "format": "password",
+                        "required": true
+                    },
+                    {
+                        "name": "confirmPassword",
+                        "in": "formData",
+                        "type": "string",
+                        "format": "password",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "id": 1,
+                                "firstname": "Firstname of User",
+                                "lastname": "Lastname of User",
+                                "email": "user@tyep600.org",
+                                "lastLogin": "2024-06-18T12:45:10",
+                                "createdAt": "2024-06-18T11:23:20",
+                                "updatedAt": "2024-06-18T12:45:10"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "user.invalid.credentials"
+                                },
+                                "errors": {
+                                    "type": "object",
+                                    "example": "{...}"
+                                }
+                            }
+                        }
+                    },
                     "401": {
                         "description": "Unauthorized"
                     }

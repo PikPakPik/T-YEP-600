@@ -22,7 +22,6 @@ services:
       MARIADB_DATABASE: "yep600"
     volumes:
       - db_data:/var/lib/mysql
-      - .docker/mariadb/dump.sql:/docker-entrypoint-initdb.d/dump.sql
     ports:
       - "3306:3306"
     depends_on:
