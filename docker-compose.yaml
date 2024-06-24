@@ -1,5 +1,5 @@
 services:
-  python:
+  backend_python:
     image: registry.gitlab.com/epitech-msc-2026/t-yep-600/backend-tyep600-nan1:main
     volumes:
       - ./backoffice:/usr/src/app

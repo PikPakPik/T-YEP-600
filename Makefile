@@ -31,4 +31,4 @@ logs:
 
 .PHONY: test
 test:
-	docker compose -f $(DOCKER_COMPOSE_FILE) exec python sh -c "pytest -s tests/**/*.py"
+	docker compose -f $(DOCKER_COMPOSE_FILE) exec backend_python sh -c "pytest -s tests/**/*.py"
