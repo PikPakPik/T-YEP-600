@@ -4,8 +4,8 @@ certifi==2024.6.2
 charset-normalizer==3.3.2
 click==8.1.7
 dnspython==2.6.1
-email_validator==2.1.2
-Faker==25.8.0
+email_validator==2.2.0
+Faker==25.9.1
 Flask==3.0.3
 Flask-Bcrypt==1.0.1
 Flask-Login==0.6.3
@@ -27,9 +27,9 @@ pytest-dependency==0.6.0
 python-dateutil==2.9.0.post0
 pytz==2024.1
 requests==2.32.3
-setuptools==70.0.0
+setuptools==70.1.0
 six==1.16.0
-SQLAlchemy==2.0.30
+SQLAlchemy==2.0.31
 typing_extensions==4.12.2
 tzdata==2024.1
 urllib3==2.2.2
