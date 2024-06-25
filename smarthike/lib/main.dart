@@ -62,17 +62,19 @@ class SmartHikeApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (_) => UserProvider(
-                authService: authService)), // Ensure UserProvider is here
+            create: (_) => UserProvider(authService: authService)),
       ],
       child: AppInitializer(
         child: MaterialApp(
           builder: FToastBuilder(),
           navigatorKey: navigatorKey,
           theme: ThemeData(
-              useMaterial3: true, textTheme: GoogleFonts.rubikTextTheme()),
-          home:
-              const NavigationBarApp(), // Ensure LoginForm is a descendant of this structure
+            useMaterial3: true,
+            textTheme: GoogleFonts.rubikTextTheme(Theme.of(context).textTheme),
+            primaryTextTheme:
+                GoogleFonts.rubikTextTheme(Theme.of(context).primaryTextTheme),
+          ),
+          home: const NavigationBarApp(),
         ),
       ),
     );
@@ -175,7 +177,7 @@ class _NavigationExampleState extends State<NavigationBarApp> {
                     Icon(
                       Icons.map_outlined,
                       color: currentPageIndex == 1
-                          ? Constants.primaryColor
+                          ? Constants.fourthColor
                           : Constants.navButtonNotSelected,
                     ),
                     Positioned(

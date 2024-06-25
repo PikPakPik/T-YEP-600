@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/components/button.dart';
+import 'package:smarthike/components/input.dart';
+import 'package:smarthike/constants.dart';
 import 'package:smarthike/providers/user_provider.dart';
 
 class LoginForm extends StatelessWidget {
@@ -17,15 +19,17 @@ class LoginForm extends StatelessWidget {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     return Material(
+      color: Colors.transparent,
       child: Form(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         key: _formKey,
         child: Column(
           children: [
-            TextFormField(
+            CustomInput(
               key: const Key('email_login_field'),
+              hintText: 'Email',
               controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+              keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Veuillez entrer votre email';
@@ -37,10 +41,11 @@ class LoginForm extends StatelessWidget {
                 return null;
               },
             ),
-            TextFormField(
+            const SizedBox(height: 20),
+            CustomInput(
               key: const Key('password_login_field'),
+              hintText: 'Mot de passe',
               controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Mot de passe'),
               obscureText: true,
               validator: (value) {
                 if (value == null || value.isEmpty) {
@@ -49,10 +54,12 @@ class LoginForm extends StatelessWidget {
                 return null;
               },
             ),
+            const SizedBox(height: 50),
             CustomButton(
               key: const Key('login_button'),
               text: 'Connexion',
-              backgroundColor: Colors.blue,
+              backgroundColor: Constants.primaryColor,
+              textColor: Colors.black,
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   try {
