@@ -7,12 +7,17 @@ import 'package:smarthike/components/input.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/providers/user_provider.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
+  @override
+  LoginFormState createState() => LoginFormState();
+}
+
+class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  LoginForm({super.key});
 
   @override
   Widget build(BuildContext context) {

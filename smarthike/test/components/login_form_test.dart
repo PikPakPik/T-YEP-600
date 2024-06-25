@@ -29,7 +29,7 @@ void main() {
 
     testWidgets('email invalide affiche un message d\'erreur',
         (WidgetTester tester) async {
-      await tester.pumpWidget(makeTestableWidget(child: LoginForm()));
+      await tester.pumpWidget(makeTestableWidget(child: const LoginForm()));
       await tester.enterText(
           find.byKey(const Key('email_login_field')), 'email');
       await tester.pumpAndSettle();
@@ -39,7 +39,7 @@ void main() {
 
     testWidgets('mot de passe vide affiche un message d\'erreur',
         (WidgetTester tester) async {
-      await tester.pumpWidget(makeTestableWidget(child: LoginForm()));
+      await tester.pumpWidget(makeTestableWidget(child: const LoginForm()));
       await tester.enterText(
           find.byKey(const Key('password_login_field')), ' ');
       await tester.pumpAndSettle();
@@ -53,7 +53,7 @@ void main() {
         (WidgetTester tester) async {
       when(mockUserProvider.login(any, any)).thenAnswer((_) async {});
 
-      await tester.pumpWidget(makeTestableWidget(child: LoginForm()));
+      await tester.pumpWidget(makeTestableWidget(child: const LoginForm()));
       await tester.enterText(
           find.byKey(const Key('email_login_field')), 'test@example.com');
       await tester.enterText(
