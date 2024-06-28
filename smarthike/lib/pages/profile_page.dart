@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/constants.dart';
@@ -7,7 +6,6 @@ import 'package:smarthike/pages/auth/login_page.dart';
 import 'package:smarthike/pages/auth/register_page.dart';
 
 import '../providers/user_provider.dart';
-import 'dart:io' show Platform;
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -228,26 +226,26 @@ class LoginOrSignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const List<String> scopes = <String>['email', 'profile', 'openid'];
+    // const List<String> scopes = <String>['email', 'profile', 'openid'];
 
     // ignore: prefer_typing_uninitialized_variables
-    var googleSignIn;
+    // var googleSignIn;
 
-    if (Platform.isIOS) {
-      googleSignIn = GoogleSignIn(
-        clientId:
-            '288979728581-7p67fe3pupk83b5rr5nsdcpo9qvfp4o4.apps.googleusercontent.com',
-        scopes: scopes,
-      );
-    }
+    // if (Platform.isIOS) {
+    //   googleSignIn = GoogleSignIn(
+    //     clientId:
+    //         '288979728581-7p67fe3pupk83b5rr5nsdcpo9qvfp4o4.apps.googleusercontent.com',
+    //     scopes: scopes,
+    //   );
+    // }
 
-    Future<void> handleSignIn() async {
-      try {
-        await googleSignIn.signIn();
-      } catch (error) {
-        // print(error);
-      }
-    }
+    // Future<void> handleSignIn() async {
+    //   try {
+    //     await googleSignIn.signIn();
+    //   } catch (error) {
+    //     // print(error);
+    //   }
+    // }
 
     return Center(
       child: Container(
@@ -308,11 +306,11 @@ class LoginOrSignupPage extends StatelessWidget {
                 },
               ),
             ),
-            CustomButton(
-              text: 'Se connecter avec Google',
-              backgroundColor: Colors.transparent,
-              onPressed: handleSignIn,
-            ),
+            // CustomButton(
+            //   text: 'Se connecter avec Google',
+            //   backgroundColor: Colors.transparent,
+            //   onPressed: handleSignIn,
+            // ),
           ],
         ),
       ),

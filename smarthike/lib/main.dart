@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,9 +12,31 @@ import 'package:smarthike/providers/user_provider.dart';
 import 'package:smarthike/services/auth_service.dart';
 import 'package:smarthike/utils/shared_preferences_util.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   Provider.debugCheckInvalidValueType = null;
-  runApp(const SmartHikeApp());
+
+  final sharedPreferencesUtil = SharedPreferencesUtil.instance;
+  String? lang = await sharedPreferencesUtil.getString('lang');
+
+  if (lang == null) {
+    lang = Platform.localeName.split('_')[0];
+    if (lang != 'fr') {
+      lang = 'en';
+    }
+  }
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en'), Locale('fr')],
+      path: 'assets/locales',
+      fallbackLocale: const Locale('en'),
+      startLocale: Locale(lang),
+      child: const SmartHikeApp(),
+    ),
+  );
 }
 
 class AppInitializer extends StatefulWidget {
