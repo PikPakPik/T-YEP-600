@@ -27,6 +27,7 @@ lints_front:
   stage: lints
   script:
     - cd smarthike
+    - cp .env.example .env
     - flutter analyze
   rules:
     - if: "$CI_MERGE_REQUEST_IID || $CI_COMMIT_BRANCH =~ /^(develop|main)/"
@@ -41,6 +42,7 @@ tests_front:
   stage: tests
   script:
     - cd smarthike
+    - cp .env.example .env
     - flutter test --coverage ./lib
     - lcov -r coverage/lcov.info -o coverage/lcov_cleaned.info
     - genhtml coverage/lcov_cleaned.info --output=coverage
@@ -62,6 +64,7 @@ build_front:
   stage: build
   script:
     - cd smarthike
+    - cp .env.example .env
     - flutter build apk --release --build-number ${CI_JOB_ID:0:8}
     - flutter build appbundle --release --build-number ${CI_JOB_ID:0:8}
     - mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/app-release-${CI_JOB_ID:0:8}.apk

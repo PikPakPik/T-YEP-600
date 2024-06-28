@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +13,10 @@ import 'package:smarthike/providers/user_provider.dart';
 import 'package:smarthike/services/auth_service.dart';
 import 'package:smarthike/utils/shared_preferences_util.dart';
 
-void main() async {
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await dotenv.load(fileName: ".env");
 
   Provider.debugCheckInvalidValueType = null;
 
@@ -71,8 +73,13 @@ class SmartHikeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final easyLocalization = EasyLocalization.of(context);
+    if (easyLocalization == null) {
+      return const SizedBox.shrink();
+    }
+
     final dio = Dio(BaseOptions(
-      baseUrl: "http://localhost:5000/api",
+      baseUrl: "${dotenv.env['API_URL']!}/api",
       headers: {
         HttpHeaders.userAgentHeader: 'dio',
         'common-header': 'xx',
@@ -90,6 +97,9 @@ class SmartHikeApp extends StatelessWidget {
       child: AppInitializer(
         child: MaterialApp(
           builder: FToastBuilder(),
+          supportedLocales: easyLocalization.supportedLocales,
+          localizationsDelegates: easyLocalization.delegates,
+          locale: easyLocalization.locale,
           navigatorKey: navigatorKey,
           theme: ThemeData(
             useMaterial3: true,

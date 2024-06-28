@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/constants.dart';
+import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/pages/auth/login_page.dart';
 import 'package:smarthike/pages/auth/register_page.dart';
 
@@ -19,140 +21,103 @@ class ProfilePage extends StatelessWidget {
           final user = userProvider.user;
           return user != null
               ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 40),
-                      Container(
-                        padding: const EdgeInsets.all(20),
-                        constraints: const BoxConstraints(
-                          maxHeight: 600,
-                          maxWidth: 350,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              blurRadius: 10,
-                              spreadRadius: 5,
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          children: [
-                            const SizedBox(height: 40),
-                            Card(
-                              color: Constants.secondaryColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const SizedBox(height: 40),
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          constraints: const BoxConstraints(
+                            maxHeight: 600,
+                            maxWidth: 350,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 10,
+                                spreadRadius: 5,
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(0),
-                                child: Column(
-                                  children: [
-                                    Stack(
-                                      clipBehavior: Clip.none,
-                                      alignment: Alignment.topCenter,
-                                      children: [
-                                        const Positioned(
-                                          top: -50,
-                                          child: CircleAvatar(
-                                            radius: 50,
-                                            backgroundImage: NetworkImage(
-                                              'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png',
+                            ],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 40),
+                              Card(
+                                color: Constants.secondaryColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(0),
+                                  child: Column(
+                                    children: [
+                                      Stack(
+                                        clipBehavior: Clip.none,
+                                        alignment: Alignment.topCenter,
+                                        children: [
+                                          const Positioned(
+                                            top: -50,
+                                            child: CircleAvatar(
+                                              radius: 50,
+                                              backgroundImage: AssetImage(
+                                                  'assets/images/LogoSmartHike.png'),
                                             ),
                                           ),
-                                        ),
-                                        Column(
-                                          children: [
-                                            const SizedBox(height: 50),
-                                            Text(
-                                              '${user.firstname} ${user.lastname}',
-                                              style: const TextStyle(
-                                                fontSize: 24,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 5),
-                                            const Text(
-                                              'Gourou de la randonnée',
-                                              style: TextStyle(
-                                                fontSize: 16,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 20),
-                                            Container(
-                                              width: double.infinity,
-                                              decoration: const BoxDecoration(
-                                                color: Constants.primaryColor,
-                                                borderRadius: BorderRadius.only(
-                                                  bottomLeft:
-                                                      Radius.circular(10),
-                                                  bottomRight:
-                                                      Radius.circular(10),
+                                          Column(
+                                            children: [
+                                              const SizedBox(height: 50),
+                                              Text(
+                                                '${user.firstname} ${user.lastname}',
+                                                style: const TextStyle(
+                                                  fontSize: 24,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
                                                 ),
                                               ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceAround,
-                                                children: [
-                                                  const Expanded(
-                                                    child: SizedBox(
-                                                      height: 80,
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Icon(Icons.map,
-                                                              size: 30,
-                                                              color:
-                                                                  Colors.black),
-                                                          SizedBox(height: 5),
-                                                          Text('179 km',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .black)),
-                                                        ],
-                                                      ),
-                                                    ),
+                                              const SizedBox(height: 5),
+                                              const Text(
+                                                LocaleKeys.user_title_level_5,
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.grey,
+                                                ),
+                                              ).tr(),
+                                              const SizedBox(height: 20),
+                                              Container(
+                                                width: double.infinity,
+                                                decoration: const BoxDecoration(
+                                                  color: Constants.primaryColor,
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    bottomLeft:
+                                                        Radius.circular(10),
+                                                    bottomRight:
+                                                        Radius.circular(10),
                                                   ),
-                                                  Expanded(
-                                                    child: Container(
-                                                      decoration:
-                                                          const BoxDecoration(
-                                                        border: Border(
-                                                          left: BorderSide(
-                                                            color: Colors.black,
-                                                            width: 1.0,
-                                                          ),
-                                                          right: BorderSide(
-                                                            color: Colors.black,
-                                                            width: 1.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      child: const SizedBox(
+                                                ),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    const Expanded(
+                                                      child: SizedBox(
                                                         height: 80,
                                                         child: Column(
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
                                                                   .center,
                                                           children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .directions_walk,
-                                                              size: 30,
-                                                              color:
-                                                                  Colors.black,
-                                                            ),
+                                                            Icon(Icons.map,
+                                                                size: 30,
+                                                                color: Colors
+                                                                    .black),
                                                             SizedBox(height: 5),
-                                                            Text('69',
+                                                            Text('179 km',
                                                                 style: TextStyle(
                                                                     color: Colors
                                                                         .black)),
@@ -160,58 +125,99 @@ class ProfilePage extends StatelessWidget {
                                                         ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  const Expanded(
-                                                    child: SizedBox(
-                                                      height: 80,
-                                                      child: Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Icon(
-                                                              Icons
-                                                                  .help_outline,
-                                                              size: 30,
+                                                    Expanded(
+                                                      child: Container(
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          border: Border(
+                                                            left: BorderSide(
                                                               color:
-                                                                  Colors.black),
-                                                          SizedBox(height: 5),
-                                                          Text('?',
-                                                              style: TextStyle(
+                                                                  Colors.black,
+                                                              width: 1.0,
+                                                            ),
+                                                            right: BorderSide(
+                                                              color:
+                                                                  Colors.black,
+                                                              width: 1.0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        child: const SizedBox(
+                                                          height: 80,
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              Icon(
+                                                                  Icons
+                                                                      .directions_walk,
+                                                                  size: 30,
                                                                   color: Colors
-                                                                      .black)),
-                                                        ],
+                                                                      .black),
+                                                              SizedBox(
+                                                                  height: 5),
+                                                              Text('69',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .black)),
+                                                            ],
+                                                          ),
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                ],
+                                                    const Expanded(
+                                                      child: SizedBox(
+                                                        height: 80,
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Icon(
+                                                                Icons
+                                                                    .help_outline,
+                                                                size: 30,
+                                                                color: Colors
+                                                                    .black),
+                                                            SizedBox(height: 5),
+                                                            Text('?',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .black)),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(height: 20),
-                            SizedBox(
-                              width: double.infinity,
-                              child: CustomButton(
-                                key: const Key('logout_button'),
-                                text: 'Déconnexion',
-                                backgroundColor: Colors.red,
-                                onPressed: () {
-                                  userProvider.logout();
-                                },
+                              const SizedBox(height: 20),
+                              SizedBox(
+                                width: double.infinity,
+                                child: CustomButton(
+                                  key: const Key('logout_button'),
+                                  text: LocaleKeys.auth_logout.tr(),
+                                  backgroundColor: Colors.red,
+                                  onPressed: () {
+                                    userProvider.logout();
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
                 )
               : const LoginOrSignupPage();
@@ -274,7 +280,7 @@ class LoginOrSignupPage extends StatelessWidget {
             SizedBox(
               child: CustomButton(
                 key: const Key('login_button'),
-                text: 'Se connecter',
+                text: LocaleKeys.auth_sign_in.tr(),
                 backgroundColor: Constants.primaryColor,
                 textColor: Colors.black,
                 fontWeight: FontWeight.w900,
@@ -292,7 +298,7 @@ class LoginOrSignupPage extends StatelessWidget {
             SizedBox(
               child: CustomButton(
                 key: const Key('signup_button'),
-                text: 'S\'inscrire',
+                text: LocaleKeys.auth_sign_up.tr(),
                 textColor: Colors.black,
                 backgroundColor: Constants.primaryColor,
                 fontWeight: FontWeight.w900,

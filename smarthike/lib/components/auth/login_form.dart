@@ -1,10 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/components/input.dart';
 import 'package:smarthike/constants.dart';
+import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/providers/user_provider.dart';
 
 class LoginForm extends StatefulWidget {
@@ -32,16 +34,16 @@ class LoginFormState extends State<LoginForm> {
           children: [
             CustomInput(
               key: const Key('email_login_field'),
-              hintText: 'Email',
+              hintText: LocaleKeys.login_form_email.tr(),
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Veuillez entrer votre email';
+                  return LocaleKeys.login_form_error_email_required.tr();
                 }
                 if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
                     .hasMatch(value)) {
-                  return 'Email invalide';
+                  return LocaleKeys.login_form_error_email_invalid.tr();
                 }
                 return null;
               },
@@ -49,12 +51,12 @@ class LoginFormState extends State<LoginForm> {
             const SizedBox(height: 20),
             CustomInput(
               key: const Key('password_login_field'),
-              hintText: 'Mot de passe',
+              hintText: LocaleKeys.login_form_password.tr(),
               controller: _passwordController,
               obscureText: true,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return 'Veuillez entrer votre mot de passe';
+                  return LocaleKeys.login_form_error_password_required.tr();
                 }
                 return null;
               },
@@ -62,7 +64,7 @@ class LoginFormState extends State<LoginForm> {
             const SizedBox(height: 50),
             CustomButton(
               key: const Key('login_button'),
-              text: 'Connexion',
+              text: LocaleKeys.auth_sign_in.tr(),
               backgroundColor: Constants.primaryColor,
               textColor: Colors.black,
               onPressed: () async {
@@ -73,17 +75,31 @@ class LoginFormState extends State<LoginForm> {
                     if (context.mounted) Navigator.of(context).pop();
                   } catch (e) {
                     if (e is Exception) {
-                      Fluttertoast.showToast(
-                        backgroundColor: Colors.red,
-                        textColor: Colors.white,
-                        msg: e.toString(),
-                        toastLength: Toast.LENGTH_SHORT,
-                      );
+                      if (e
+                          .toString()
+                          .contains("security.login.invalid_credentials")) {
+                        Fluttertoast.showToast(
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          // found in the localkeys the key return by the api
+                          msg: LocaleKeys.api_security_login_invalid_credentials
+                              .tr(),
+                          toastLength: Toast.LENGTH_SHORT,
+                        );
+                      } else {
+                        Fluttertoast.showToast(
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          msg: e.toString(),
+                          toastLength: Toast.LENGTH_SHORT,
+                        );
+                      }
                     } else if (e is DioException) {
                       Fluttertoast.showToast(
                         backgroundColor: Colors.red,
                         textColor: Colors.white,
-                        msg: e.error?.toString() ?? 'Erreur inconnue',
+                        msg: e.error?.toString() ??
+                            LocaleKeys.api_error_unknown.tr(),
                         toastLength: Toast.LENGTH_SHORT,
                       );
                     }

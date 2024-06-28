@@ -1,16 +1,22 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/components/auth/login_form.dart';
+import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/providers/user_provider.dart';
 import 'package:mockito/mockito.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'register_form_test.mocks.dart';
 
 @GenerateMocks([UserProvider])
-void main() {
+void main() async {
+  SharedPreferences.setMockInitialValues({});
+  await EasyLocalization.ensureInitialized();
+
   group('LoginForm Tests', () {
     late MockUserProvider mockUserProvider;
 
@@ -19,22 +25,30 @@ void main() {
     });
 
     Widget makeTestableWidget({required Widget child}) {
-      return MaterialApp(
-        home: ChangeNotifierProvider<UserProvider>(
-          create: (_) => mockUserProvider,
-          child: child,
+      return EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('fr')],
+        fallbackLocale: const Locale('en'),
+        path: 'assets/locales',
+        child: MaterialApp(
+          home: ChangeNotifierProvider<UserProvider>(
+            create: (_) => mockUserProvider,
+            child: child,
+          ),
         ),
       );
     }
 
     testWidgets('email invalide affiche un message d\'erreur',
         (WidgetTester tester) async {
-      await tester.pumpWidget(makeTestableWidget(child: const LoginForm()));
-      await tester.enterText(
-          find.byKey(const Key('email_login_field')), 'email');
-      await tester.pumpAndSettle();
-
-      expect(find.text('Email invalide'), findsOneWidget);
+      await tester.runAsync(() async {
+        await tester.pumpWidget(makeTestableWidget(child: const LoginForm()));
+        await tester.pumpAndSettle();
+        await tester.enterText(
+            find.byKey(const Key('email_login_field')), 'email');
+        await tester.pumpAndSettle();
+        expect(find.text(LocaleKeys.login_form_error_email_invalid.tr()),
+            findsOneWidget);
+      });
     });
 
     testWidgets('mot de passe vide affiche un message d\'erreur',
@@ -46,7 +60,8 @@ void main() {
       await tester.enterText(find.byKey(const Key('password_login_field')), '');
       await tester.pumpAndSettle();
 
-      expect(find.text('Veuillez entrer votre mot de passe'), findsOneWidget);
+      expect(find.text(LocaleKeys.login_form_error_password_required.tr()),
+          findsOneWidget);
     });
 
     testWidgets('connexion réussie avec email et mot de passe valides',
