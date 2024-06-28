@@ -1,0 +1,84 @@
+{
+  "user": {
+    "title": {
+      "level_1": "Senderista principiante",
+      "level_2": "Senderista intermedio",
+      "level_3": "Senderista avanzado",
+      "level_4": "Gurú del senderismo",
+      "level_5": "Gurú de la montaña"
+    }
+  },
+  "profile": {
+    "title": "Perfil"
+  },
+  "auth": {
+    "title": "Autenticación",
+    "sign_in": "Iniciar sesión",
+    "sign_up": "Registrarse",
+    "logout": "Cerrar sesión"
+  },
+  "register": {
+    "form": {
+      "firstname": "Nombre",
+      "lastname": "Apellido",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "confirm_password": "Confirmar contraseña",
+      "age": "Edad",
+      "frequency": "Frecuencia de deporte",
+      "level": "Nivel de deporte",
+      "next": "Siguiente",
+      "back": "Atrás",
+      "register": "Registro",
+      "error": {
+        "firstname_required": "Por favor, ingrese su nombre",
+        "lastname_required": "Por favor, ingrese su apellido",
+        "email_required": "Por favor, ingrese su correo electrónico",
+        "email_invalid": "Correo electrónico inválido",
+        "password_required": "Por favor, ingrese su contraseña",
+        "password_invalid": "La contraseña debe tener al menos 8 caracteres, \nincluyendo números, letras mayúsculas y minúsculas, \ny símbolos especiales",
+        "confirm_password_required": "Por favor, confirme su contraseña",
+        "passwords_do_not_match": "Las contraseñas no coinciden",
+        "age_required": "Por favor, ingrese su edad",
+        "age_invalid": "Por favor, ingrese una edad válida",
+        "frequency_required": "Por favor, seleccione una frecuencia de deporte",
+        "level_required": "Por favor, seleccione un nivel de deporte"
+      }
+    }
+  },
+  "login": {
+    "form": {
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "error": {
+        "email_required": "El correo electrónico es requerido",
+        "email_invalid": "El correo electrónico es inválido",
+        "password_required": "La contraseña es requerida"
+      }
+    }
+  },
+  "settings": {
+    "modify_language": "Modificar el idioma",
+    "modify_appearance": "Modificar la apariencia",
+    "privacy_security": "Privacidad y seguridad",
+    "language": {
+      "title": "Idioma",
+      "modal": {
+        "title": "Confirmación",
+        "confirm": "¿Realmente desea cambiar el idioma?",
+        "cancel_modal": "Cancelar",
+        "confirm_modal": "Confirmar"
+      }
+    }
+  },
+  "api": {
+    "security": {
+      "login": {
+        "invalid_credentials": "Credenciales inválidas"
+      }
+    },
+    "error": {
+      "unknown": "Ocurrió un error desconocido"
+    }
+  }
+}

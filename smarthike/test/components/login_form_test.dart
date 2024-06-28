@@ -38,7 +38,7 @@ void main() async {
       );
     }
 
-    testWidgets('email invalide affiche un message d\'erreur',
+    testWidgets('invalid email shows an error message',
         (WidgetTester tester) async {
       await tester.runAsync(() async {
         await tester.pumpWidget(makeTestableWidget(child: const LoginForm()));
@@ -51,7 +51,7 @@ void main() async {
       });
     });
 
-    testWidgets('mot de passe vide affiche un message d\'erreur',
+    testWidgets('empty password shows an error message',
         (WidgetTester tester) async {
       await tester.pumpWidget(makeTestableWidget(child: const LoginForm()));
       await tester.enterText(
@@ -64,7 +64,7 @@ void main() async {
           findsOneWidget);
     });
 
-    testWidgets('connexion réussie avec email et mot de passe valides',
+    testWidgets('successful login with valid email and password',
         (WidgetTester tester) async {
       when(mockUserProvider.login(any, any)).thenAnswer((_) async {});
 

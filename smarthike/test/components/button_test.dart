@@ -34,4 +34,22 @@ void main() {
     expect(find.text('Test Button'), findsOneWidget);
     expect(find.byType(Row), findsOneWidget);
   });
+
+  testWidgets('CustomButton is disabled when isEnable is false',
+      (WidgetTester tester) async {
+    const testButton = CustomButton(
+      text: "Test Button",
+      backgroundColor: Colors.blue,
+      onPressed: null,
+      icon: Icons.home,
+      isEnable: false,
+    );
+
+    await tester.pumpWidget(const MaterialApp(home: testButton));
+
+    final MaterialButton materialButton =
+        tester.widget(find.byType(MaterialButton));
+    expect(materialButton.onPressed, null);
+    expect(materialButton.disabledColor, Colors.blue.withOpacity(0.5));
+  });
 }

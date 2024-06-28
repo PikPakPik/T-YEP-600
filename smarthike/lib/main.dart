@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/pages/profile_page.dart';
+import 'package:smarthike/pages/settings_page.dart';
 import 'package:smarthike/providers/user_provider.dart';
 import 'package:smarthike/services/auth_service.dart';
 import 'package:smarthike/utils/shared_preferences_util.dart';
@@ -25,14 +26,14 @@ Future main() async {
 
   if (lang == null) {
     lang = Platform.localeName.split('_')[0];
-    if (lang != 'fr') {
+    if (lang != 'fr' && lang != 'es') {
       lang = 'en';
     }
   }
 
   runApp(
     EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('fr')],
+      supportedLocales: const [Locale('en'), Locale('fr'), Locale('es')],
       path: 'assets/locales',
       fallbackLocale: const Locale('en'),
       startLocale: Locale(lang),
@@ -354,18 +355,7 @@ class _NavigationExampleState extends State<NavigationBarApp> {
         const ProfilePage(),
 
         /// Settings page
-        Card(
-          shadowColor: Colors.transparent,
-          margin: const EdgeInsets.all(8.0),
-          child: SizedBox.expand(
-            child: Center(
-              child: Text(
-                'Settings page',
-                style: theme.textTheme.titleLarge,
-              ),
-            ),
-          ),
-        ),
+        const SettingsPage()
       ][currentPageIndex],
     );
   }

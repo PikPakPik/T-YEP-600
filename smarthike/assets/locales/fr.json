@@ -57,6 +57,20 @@
       }
     }
   },
+  "settings": {
+    "modify_language": "Modifier la langue",
+    "modify_appearance": "Modifier l'apparence",
+    "privacy_security": "Confidentialité et sécurité",
+    "language": {
+      "title": "Langue",
+      "modal": {
+        "title": "Confirmation",
+        "confirm": "Voulez-vous vraiment changer la langue?",
+        "cancel_modal": "Annuler",
+        "confirm_modal": "Confirmer"
+      }
+    }
+  },
   "api": {
     "security": {
       "login": {

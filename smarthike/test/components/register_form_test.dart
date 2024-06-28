@@ -36,7 +36,7 @@ void main() async {
       );
     }
 
-    testWidgets('prénom vide affiche un message d\'erreur',
+    testWidgets('empty first name shows error message',
         (WidgetTester tester) async {
       await tester.pumpWidget(makeTestableWidget(child: const RegisterForm()));
       await tester.enterText(
@@ -49,7 +49,7 @@ void main() async {
           findsOneWidget);
     });
 
-    testWidgets('email invalide affiche un message d\'erreur',
+    testWidgets('invalid email shows error message',
         (WidgetTester tester) async {
       await tester.pumpWidget(makeTestableWidget(child: const RegisterForm()));
       await tester.enterText(
@@ -64,7 +64,7 @@ void main() async {
           findsOneWidget);
     });
 
-    testWidgets('mots de passe non correspondants affiche un message d\'erreur',
+    testWidgets('non-matching passwords show error message',
         (WidgetTester tester) async {
       await tester.pumpWidget(makeTestableWidget(child: const RegisterForm()));
       await tester.enterText(
@@ -83,8 +83,7 @@ void main() async {
           findsOneWidget);
     });
 
-    testWidgets('validation de mot de passe complexe',
-        (WidgetTester tester) async {
+    testWidgets('password validation', (WidgetTester tester) async {
       await tester.pumpWidget(makeTestableWidget(child: const RegisterForm()));
       await tester.enterText(
           find.byKey(const Key('password_register_field')), 'pass');
@@ -98,7 +97,7 @@ void main() async {
           findsOneWidget);
     });
 
-    testWidgets('inscription réussie avec données valides',
+    testWidgets('successful registration with valid data',
         (WidgetTester tester) async {
       when(mockUserProvider.register(any, any, any, any))
           .thenAnswer((_) async => Future.value());
@@ -106,7 +105,7 @@ void main() async {
       await tester.pumpWidget(makeTestableWidget(child: const RegisterForm()));
       await tester.pumpAndSettle();
 
-      // Vérifiez que les widgets sont présents
+      // Check that widgets are present
       expect(find.byKey(const Key('firstname_register_field')), findsOneWidget);
       expect(find.byKey(const Key('lastname_register_field')), findsOneWidget);
       expect(find.byKey(const Key('email_register_field')), findsOneWidget);

@@ -8,6 +8,7 @@ class CustomButton extends StatelessWidget {
   final Color? textColor;
   final VoidCallback? onPressed;
   final IconData? icon;
+  final bool isEnable;
 
   const CustomButton(
       {super.key,
@@ -17,13 +18,15 @@ class CustomButton extends StatelessWidget {
       this.onPressed,
       this.icon,
       this.width,
+      this.isEnable = true,
       this.fontWeight});
 
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
       color: backgroundColor,
-      onPressed: onPressed,
+      onPressed: isEnable ? onPressed : null,
+      disabledColor: backgroundColor.withOpacity(0.5),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
