@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/pages/profile_page.dart';
@@ -79,14 +80,27 @@ class SmartHikeApp extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
+    final apiUrl = Platform.isAndroid
+        ? dotenv.env['API_URL_ANDROID']!
+        : dotenv.env['API_URL_OTHER']!;
+
     final dio = Dio(BaseOptions(
-      baseUrl: "${dotenv.env['API_URL']!}/api",
+      baseUrl: "$apiUrl/api",
       headers: {
         HttpHeaders.userAgentHeader: 'dio',
         'common-header': 'xx',
         'Content-Type': 'application/json',
       },
     ));
+    dio.interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        compact: true,
+        maxWidth: 90));
+
     final sharedPreferencesUtil = SharedPreferencesUtil.instance;
     final authService =
         AuthService(dio: dio, sharedPreferencesUtil: sharedPreferencesUtil);
