@@ -17,8 +17,10 @@ void main() {
         supportedLocales: const [Locale('en'), Locale('fr'), Locale('es')],
         path: 'assets/locales',
         fallbackLocale: const Locale('en'),
-        child: const MaterialApp(
-          home: SettingsPage(),
+        child: MaterialApp(
+          home: SettingsPage(
+            onLanguageButtonPressed: () {},
+          ),
         ),
       ),
     );

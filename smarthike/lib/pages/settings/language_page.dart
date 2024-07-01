@@ -15,6 +15,21 @@ class LanguagePage extends StatefulWidget {
 class _LanguagePageState extends State<LanguagePage> {
   String _currentLang = 'en';
 
+  @override
+  void initState() {
+    super.initState();
+    _loadCurrentLanguage();
+  }
+
+  Future<void> _loadCurrentLanguage() async {
+    String? lang = await SharedPreferencesUtil.instance.getString('lang');
+    if (lang != null && mounted) {
+      setState(() {
+        _currentLang = lang;
+      });
+    }
+  }
+
   Future<void> _setLanguage(BuildContext context, String languageCode,
       String previousLanguageCode) async {
     await SharedPreferencesUtil.instance.setString('lang', languageCode);
