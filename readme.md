@@ -17,8 +17,15 @@ Smart'Hike is a mobile application that allows you to create personalized hiking
 
 ## Run projet
 ```bash
+With make
 make build
 make install
+
+With sh
+Usage: ./smarthike {env(local|dev|ci|prod)} {build|down|re-build|logs|install|test}
+
+./smarthike.sh local build
+./smarthike.sh local install
 ```
 
 ## Authors
