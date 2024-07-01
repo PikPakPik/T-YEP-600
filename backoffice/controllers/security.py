@@ -7,6 +7,7 @@ from models.Session import Session
 from flask import json, request
 from flask_bcrypt import generate_password_hash, check_password_hash
 import jwt
+from flask_login import login_required
 
 @app.route("/api/login", methods = ['POST'])
 def login():
@@ -90,6 +91,22 @@ def register():
     )
     return response
     
+@app.route("/api/logout", methods = ['POST'])
+@login_required
+def logout():
+    request.headers.get('Authorization')
+    session = Session.query.filter_by(token=request.headers.get('Authorization')[7:]).first()
+    db.session.delete(session)
+    db.session.commit()
+    response = app.response_class(
+        response=json.dumps({
+            'i18n': 'security.logout.success'
+        }),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
 def createJwt(user: User):
     encoded_token = jwt.encode(
         {
