@@ -10,6 +10,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/pages/profile_page.dart';
+import 'package:smarthike/pages/settings/language_page.dart';
 import 'package:smarthike/pages/settings_page.dart';
 import 'package:smarthike/providers/user_provider.dart';
 import 'package:smarthike/services/auth_service.dart';
@@ -42,6 +43,12 @@ Future main() async {
     ),
   );
 }
+
+const int homePageIndex = 0;
+const int mapPageIndex = 1;
+const int profilePageIndex = 2;
+const int settingsPageIndex = 3;
+const int languagePageIndex = 4;
 
 class AppInitializer extends StatefulWidget {
   final Widget child;
@@ -139,20 +146,29 @@ class NavigationBarApp extends StatefulWidget {
 class _NavigationExampleState extends State<NavigationBarApp> {
   int currentPageIndex = 0;
 
+  void _navigateToPage(int index) {
+    setState(() {
+      currentPageIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
+          if (index == settingsPageIndex) {
+            _navigateToPage(settingsPageIndex);
+          } else {
+            _navigateToPage(index);
+          }
         },
         indicatorColor: Constants.navBar,
         backgroundColor: Constants.navBar,
         surfaceTintColor: Constants.navBar,
-        selectedIndex: currentPageIndex,
+        selectedIndex:
+            currentPageIndex < 4 ? currentPageIndex : settingsPageIndex,
         destinations: <Widget>[
           SizedBox(
             height: 60,
@@ -303,9 +319,7 @@ class _NavigationExampleState extends State<NavigationBarApp> {
                 splashColor: Colors.transparent,
                 highlightElevation: 0.0,
                 onPressed: () {
-                  setState(() {
-                    currentPageIndex = 3;
-                  });
+                  _navigateToPage(settingsPageIndex);
                 },
                 backgroundColor: Constants.navBar,
                 elevation: 0.0,
@@ -314,7 +328,8 @@ class _NavigationExampleState extends State<NavigationBarApp> {
                   children: <Widget>[
                     Icon(
                       Icons.settings_outlined,
-                      color: currentPageIndex == 3
+                      color: currentPageIndex == settingsPageIndex ||
+                              currentPageIndex == languagePageIndex
                           ? Constants.primaryColor
                           : Constants.navButtonNotSelected,
                     ),
@@ -369,7 +384,14 @@ class _NavigationExampleState extends State<NavigationBarApp> {
         const ProfilePage(),
 
         /// Settings page
-        const SettingsPage()
+        SettingsPage(
+          onLanguageButtonPressed: () {
+            _navigateToPage(languagePageIndex);
+          },
+        ),
+
+        /// Language page
+        const LanguagePage(),
       ][currentPageIndex],
     );
   }

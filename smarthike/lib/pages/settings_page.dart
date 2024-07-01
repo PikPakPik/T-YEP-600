@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
-import 'package:smarthike/pages/settings/language_page.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+  final VoidCallback onLanguageButtonPressed;
+
+  const SettingsPage({super.key, required this.onLanguageButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +44,7 @@ class SettingsPage extends StatelessWidget {
                           backgroundColor: Constants.primaryColor,
                           textColor: Colors.black,
                           fontWeight: FontWeight.w900,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const LanguagePage()));
-                          },
+                          onPressed: onLanguageButtonPressed,
                         ),
                         CustomButton(
                           key: const Key('appearance_button'),
