@@ -73,3 +73,17 @@ def userPassword():
         mimetype='application/json'
     )
     return response
+
+@app.route("/api/user", methods = ['DELETE'])
+@login_required
+def deleteUser():
+    db.session.delete(current_user)
+    db.session.commit()
+    response = app.response_class(
+        response=json.dumps({
+            'i18n': 'user.deleted',
+        }),
+        status=200,
+        mimetype='application/json'
+    )
+    return response

@@ -1,8 +1,30 @@
-from app import app
+from app import app, db
 import json
+from models.User import User
 import pytest
 from faker import Faker
 fake = Faker()
+from flask_bcrypt import generate_password_hash
+
+@pytest.fixture(scope='session')
+def loginFakeUser():
+    name = fake.name().split(' ')
+    email = fake.ascii_email()
+    with app.app_context():
+        password = generate_password_hash('azertyuiop', 12).decode('utf-8')
+        user = User(firstname=name[0], lastname=name[1], email=email, password=password)
+        db.session.add(user)
+        db.session.commit()
+
+    client = app.test_client()
+    data = {
+        'email': email,
+        'password': 'azertyuiop'
+    }
+    response = client.post('/api/login', content_type='multipart/form-data', data=data)
+    response_data = response.data.decode('utf-8')
+    response_json = json.loads(response_data)
+    return response_json.get('token')
 
 @pytest.fixture(scope='session')
 def login():
@@ -123,4 +145,16 @@ def test_user_update_password(login):
         'confirmPassword': "azertyuiop",
     }
     response = client.put('/api/user/password', headers=headers, content_type='multipart/form-data', data=data)
+    assert response.status_code == 200
+
+@pytest.mark.depends(depends=['loginFakeUser'])
+def test_user_delete(loginFakeUser):
+    client = app.test_client()
+    headers = {
+        'Authorization': f'Bearer {loginFakeUser}'
+    }
+    response = client.delete('/api/user', headers=headers)
+    response_data = response.data.decode('utf-8')
+    response_json = json.loads(response_data)
+    assert response_json.get('i18n') == "user.deleted"
     assert response.status_code == 200
