@@ -157,6 +157,35 @@
                 }
             }
         },
+        "/api/logout": {
+            "post": {
+                "tags": ["Authentication"],
+                "summary": "Logout from the application",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "security.logout.success"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/user": {
             "get": {
                 "tags": ["User"],
@@ -172,7 +201,12 @@
                     "401": {
                         "description": "Unauthorized"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": ["User"],
@@ -226,7 +260,12 @@
                     "401": {
                         "description": "Unauthorized"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "delete": {
                 "tags": ["User"],
@@ -245,7 +284,12 @@
                     "401": {
                         "description": "Unauthorized"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/user/password": {
@@ -303,7 +347,12 @@
                     "401": {
                         "description": "Unauthorized"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         }
     },
@@ -320,8 +369,7 @@
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "string",
-                    "format": "integer"
+                    "type": "integer"
                 },
                 "firstname": {
                     "type": "string"
