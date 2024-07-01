@@ -166,16 +166,7 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "type": "object",
-                            "example": {
-                                "id": 1,
-                                "firstname": "Firstname of User",
-                                "lastname": "Lastname of User",
-                                "email": "user@tyep600.org",
-                                "lastLogin": "2024-06-18T12:45:10",
-                                "createdAt": "2024-06-18T11:23:20",
-                                "updatedAt": "2024-06-18T12:45:10"
-                            }
+                            "$ref": "#/definitions/UserResponse"
                         }
                     },
                     "401": {
@@ -213,16 +204,7 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "type": "object",
-                            "example": {
-                                "id": 1,
-                                "firstname": "Firstname of User",
-                                "lastname": "Lastname of User",
-                                "email": "user@tyep600.org",
-                                "lastLogin": "2024-06-18T12:45:10",
-                                "createdAt": "2024-06-18T11:23:20",
-                                "updatedAt": "2024-06-18T12:45:10"
-                            }
+                            "$ref": "#/definitions/UserResponse"
                         }
                     },
                     "400": {
@@ -245,8 +227,28 @@
                         "description": "Unauthorized"
                     }
                 }
+            },
+            "delete": {
+                "tags": ["User"],
+                "summary": "Delete user",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "i18n": "user.deleted"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                }
             }
-        },"/api/user/password": {
+        },
+        "/api/user/password": {
             "put": {
                 "tags": ["User"],
                 "summary": "Update user password",
@@ -279,16 +281,7 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "type": "object",
-                            "example": {
-                                "id": 1,
-                                "firstname": "Firstname of User",
-                                "lastname": "Lastname of User",
-                                "email": "user@tyep600.org",
-                                "lastLogin": "2024-06-18T12:45:10",
-                                "createdAt": "2024-06-18T11:23:20",
-                                "updatedAt": "2024-06-18T12:45:10"
-                            }
+                            "$ref": "#/definitions/UserResponse"
                         }
                     },
                     "400": {
@@ -310,6 +303,46 @@
                     "401": {
                         "description": "Unauthorized"
                     }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "bearerAuth": {
+            "type": "apiKey",
+            "scheme": "bearer",
+            "bearerFormat": "JWT",
+            "name": "Authorization"
+        }
+    },
+    "definitions": {
+        "UserResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "format": "integer"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "lastname": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "lastLogin": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "format": "date-time"
                 }
             }
         }
