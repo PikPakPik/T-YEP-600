@@ -95,5 +95,21 @@
     "error": {
       "unknown": "An unknown error occurred"
     }
+  },
+  "hike":{
+    "hike":"hike",
+    "details":{
+      "distance": "Distance",
+      "max_altitude": "Max altitude",
+      "min_altitude": "Min altitude",
+      "height_diff":"Height diff",
+      "hiking_time": "Hiking time",
+      "difficulty":{
+        "easy": "Easy",
+        "medium": "Medium",
+        "difficult": "Difficult",
+        "unknown": "unknown"
+      }
+    }
   }
 }

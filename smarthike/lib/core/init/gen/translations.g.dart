@@ -82,5 +82,18 @@ abstract class  LocaleKeys {
   static const api_error_unknown = 'api.error.unknown';
   static const api_error = 'api.error';
   static const api = 'api';
+  static const hike_hike = 'hike.hike';
+  static const hike_details_distance = 'hike.details.distance';
+  static const hike_details_max_altitude = 'hike.details.max_altitude';
+  static const hike_details_min_altitude = 'hike.details.min_altitude';
+  static const hike_details_height_diff = 'hike.details.height_diff';
+  static const hike_details_hiking_time = 'hike.details.hiking_time';
+  static const hike_details_difficulty_easy = 'hike.details.difficulty.easy';
+  static const hike_details_difficulty_medium = 'hike.details.difficulty.medium';
+  static const hike_details_difficulty_difficult = 'hike.details.difficulty.difficult';
+  static const hike_details_difficulty_unknown = 'hike.details.difficulty.unknown';
+  static const hike_details_difficulty = 'hike.details.difficulty';
+  static const hike_details = 'hike.details';
+  static const hike = 'hike';
 
 }
