@@ -11,14 +11,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/constants.dart';
+import 'package:smarthike/pages/auth/login_page.dart';
+import 'package:smarthike/pages/auth/register_page.dart';
 import 'package:smarthike/pages/profile_page.dart';
 import 'package:smarthike/pages/settings/language_page.dart';
+import 'package:smarthike/pages/settings/security_page.dart';
+import 'package:smarthike/pages/settings/subpages/delete_account_warning_page.dart';
 import 'package:smarthike/pages/settings_page.dart';
 import 'package:smarthike/providers/user_provider.dart';
 import 'package:smarthike/services/auth_service.dart';
 import 'package:smarthike/utils/shared_preferences_util.dart';
 
-Future main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await dotenv.load(fileName: ".env");
@@ -26,13 +30,10 @@ Future main() async {
   Provider.debugCheckInvalidValueType = null;
 
   final sharedPreferencesUtil = SharedPreferencesUtil.instance;
-  String? lang = await sharedPreferencesUtil.getString('lang');
-
-  if (lang == null) {
-    lang = Platform.localeName.split('_')[0];
-    if (lang != 'fr' && lang != 'es') {
-      lang = 'en';
-    }
+  String? lang = await sharedPreferencesUtil.getString('lang') ??
+      Platform.localeName.split('_')[0];
+  if (lang != 'fr' && lang != 'es') {
+    lang = 'en';
   }
 
   runApp(
@@ -51,6 +52,10 @@ const int mapPageIndex = 1;
 const int profilePageIndex = 2;
 const int settingsPageIndex = 3;
 const int languagePageIndex = 4;
+const int registerPageIndex = 5;
+const int signInPageIndex = 6;
+const int securityPageIndex = 7;
+const int deleteAccountPageIndex = 8;
 
 class AppInitializer extends StatefulWidget {
   final Widget child;
@@ -80,6 +85,8 @@ class AppInitializerState extends State<AppInitializer> {
 
 class SmartHikeApp extends StatelessWidget {
   static final navigatorKey = GlobalKey<NavigatorState>();
+  static final navBarKey = GlobalKey<_NavigationExampleState>();
+
   const SmartHikeApp({super.key});
 
   @override
@@ -131,7 +138,7 @@ class SmartHikeApp extends StatelessWidget {
             primaryTextTheme:
                 GoogleFonts.rubikTextTheme(Theme.of(context).primaryTextTheme),
           ),
-          home: const NavigationBarApp(),
+          home: NavigationBarApp(key: navBarKey),
         ),
       ),
     );
@@ -154,236 +161,147 @@ class _NavigationExampleState extends State<NavigationBarApp> {
     });
   }
 
+  void navigateToSpecificPage(int index) {
+    _navigateToPage(index);
+  }
+
+  bool _isSubPageOf(int mainPageIndex) {
+    return (mainPageIndex == settingsPageIndex &&
+            (currentPageIndex == languagePageIndex ||
+                currentPageIndex == securityPageIndex ||
+                currentPageIndex == deleteAccountPageIndex)) ||
+        (mainPageIndex == profilePageIndex &&
+            (currentPageIndex == registerPageIndex ||
+                currentPageIndex == signInPageIndex));
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    int selectedIndex =
+        _isSubPageOf(settingsPageIndex) || _isSubPageOf(profilePageIndex)
+            ? (currentPageIndex == languagePageIndex ||
+                    currentPageIndex == securityPageIndex ||
+                    currentPageIndex == deleteAccountPageIndex)
+                ? settingsPageIndex
+                : profilePageIndex
+            : currentPageIndex;
+
+    if (selectedIndex >= 4) {
+      selectedIndex = profilePageIndex;
+    }
+
     return Scaffold(
       bottomNavigationBar: NavigationBar(
-        onDestinationSelected: (int index) {
-          if (index == settingsPageIndex) {
-            _navigateToPage(settingsPageIndex);
-          } else {
-            _navigateToPage(index);
-          }
-        },
+        onDestinationSelected: _navigateToPage,
         indicatorColor: Constants.navBar,
         backgroundColor: Constants.navBar,
         surfaceTintColor: Constants.navBar,
-        selectedIndex:
-            currentPageIndex < 4 ? currentPageIndex : settingsPageIndex,
+        selectedIndex: selectedIndex,
         destinations: <Widget>[
-          SizedBox(
-            height: 60,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-              ),
-              child: FloatingActionButton(
-                heroTag: 'home',
-                hoverColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                highlightElevation: 0.0,
-                onPressed: () {
-                  setState(() {
-                    currentPageIndex = 0;
-                  });
-                },
-                backgroundColor: Constants.navBar,
-                elevation: 0.0,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.home_outlined,
-                      color: currentPageIndex == 0
-                          ? Constants.primaryColor
-                          : Constants.navButtonNotSelected,
-                    ),
-                    Positioned(
-                      bottom: -3,
-                      child: Container(
-                        height: 4,
-                        width: 4,
-                        decoration: const BoxDecoration(
-                          color: Constants.primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 60,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-              ),
-              child: FloatingActionButton(
-                heroTag: 'map',
-                hoverColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                highlightElevation: 0.0,
-                onPressed: () {
-                  setState(() {
-                    currentPageIndex = 1;
-                  });
-                },
-                backgroundColor: Constants.navBar,
-                elevation: 0.0,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.map_outlined,
-                      color: currentPageIndex == 1
-                          ? Constants.fourthColor
-                          : Constants.navButtonNotSelected,
-                    ),
-                    Positioned(
-                      bottom: -3,
-                      child: Container(
-                        height: 4,
-                        width: 4,
-                        decoration: const BoxDecoration(
-                          color: Constants.primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 60,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-              ),
-              child: FloatingActionButton(
-                heroTag: 'profile',
-                hoverColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                highlightElevation: 0.0,
-                onPressed: () {
-                  setState(() {
-                    currentPageIndex = 2;
-                  });
-                },
-                backgroundColor: Constants.navBar,
-                elevation: 0.0,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.person_outline,
-                      color: currentPageIndex == 2
-                          ? Constants.primaryColor
-                          : Constants.navButtonNotSelected,
-                    ),
-                    Positioned(
-                      bottom: -3,
-                      child: Container(
-                        height: 4,
-                        width: 4,
-                        decoration: const BoxDecoration(
-                          color: Constants.primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 60,
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-              ),
-              child: FloatingActionButton(
-                heroTag: 'settings',
-                hoverColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                splashColor: Colors.transparent,
-                highlightElevation: 0.0,
-                onPressed: () {
-                  _navigateToPage(settingsPageIndex);
-                },
-                backgroundColor: Constants.navBar,
-                elevation: 0.0,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.settings_outlined,
-                      color: currentPageIndex == settingsPageIndex ||
-                              currentPageIndex == languagePageIndex
-                          ? Constants.primaryColor
-                          : Constants.navButtonNotSelected,
-                    ),
-                    Positioned(
-                      bottom: -3,
-                      child: Container(
-                        height: 4,
-                        width: 4,
-                        decoration: const BoxDecoration(
-                          color: Constants.primaryColor,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          _buildNavItem(
+              Icons.home_outlined, homePageIndex, Constants.primaryColor),
+          _buildNavItem(
+              Icons.map_outlined, mapPageIndex, Constants.fourthColor),
+          _buildNavItem(
+              Icons.person_outline, profilePageIndex, Constants.primaryColor),
+          _buildNavItem(Icons.settings_outlined, settingsPageIndex,
+              Constants.primaryColor),
         ],
       ),
       body: <Widget>[
-        /// Home page
-        Card(
-          shadowColor: Colors.transparent,
-          margin: const EdgeInsets.all(8.0),
-          child: SizedBox.expand(
-            child: Center(
-              child: Text(
-                'Home page',
-                style: theme.textTheme.titleLarge,
-              ),
-            ),
-          ),
-        ),
-
-        /// Map page
+        _buildPage('Home page', theme),
         const MapPage(),
-
-        /// Profile page
-        const ProfilePage(),
+        ProfilePage(
+          onRegisterButtonPressed: () {
+            _navigateToPage(registerPageIndex);
+          },
+          onSignInButtonPressed: () {
+            _navigateToPage(signInPageIndex);
+          },
+        ),
 
         /// Settings page
         SettingsPage(
           onLanguageButtonPressed: () {
             _navigateToPage(languagePageIndex);
           },
+          onSecurityButtonPressed: () {
+            _navigateToPage(securityPageIndex);
+          },
         ),
-
-        /// Language page
         const LanguagePage(),
+        const RegisterPage(),
+        const LoginPage(),
+        SecurityPage(
+          onDeleteAccountPressed: () {
+            _navigateToPage(deleteAccountPageIndex);
+          },
+        ),
+        const DeleteAccountWarningPage(),
       ][currentPageIndex],
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, int index, Color selectedColor) {
+    return SizedBox(
+      height: 60,
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+        ),
+        child: FloatingActionButton(
+          heroTag: index.toString(),
+          hoverColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          splashColor: Colors.transparent,
+          highlightElevation: 0.0,
+          onPressed: () {
+            _navigateToPage(index);
+          },
+          backgroundColor: Constants.navBar,
+          elevation: 0.0,
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Icon(
+                icon,
+                color: (currentPageIndex == index ||
+                        (_isSubPageOf(index) && index == settingsPageIndex))
+                    ? selectedColor
+                    : Constants.navButtonNotSelected,
+              ),
+              Positioned(
+                bottom: -3,
+                child: Container(
+                  height: 4,
+                  width: 4,
+                  decoration: const BoxDecoration(
+                    color: Constants.primaryColor,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPage(String text, ThemeData theme) {
+    return Card(
+      shadowColor: Colors.transparent,
+      margin: const EdgeInsets.all(8.0),
+      child: SizedBox.expand(
+        child: Center(
+          child: Text(
+            text,
+            style: theme.textTheme.titleLarge,
+          ),
+        ),
+      ),
     );
   }
 }

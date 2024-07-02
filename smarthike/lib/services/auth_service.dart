@@ -61,6 +61,16 @@ class AuthService {
     return null;
   }
 
+  Future<void> deleteUser() async {
+    final token = await SharedPreferencesUtil.instance.getString('token');
+    await dio.delete('/user',
+        options: Options(
+          headers: {
+            HttpHeaders.authorizationHeader: 'Bearer $token',
+          },
+        ));
+  }
+
   Future<User?> logout() async {
     await SharedPreferencesUtil.instance.setString('token', '');
     return null;
@@ -78,6 +88,7 @@ class AuthService {
         return User.fromJson(response.data);
       }
     } catch (e) {
+      await SharedPreferencesUtil.instance.setString('token', '');
       throw Exception(e);
     }
     return null;

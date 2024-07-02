@@ -4,13 +4,16 @@ import 'package:provider/provider.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
-import 'package:smarthike/pages/auth/login_page.dart';
-import 'package:smarthike/pages/auth/register_page.dart';
 
 import '../providers/user_provider.dart';
 
 class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+  final VoidCallback onRegisterButtonPressed;
+  final VoidCallback onSignInButtonPressed;
+  const ProfilePage(
+      {super.key,
+      required this.onRegisterButtonPressed,
+      required this.onSignInButtonPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +223,10 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                 )
-              : const LoginOrSignupPage();
+              : LoginOrSignupPage(
+                  onRegisterButtonPressed: onRegisterButtonPressed,
+                  onSignInButtonPressed: onSignInButtonPressed,
+                );
         },
       ),
     );
@@ -228,7 +234,14 @@ class ProfilePage extends StatelessWidget {
 }
 
 class LoginOrSignupPage extends StatelessWidget {
-  const LoginOrSignupPage({super.key});
+  const LoginOrSignupPage({
+    super.key,
+    required this.onRegisterButtonPressed,
+    required this.onSignInButtonPressed,
+  });
+
+  final VoidCallback onRegisterButtonPressed;
+  final VoidCallback onSignInButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -284,14 +297,7 @@ class LoginOrSignupPage extends StatelessWidget {
                 backgroundColor: Constants.primaryColor,
                 textColor: Colors.black,
                 fontWeight: FontWeight.w900,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginPage(),
-                    ),
-                  );
-                },
+                onPressed: onSignInButtonPressed,
               ),
             ),
             const SizedBox(height: 10),
@@ -302,14 +308,7 @@ class LoginOrSignupPage extends StatelessWidget {
                 textColor: Colors.black,
                 backgroundColor: Constants.primaryColor,
                 fontWeight: FontWeight.w900,
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RegisterPage(),
-                    ),
-                  );
-                },
+                onPressed: onRegisterButtonPressed,
               ),
             ),
             // CustomButton(
