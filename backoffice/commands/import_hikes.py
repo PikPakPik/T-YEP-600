@@ -27,7 +27,6 @@ def hello(filename=None):
                     print(f"Missing required field in row {index}: {row.to_dict()}")
 
                 new_hike = Hike(
-                    FID=row['FID'],
                     osmId=int(row['osm_id']),
                     name=row['name'],
                 )
