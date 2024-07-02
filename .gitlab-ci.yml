@@ -8,6 +8,7 @@ include:
   - "smarthike/.ci/.gitlab-flutter.yml"
   - "backoffice/.ci/.backend.yml"
   - "backoffice/.ci/.build-image.yml"
+  - ".gitlab/ci/release.yml"
 
 pages:
   image: node:alpine
