@@ -95,5 +95,21 @@
     "error": {
       "unknown": "Une erreur inconnue s'est produite"
     }
+  },
+  "hike":{
+    "hike":"Randonnée",
+    "details":{
+      "distance": "Distance",
+      "max_altitude": "Max altitude",
+      "min_altitude": "Min altitude",
+      "height_diff":"Dénivelé",
+      "hiking_time": "Tps de rando",
+      "difficulty":{
+        "easy": "Facile",
+        "medium": "Moyen",
+        "difficult": "Difficile",
+        "unknown": "Inconnu"
+      }
+    }
   }
 }

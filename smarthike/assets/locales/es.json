@@ -95,5 +95,21 @@
     "error": {
       "unknown": "Ocurrió un error desconocido"
     }
+  },
+  "hike": {
+    "hike": "Excursión",
+    "details": {
+      "distance": "Distancia",
+      "max_altitude": "Altitud máxima",
+      "min_altitude": "Altitud mínima",
+      "height_diff": "Desnivel",
+      "hiking_time": "Tpo de exc",
+      "difficulty": {
+        "easy": "Fácil",
+        "medium": "Medio",
+        "difficult": "Difícil",
+        "unknown": "Desconocido"
+      }
+    }
   }
 }
