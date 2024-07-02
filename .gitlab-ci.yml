@@ -9,13 +9,6 @@ include:
   - "backoffice/.ci/.backend.yml"
   - "backoffice/.ci/.build-image.yml"
 
-release:
-  script:
-    - echo "Deploying !"
-  #rules:
-  #  - if: '$CI_COMMIT_BRANCH == "main"'
-  #    when: always
-
 pages:
   image: node:alpine
   stage: build
