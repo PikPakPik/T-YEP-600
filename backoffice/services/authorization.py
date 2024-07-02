@@ -1,5 +1,6 @@
 import datetime
-from app import db, login_manager
+from app import app, db, login_manager
+from flask import json
 from models.User import User
 from models.Session import Session
 
@@ -21,3 +22,13 @@ def load_user_from_request(request):
     user = User.query.filter_by(id=session.user).first()
     
     return user
+
+@login_manager.unauthorized_handler
+def unauthorized():
+    return app.response_class(
+        response=json.dumps({
+            'i18n': 'security.unauthorized'
+        }),
+        status=401,
+        mimetype='application/json'
+    )

@@ -13,6 +13,10 @@
         {
             "name": "User",
             "description": "Route to manage user"
+        },
+        {
+            "name": "Hike",
+            "description": "Route to manage hike"
         }
     ],
     "schemes": [
@@ -176,7 +180,10 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized"
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUnauthorizedResponse"
+                        }
                     }
                 },
                 "security": [
@@ -199,7 +206,10 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized"
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUnauthorizedResponse"
+                        }
                     }
                 },
                 "security": [
@@ -258,7 +268,10 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized"
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUnauthorizedResponse"
+                        }
                     }
                 },
                 "security": [
@@ -282,7 +295,10 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized"
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUnauthorizedResponse"
+                        }
                     }
                 },
                 "security": [
@@ -345,7 +361,84 @@
                         }
                     },
                     "401": {
-                        "description": "Unauthorized"
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUnauthorizedResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/hike/{id}/favorite": {
+            "post": {
+                "tags": ["Hike"],
+                "summary": "Add hike to favorite",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "i18n": "hike.favorite.added"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUnauthorizedResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "i18n": "hike.favorite.already_exists"
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": ["Hike"],
+                "summary": "Delete hike from favorite",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "i18n": "hike.favorite.deleted"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUnauthorizedResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "i18n": "hike.favorite.does_not_exist"
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -365,6 +458,15 @@
         }
     },
     "definitions": {
+        "ApiUnauthorizedResponse": {
+            "type": "object",
+            "properties": {
+                "i18n": {
+                    "type": "string",
+                    "example": "security.unauthorized"
+                }
+            }
+        },
         "UserResponse": {
             "type": "object",
             "properties": {

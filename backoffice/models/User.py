@@ -14,6 +14,7 @@ class User(UserMixin, db.Model):
     lastLogin = db.Column('last_login', db.DateTime, nullable=True)
     createdAt = db.Column('created_at', db.DateTime, nullable=False, default=datetime.datetime.now)
     updatedAt = db.Column('updated_at', db.DateTime, nullable=True, onupdate=datetime.datetime.now)
+    hikes = db.relationship('Hike', secondary='user_hike', back_populates='users', lazy=True)
 
     def serialize(self):
         return {
@@ -25,3 +26,8 @@ class User(UserMixin, db.Model):
             'createdAt': self.createdAt.isoformat(),
             'updatedAt': self.updatedAt.isoformat() if self.updatedAt else None
         }
+    
+    user_hike = db.Table('user_hike',
+        db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True),
+        db.Column('hike_id', db.Integer, db.ForeignKey('hikes.id'), primary_key=True)
+    )
