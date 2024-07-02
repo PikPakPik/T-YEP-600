@@ -1,18 +1,18 @@
 ## Description
-```Décrivez les changements effectués```
+```Describe the changes made```
 
-## Type de changement
-- [ ] Bug fix (correction d'un bug)
-- [ ] New feature (nouvelle fonctionnalité)
-- [ ] Breaking change (correction ou fonctionnalité qui pourrait entraîner un changement non rétrocompatible)
-- [ ] Documentation update (mise à jour de la documentation)
-- [ ] Mise à jour du swagger
-- [ ] Autre (précisez) : 
+## Type of change
+- [ ] Bug fix
+- [ ] New feature
+- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
+- [ ] Documentation update
+- [ ] Swagger update
+- [ ] Other (please specify):
 
 ## Checklist
-- [ ] Le code suit les conventions de style de code du projet.
-- [ ] De nouveau tests ont été écris [Backend | Flutter].
-- [ ] Mes changements ont nécessité une mise à jour de la documentation.
+- [ ] The code follows the project's style guidelines.
+- [ ] New tests have been written [Backend | Flutter].
+- [ ] My changes require a documentation update.
 
-## Issues liées
+## Related issues
 Closes #X
