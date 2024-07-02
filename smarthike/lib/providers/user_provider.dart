@@ -50,6 +50,13 @@ class UserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> deleteUser() async {
+    _user = null;
+    await authService.deleteUser();
+    await SharedPreferencesUtil.instance.setString('token', '');
+    notifyListeners();
+  }
+
   Future<void> logout() async {
     _user = await authService.logout();
     notifyListeners();

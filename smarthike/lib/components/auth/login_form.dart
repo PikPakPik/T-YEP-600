@@ -7,6 +7,7 @@ import 'package:smarthike/components/button.dart';
 import 'package:smarthike/components/input.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
+import 'package:smarthike/main.dart'; // Added this line to import the main.dart file
 import 'package:smarthike/providers/user_provider.dart';
 
 class LoginForm extends StatefulWidget {
@@ -72,7 +73,10 @@ class LoginFormState extends State<LoginForm> {
                   try {
                     await userProvider.login(
                         _emailController.text, _passwordController.text);
-                    if (context.mounted) Navigator.of(context).pop();
+                    if (context.mounted) {
+                      SmartHikeApp.navBarKey.currentState
+                          ?.navigateToSpecificPage(2);
+                    }
                   } catch (e) {
                     if (e is Exception) {
                       if (e
@@ -81,7 +85,6 @@ class LoginFormState extends State<LoginForm> {
                         Fluttertoast.showToast(
                           backgroundColor: Colors.red,
                           textColor: Colors.white,
-                          // found in the localkeys the key return by the api
                           msg: LocaleKeys.api_security_login_invalid_credentials
                               .tr(),
                           toastLength: Toast.LENGTH_SHORT,

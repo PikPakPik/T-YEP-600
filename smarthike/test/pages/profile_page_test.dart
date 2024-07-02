@@ -9,7 +9,7 @@ import 'package:smarthike/models/user.dart';
 import 'package:smarthike/pages/profile_page.dart';
 import 'package:smarthike/providers/user_provider.dart';
 
-import '../components/register_form_test.mocks.dart';
+import 'profile_page_test.mocks.dart';
 
 @GenerateMocks([UserProvider])
 void main() async {
@@ -23,7 +23,7 @@ void main() async {
 
   Widget makeTestableWidget({required Widget child}) {
     return EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('fr')],
+      supportedLocales: const [Locale('en'), Locale('fr'), Locale('es')],
       fallbackLocale: const Locale('en'),
       path: 'assets/locales',
       child: MaterialApp(
@@ -45,7 +45,11 @@ void main() async {
 
     when(userProvider.user).thenReturn(user);
 
-    await tester.pumpWidget(makeTestableWidget(child: const ProfilePage()));
+    await tester.pumpWidget(makeTestableWidget(
+        child: ProfilePage(
+      onRegisterButtonPressed: () {},
+      onSignInButtonPressed: () {},
+    )));
 
     expect(find.text('John Doe'), findsOneWidget);
     expect(find.byType(LoginOrSignupPage), findsNothing);
@@ -54,7 +58,11 @@ void main() async {
   testWidgets('ProfilePage shows login page when not logged in',
       (WidgetTester tester) async {
     when(userProvider.user).thenReturn(null);
-    await tester.pumpWidget(makeTestableWidget(child: const ProfilePage()));
+    await tester.pumpWidget(makeTestableWidget(
+        child: ProfilePage(
+      onRegisterButtonPressed: () {},
+      onSignInButtonPressed: () {},
+    )));
 
     expect(find.byType(LoginOrSignupPage), findsOneWidget);
   });
