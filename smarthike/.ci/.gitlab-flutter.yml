@@ -70,7 +70,7 @@ build_front:
     - mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/app-release-${CI_JOB_ID:0:8}.apk
   artifacts:
     paths:
-      - build/app/outputs/flutter-apk/
+      - smarthike/build/app/outputs/flutter-apk/app-release-${CI_JOB_ID:0:8}.apk
     expire_in: 2 days
   rules:
     - if: "$CI_MERGE_REQUEST_IID || $CI_COMMIT_BRANCH =~ /^(develop|main)/"
