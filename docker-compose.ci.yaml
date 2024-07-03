@@ -1,0 +1,29 @@
+services:
+  backend_python:
+    build: .docker/python
+    volumes:
+      - ./backoffice:/usr/src/app
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: development
+      SECRET_KEY: "s3cr3t"
+      JWT_KEY: "s3cr3t"
+      DATABASE_URI: "mysql://yep600:yep600@database/yep600"
+    depends_on:
+      - database
+
+  database:
+    image: mariadb:latest
+    environment:
+      MARIADB_ROOT_PASSWORD: "root"
+      MARIADB_USER: "yep600"
+      MARIADB_PASSWORD: "yep600"
+      MARIADB_DATABASE: "yep600"
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  db_data: {}

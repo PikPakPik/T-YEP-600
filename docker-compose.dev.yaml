@@ -1,0 +1,62 @@
+services:
+  backend_python:
+    image: registry.gitlab.com/epitech-msc-2026/t-yep-600/backend-tyep600-nan1:${BACKEND_TAG:-dev}
+    volumes:
+      - ./backoffice:/usr/src/app
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: development
+      SECRET_KEY: "s3cr3t"
+      JWT_KEY: "s3cr3t"
+      DATABASE_URI: "mysql://yep600:yep600@database/yep600"
+    depends_on:
+      - database
+
+  database:
+    image: mariadb:latest
+    environment:
+      MARIADB_ROOT_PASSWORD: "root"
+      MARIADB_USER: "yep600"
+      MARIADB_PASSWORD: "yep600"
+      MARIADB_DATABASE: "yep600"
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: database
+      PMA_ARBITRARY: 1
+      MYSQL_ROOT_PASSWORD: root
+      UPLOAD_LIMIT: 1G
+    depends_on:
+      - database
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    container_name: "swagger-ui"
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./backoffice/swagger.json:/openapi.json
+    environment:
+      SWAGGER_JSON: /openapi.json
+    depends_on:
+      - backend_python
+
+  mailer:
+    image: axllent/mailpit
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+volumes:
+  db_data: {}
