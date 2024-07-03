@@ -1,0 +1,84 @@
+image: ghcr.io/cirruslabs/flutter
+
+cache:
+  paths:
+    - '**/.dart_tool/'
+    - '**/pubspec.lock'
+    - '**/.flutter-plugins*'
+    - '**/.packages'
+    - '**/.pub-cache'
+
+install_dependencies_front:
+  stage: install
+  script:
+    - cd smarthike
+    - export PUB_CACHE=$CI_PROJECT_DIR/smarthike/.pub-cache
+    - export PATH="$PATH":"$PUB_CACHE/bin"
+    - flutter pub get
+  rules:
+    - if: "$CI_MERGE_REQUEST_IID"
+      when: always
+      changes:
+        - smarthike/**/*
+    - if: "$CI_COMMIT_BRANCH =~ /^(develop|main)/"
+      when: always
+
+lints_front:
+  stage: lints
+  script:
+    - cd smarthike
+    - cp .env.example .env
+    - flutter analyze
+  rules:
+    - if: "$CI_MERGE_REQUEST_IID || $CI_COMMIT_BRANCH =~ /^(develop|main)/"
+      when: always
+    - if: "$CI_COMMIT_BRANCH =~ /^(feature|feat|fix|hotfix)/"
+      when: manual
+  needs:
+    - job: install_dependencies_front
+      optional: true
+
+tests_front:
+  stage: tests
+  script:
+    - cd smarthike
+    - cp .env.example .env
+    - flutter test --coverage ./lib
+    - lcov -r coverage/lcov.info -o coverage/lcov_cleaned.info
+    - genhtml coverage/lcov_cleaned.info --output=coverage
+  coverage: '/\s*lines\.*:\s*([\d\.]+%)/'
+  artifacts:
+    paths:
+      - smarthike/coverage/
+    expire_in: 10 mins
+  rules:
+    - if: "$CI_MERGE_REQUEST_IID || $CI_COMMIT_BRANCH =~ /^(develop|main)/"
+      when: always
+    - if: "$CI_COMMIT_BRANCH =~ /^(feature|feat|fix|hotfix)/"
+      when: manual
+  needs:
+    - job: install_dependencies_front
+      optional: true
+
+build_front:
+  stage: build
+  script:
+    - cd smarthike
+    - cp .env.example .env
+    - flutter build apk --release --build-number ${CI_JOB_ID:0:8}
+    - flutter build appbundle --release --build-number ${CI_JOB_ID:0:8}
+    - mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/app-release-${CI_JOB_ID:0:8}.apk
+  artifacts:
+    paths:
+      - smarthike/build/app/outputs/flutter-apk/app-release-${CI_JOB_ID:0:8}.apk
+    expire_in: 2 days
+  rules:
+    - if: "$CI_MERGE_REQUEST_IID || $CI_COMMIT_BRANCH =~ /^(develop|main)/"
+      when: always
+    - if: "$CI_COMMIT_BRANCH =~ /^(feature|feat|fix|hotfix)/"
+      when: manual
+  needs:
+    - job: tests_front
+      optional: false
+    - job: lints_front
+      optional: false

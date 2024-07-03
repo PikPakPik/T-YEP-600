@@ -1,0 +1,115 @@
+{
+  "user": {
+    "title": {
+      "level_1": "Senderista principiante",
+      "level_2": "Senderista intermedio",
+      "level_3": "Senderista avanzado",
+      "level_4": "Gurú del senderismo",
+      "level_5": "Gurú de la montaña"
+    }
+  },
+  "profile": {
+    "title": "Perfil"
+  },
+  "auth": {
+    "title": "Autenticación",
+    "sign_in": "Iniciar sesión",
+    "sign_up": "Registrarse",
+    "logout": "Cerrar sesión"
+  },
+  "register": {
+    "form": {
+      "firstname": "Nombre",
+      "lastname": "Apellido",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "confirm_password": "Confirmar contraseña",
+      "age": "Edad",
+      "frequency": "Frecuencia de deporte",
+      "level": "Nivel de deporte",
+      "next": "Siguiente",
+      "back": "Atrás",
+      "register": "Registro",
+      "error": {
+        "firstname_required": "Por favor, ingrese su nombre",
+        "lastname_required": "Por favor, ingrese su apellido",
+        "email_required": "Por favor, ingrese su correo electrónico",
+        "email_invalid": "Correo electrónico inválido",
+        "password_required": "Por favor, ingrese su contraseña",
+        "password_invalid": "La contraseña debe tener al menos 8 caracteres, \nincluyendo números, letras mayúsculas y minúsculas, \ny símbolos especiales",
+        "confirm_password_required": "Por favor, confirme su contraseña",
+        "passwords_do_not_match": "Las contraseñas no coinciden",
+        "age_required": "Por favor, ingrese su edad",
+        "age_invalid": "Por favor, ingrese una edad válida",
+        "frequency_required": "Por favor, seleccione una frecuencia de deporte",
+        "level_required": "Por favor, seleccione un nivel de deporte"
+      }
+    }
+  },
+  "login": {
+    "form": {
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "error": {
+        "email_required": "El correo electrónico es requerido",
+        "email_invalid": "El correo electrónico es inválido",
+        "password_required": "La contraseña es requerida"
+      }
+    }
+  },
+  "settings": {
+    "modify_language": "Modificar el idioma",
+    "modify_appearance": "Modificar la apariencia",
+    "privacy_security": "Privacidad y seguridad",
+    "change_password": "Cambiar la contraseña",
+    "two_factor_auth": "Autenticación de dos factores",
+    "delete_account": "Eliminar mi cuenta",
+    "delete_account_warning_title": "Advertencia de eliminación de cuenta",
+    "delete_account_warning_message": "Eliminar su cuenta es irreversible. Por favor, lea la información a continuación cuidadosamente.",
+    "delete_account_warning_section1": "Pérdida de datos",
+    "delete_account_warning_section1_detail": "Todos sus datos serán eliminados permanentemente.",
+    "delete_account_warning_section2": "Acceso a servicios",
+    "delete_account_warning_section2_detail": "Ya no tendrá acceso a nuestros servicios.",
+    "delete_account_warning_section3": "Confirmación",
+    "delete_account_warning_section3_detail": "Por favor, confirme que entiende las consecuencias.",
+    "delete_account_confirm_button": "Eliminar cuenta",
+    "delete_account_confirmation_message": "¿Estás seguro de que desea eliminar su cuenta?",
+    "delete_account_cancel_button": "Cancelar",
+    "delete_account_success": "Cuenta eliminada con éxito",
+    "language": {
+      "title": "Idioma",
+      "modal": {
+        "title": "Confirmación",
+        "confirm": "¿Realmente desea cambiar el idioma?",
+        "cancel_modal": "Cancelar",
+        "confirm_modal": "Confirmar"
+      }
+    }
+  },
+  "api": {
+    "security": {
+      "login": {
+        "invalid_credentials": "Credenciales inválidas"
+      }
+    },
+    "error": {
+      "unknown": "Ocurrió un error desconocido"
+    }
+  },
+  "hike": {
+    "hike": "Excursión",
+    "details": {
+      "distance": "Distancia",
+      "max_altitude": "Altitud máxima",
+      "min_altitude": "Altitud mínima",
+      "height_diff": "Desnivel",
+      "hiking_time": "Tpo de exc",
+      "difficulty": {
+        "easy": "Fácil",
+        "medium": "Medio",
+        "difficult": "Difícil",
+        "unknown": "Desconocido"
+      }
+    }
+  }
+}

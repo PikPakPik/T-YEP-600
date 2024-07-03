@@ -1,0 +1,25 @@
+stages:
+  - install
+  - lints
+  - tests
+  - build
+
+include:
+  - "smarthike/.ci/.gitlab-flutter.yml"
+  - "backoffice/.ci/.backend.yml"
+  - "backoffice/.ci/.build-image.yml"
+  - ".gitlab/ci/release.yml"
+
+pages:
+  image: node:alpine
+  stage: build
+  script:
+    - npm install -g redoc-cli
+    - redoc-cli bundle -o public/index.html backoffice/swagger.json
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      changes:
+        - backoffice/swagger.json

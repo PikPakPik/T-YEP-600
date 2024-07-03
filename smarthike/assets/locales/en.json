@@ -1,0 +1,115 @@
+{
+  "user": {
+    "title": {
+      "level_1": "Hiker on the grass",
+      "level_2": "Hiker on the ground",
+      "level_3": "Hiker on the mountain",
+      "level_4": "Hiker on the mountain",
+      "level_5": "Hiker on the mountain"
+    }
+  },
+  "profile": {
+    "title": "Profile"
+  },
+  "auth": {
+    "title": "Authentication",
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
+    "logout": "Logout"
+  },
+  "register": {
+    "form": {
+      "firstname": "First Name",
+      "lastname": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "age": "Age",
+      "frequency": "Sport Frequency",
+      "level": "Sport Level",
+      "next": "Next",
+      "back": "Back",
+      "register": "Register",
+      "error": {
+        "firstname_required": "Please enter your first name",
+        "lastname_required": "Please enter your last name",
+        "email_required": "Please enter your email",
+        "email_invalid": "Invalid email",
+        "password_required": "Please enter your password",
+        "password_invalid": "Password must be at least 8 characters long, \nincluding numbers, uppercase and lowercase letters, \nand special symbols",
+        "confirm_password_required": "Please confirm your password",
+        "passwords_do_not_match": "Passwords do not match",
+        "age_required": "Please enter your age",
+        "age_invalid": "Please enter a valid age",
+        "frequency_required": "Please select a sport frequency",
+        "level_required": "Please select a sport level"
+      }
+    }
+  },
+  "login": {
+    "form": {
+      "email": "Email",
+      "password": "Password",
+      "error": {
+        "email_required": "Email is required",
+        "email_invalid": "Email is invalid",
+        "password_required": "Password is required"
+      }
+    }
+  },
+  "settings": {
+    "modify_language": "Modify language",
+    "modify_appearance": "Modify appearance",
+    "privacy_security": "Privacy and security",
+    "change_password": "Change Password",
+    "two_factor_auth": "Two-Factor Authentication",
+    "delete_account": "Delete My Account",
+    "delete_account_warning_title": "Account Deletion Warning",
+    "delete_account_warning_message": "Deleting your account is irreversible. Please read the information below carefully.",
+    "delete_account_warning_section1": "Data Loss",
+    "delete_account_warning_section1_detail": "All your data will be permanently deleted.",
+    "delete_account_warning_section2": "Service Access",
+    "delete_account_warning_section2_detail": "You will no longer have access to our services.",
+    "delete_account_warning_section3": "Confirmation",
+    "delete_account_warning_section3_detail": "Please confirm that you understand the consequences.",
+    "delete_account_confirm_button": "Delete Account",
+    "delete_account_confirmation_message": "Are you sure you want to delete your account?",
+    "delete_account_cancel_button": "Cancel",
+    "delete_account_success": "Account successfully deleted",
+    "language": {
+      "title": "Language",
+      "modal": {
+        "title": "Confirmation",
+        "confirm": "Are you sure you want to change the language?",
+        "cancel_modal": "Cancel",
+        "confirm_modal": "Confirm"
+      }
+    }
+  },
+  "api": {
+    "security": {
+      "login": {
+        "invalid_credentials": "Invalid credentials"
+      }
+    },
+    "error": {
+      "unknown": "An unknown error occurred"
+    }
+  },
+  "hike":{
+    "hike":"hike",
+    "details":{
+      "distance": "Distance",
+      "max_altitude": "Max altitude",
+      "min_altitude": "Min altitude",
+      "height_diff":"Height diff",
+      "hiking_time": "Hiking time",
+      "difficulty":{
+        "easy": "Easy",
+        "medium": "Medium",
+        "difficult": "Difficult",
+        "unknown": "unknown"
+      }
+    }
+  }
+}
