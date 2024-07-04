@@ -43,11 +43,18 @@ tests_front:
   script:
     - cd smarthike
     - cp .env.example .env
-    - flutter test --coverage ./lib
+    - flutter pub get junitreport
+    - flutter pub global activate junitreport 
+    - junitReportFile="./junit-report.xml"
+    - flutter test --coverage ./lib | tojunit --output $junitReportFile
     - lcov -r coverage/lcov.info -o coverage/lcov_cleaned.info
     - genhtml coverage/lcov_cleaned.info --output=coverage
   coverage: '/\s*lines\.*:\s*([\d\.]+%)/'
   artifacts:
+    when: always
+    reports:
+      junit:
+        - junit-report.xml
     paths:
       - smarthike/coverage/
     expire_in: 10 mins
