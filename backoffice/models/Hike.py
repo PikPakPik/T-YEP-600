@@ -20,3 +20,10 @@ class Hike(db.Model):
             'createdAt': self.createdAt.isoformat(),
             'updatedAt': self.updatedAt.isoformat() if self.updatedAt else None
         }
+    
+    def serializeFavorite(self):
+        return {
+            'id': self.id,
+            'osmId': self.osmId,
+            'name': self.name
+        }
