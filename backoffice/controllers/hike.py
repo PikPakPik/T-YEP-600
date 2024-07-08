@@ -9,7 +9,15 @@ from flask_login import login_required, current_user
 @login_required
 def get_favorite_hike():
     page = request.args.get('page', 1, type=int)
-    limit = request.args.get('limit', 10, type=int)
+    limit = request.args.get('limit', 25, type=int)
+    if limit >= 1000:
+        return app.response_class(
+            response=json.dumps({
+                'i18n': 'pagination.limit.invalid'
+            }),
+            status=403,
+            mimetype='application/json'
+        )
 
     favorite_hikes = db.session.query(Hike).join(User.user_hike).join(User).filter(User.id == current_user.id)
     totalItems = favorite_hikes.count()
@@ -102,6 +110,32 @@ def delete_favorite_hike(hike_id):
         response=json.dumps({
             'i18n': 'hike.favorite.deleted'
         }),
+        status=200,
+        mimetype='application/json'
+    )
+
+@app.route("/api/hikes", methods=['GET'])
+def get_hikes():
+    page = request.args.get('page', 1, type=int)
+    limit = request.args.get('limit', 25, type=int)
+    if limit >= 1000:
+        return app.response_class(
+            response=json.dumps({
+                'i18n': 'pagination.limit.invalid'
+            }),
+            status=403,
+            mimetype='application/json'
+        )
+
+    hikes_query = db.session.query(Hike).order_by(Hike.createdAt)
+    totalItems = hikes_query.count()
+    hikes = hikes_query.offset((page - 1) * limit).limit(limit).all()
+    hikes = [hike.serialize() for hike in hikes]
+
+    paginator = PaginatorDTO(hikes, totalItems, limit, page)
+
+    return app.response_class(
+        response=json.dumps(paginator.serialize()),
         status=200,
         mimetype='application/json'
     )
