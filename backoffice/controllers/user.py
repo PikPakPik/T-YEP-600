@@ -5,7 +5,7 @@ from flask import json, request
 from flask_login import login_required, current_user
 from flask_bcrypt import generate_password_hash, check_password_hash
 
-@app.route("/api/user", methods = ['GET', 'PUT'])
+@app.route("/api/user", methods = ['GET'])
 @login_required
 def user():
     if request.method == 'PUT':
@@ -26,6 +26,34 @@ def user():
         current_user.lastname = form.lastname.data
         current_user.email = form.email.data
         db.session.commit()
+
+    response = app.response_class(
+        response=json.dumps(current_user.serialize()),
+        status=200,
+        mimetype='application/json'
+    )
+    return response
+
+@app.route("/api/user", methods = ['PUT'])
+@login_required
+def update():
+    form = UserDataForm(request.form)
+
+    if form.validate() is False:
+        response = app.response_class(
+            response=json.dumps({
+                'i18n': 'user.invalid.credentials',
+                'errors': form.errors
+            }),
+            status=400,
+            mimetype='application/json'
+        )
+        return response
+        
+    current_user.firstname = form.firstname.data
+    current_user.lastname = form.lastname.data
+    current_user.email = form.email.data
+    db.session.commit()
 
     response = app.response_class(
         response=json.dumps(current_user.serialize()),

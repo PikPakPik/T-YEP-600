@@ -28,6 +28,15 @@ def login():
     response_json = json.loads(response_data)
     return response_json.get('token')
 
+@pytest.mark.depends(depends=['login'])
+def test_hike_get_user_favorite(login):
+    client = app.test_client()
+    headers = {
+        'Authorization': f'Bearer {login}'
+    }
+    response = client.get(f'/api/hike/favorites', headers=headers)
+    assert response.status_code == 200
+
 def test_hike_add_user_favorite_without_user_token():
     client = app.test_client()
     response = client.post('/api/hike/99999999999999999999999999/favorite')

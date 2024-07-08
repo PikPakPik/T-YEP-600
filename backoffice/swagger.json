@@ -374,6 +374,50 @@
                 ]
             }
         },
+        "/api/hike/favorites": {
+            "get": {
+                "tags": ["Hike"],
+                "summary": "Get user favorite hikes",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Select the number of hikes to return",
+                        "required": false,
+                        "type": "integer",
+                        "default": 10
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Select the page of hikes to return",
+                        "required": false,
+                        "type": "integer",
+                        "default": 0
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/PaginateResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUnauthorizedResponse"
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/hike/{id}/favorite": {
             "post": {
                 "tags": ["Hike"],
@@ -471,7 +515,8 @@
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "format": "number"
                 },
                 "firstname": {
                     "type": "string"
@@ -493,6 +538,38 @@
                 "updatedAt": {
                     "type": "string",
                     "format": "date-time"
+                }
+            }
+        },
+        "PaginateResponse": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "object",
+                    "format": "number",
+                    "example": "{...}"
+                },
+                "currentPage": {
+                    "type": "integer",
+                    "format": "number"
+                },
+                "nextPage": {
+                    "type": "integer",
+                    "format": "number",
+                    "nullable": true
+                },
+                "previousPage": {
+                    "type": "integer",
+                    "format": "number",
+                    "nullable": true
+                },
+                "totalPages": {
+                    "type": "integer",
+                    "format": "number",
+                },
+                "totalItems": {
+                    "type": "integer",
+                    "format": "number"
                 }
             }
         }

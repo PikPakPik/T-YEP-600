@@ -1,8 +1,28 @@
 from app import app, db
+from dtos.paginator import PaginatorDTO
 from models.Hike import Hike
 from models.User import User
-from flask import json
+from flask import json, request
 from flask_login import login_required, current_user
+
+@app.route("/api/hike/favorites", methods = ['GET'])
+@login_required
+def get_favorite_hike():
+    page = request.args.get('page', 1, type=int)
+    limit = request.args.get('limit', 10, type=int)
+
+    favorite_hikes = db.session.query(Hike).join(User.user_hike).join(User).filter(User.id == current_user.id)
+    totalItems = favorite_hikes.count()
+    hikes = favorite_hikes.offset((page - 1) * limit).limit(limit).all()
+    hikes = [hike.serializeFavorite() for hike in hikes]
+
+    paginator = PaginatorDTO(hikes, totalItems, limit, page)
+
+    return app.response_class(
+        response=json.dumps(paginator.serialize()),
+        status=200,
+        mimetype='application/json'
+    )
 
 @app.route("/api/hike/<int:hike_id>/favorite", methods = ['POST'])
 @login_required
