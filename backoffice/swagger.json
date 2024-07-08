@@ -565,7 +565,7 @@
                 },
                 "totalPages": {
                     "type": "integer",
-                    "format": "number",
+                    "format": "number"
                 },
                 "totalItems": {
                     "type": "integer",
