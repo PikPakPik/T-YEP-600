@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_cors import CORS
 
 app = Flask(__name__)
 
@@ -20,3 +21,4 @@ import services.authorization
 
 db.init_app(app)
 login_manager.init_app(app)
+cors = CORS(app, resources={r"/*": {"origins": "*", "allow_headers": ["Content-Type", "Authorization"]}})
