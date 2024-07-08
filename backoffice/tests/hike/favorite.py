@@ -6,12 +6,15 @@ import pytest
 @pytest.fixture(scope='session')
 def createHike(pytestconfig):
     with app.app_context():
-        hike = Hike(osmId=0, name='Test Hike')
-        db.session.add(hike)
+        hikes = []
+        for i in range(50):
+            hike = Hike(osmId=i, name=f'Test Hike {i}')
+            db.session.add(hike)
+            hikes.append(hike)
         db.session.commit()
-        pytestconfig.cache.set("current_hike", hike.id)
-        return hike.id
-    
+        pytestconfig.cache.set("current_hike", hikes[0].id)
+        return hikes[0].id 
+
 @pytest.fixture()
 def currentHike(pytestconfig):
     return pytestconfig.cache.get("current_hike", None)
@@ -28,14 +31,31 @@ def login():
     response_json = json.loads(response_data)
     return response_json.get('token')
 
+def test_hike_get_user_favorite_without_token():
+    client = app.test_client()
+    response = client.get('/api/hike/favorites')
+    assert response.status_code == 401
+
 @pytest.mark.depends(depends=['login'])
 def test_hike_get_user_favorite(login):
     client = app.test_client()
     headers = {
         'Authorization': f'Bearer {login}'
     }
-    response = client.get(f'/api/hike/favorites', headers=headers)
+    response = client.get('/api/hike/favorites', headers=headers)
     assert response.status_code == 200
+
+@pytest.mark.depends(depends=['login'])
+def test_hike_get_user_favorite_with_exceed_limit(login):
+    client = app.test_client()
+    headers = {
+        'Authorization': f'Bearer {login}'
+    }
+    response = client.get('/api/hike/favorites?limit=1001', headers=headers)
+    response_data = response.data.decode('utf-8')
+    response_json = json.loads(response_data)
+    assert response_json.get('i18n') == 'pagination.limit.invalid'
+    assert response.status_code == 403
 
 def test_hike_add_user_favorite_without_user_token():
     client = app.test_client()
@@ -119,3 +139,19 @@ def test_hike_delete_user_favorite_already_deleted(login, currentHike):
     response_json = json.loads(response_data)
     assert response_json.get('i18n') == 'hike.favorite.does_not_exist'
     assert response.status_code == 400
+
+def test_get_hikes_default():
+    client = app.test_client()
+    response = client.get('/api/hikes')
+    assert response.status_code == 200
+    response_data = response.data.decode('utf-8')
+    response_json = json.loads(response_data)
+    assert len(response_json.get('items')) == 25
+
+def test_get_hikes_limit_exceed():
+    client = app.test_client()
+    response = client.get('/api/hikes?limit=1001')
+    response_data = response.data.decode('utf-8')
+    response_json = json.loads(response_data)
+    assert response_json.get('i18n') == 'pagination.limit.invalid'
+    assert response.status_code == 403

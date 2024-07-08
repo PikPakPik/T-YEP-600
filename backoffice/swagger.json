@@ -374,6 +374,57 @@
                 ]
             }
         },
+        "/api/hike": {
+            "get": {
+                "tags": ["Hike"],
+                "summary": "Get hikes",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Select the number of hikes to return",
+                        "required": false,
+                        "type": "integer",
+                        "default": 10
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Select the page of hikes to return",
+                        "required": false,
+                        "type": "integer",
+                        "default": 0
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/PaginateResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "pagination.limit.invalid"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/hike/favorites": {
             "get": {
                 "tags": ["Hike"],
@@ -408,6 +459,18 @@
                         "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/ApiUnauthorizedResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "pagination.limit.invalid"
+                                }
+                            }
                         }
                     }
                 },
