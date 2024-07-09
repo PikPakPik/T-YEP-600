@@ -8,6 +8,10 @@ class Hike(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     osmId = db.Column('osm_id', db.BigInteger, nullable=False)
     name = db.Column(db.String(255), nullable=True)
+    firstNodeLat = db.Column('first_node_lat', db.String(255), nullable=False)
+    firstNodeLon = db.Column('first_node_lon', db.String(255), nullable=False)
+    lastNodeLat = db.Column('last_node_lat', db.String(255), nullable=False)
+    lastNodeLon = db.Column('last_node_lon', db.String(255), nullable=False)
     difficulty = db.Column(db.Integer, default=None)
     hikingTime = db.Column('hinking_time', db.Integer, default=None)
     imgName = db.Column('image', db.String(255), default=None)
@@ -20,6 +24,10 @@ class Hike(db.Model):
             'id': self.id,
             'osmId': self.osmId,
             'name': self.name,
+            'firstNodeLat': self.firstNodeLat,
+            'firstNodeLon': self.firstNodeLon,
+            'lastNodeLat': self.lastNodeLat,
+            'lastNodeLon': self.lastNodeLon,
             'difficulty': self.difficulty,
             'hikingTime': self.hikingTime,
             'imgName': self.imgName,
@@ -31,5 +39,5 @@ class Hike(db.Model):
         return {
             'id': self.id,
             'osmId': self.osmId,
-            'name': self.name
+            'name': self.name,
         }

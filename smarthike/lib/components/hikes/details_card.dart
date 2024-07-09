@@ -7,79 +7,86 @@ import 'package:smarthike/models/hike.dart';
 
 class DetailsCard extends StatelessWidget {
   final Hike hike;
+  final bool showStats;
 
-  const DetailsCard({super.key, required this.hike});
+  const DetailsCard({super.key, required this.hike, this.showStats = true});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Hike title
-        Text(
-          hike.name,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+    return Container(
+      color: Colors.white,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Hike title
+          Text(
+            hike.name,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        const SizedBox(height: 5),
-        // Hike details
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // First column (left)
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // First row: distance
-                  _buildDetailRow(
-                    Icons.earbuds,
-                    LocaleKeys.hike_details_distance.tr(),
-                    '${hike.distance} km',
+          const SizedBox(height: 5),
+          // Hike details
+          if (showStats)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // First column (left)
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // First row: distance
+                      _buildDetailRow(
+                        Icons.earbuds,
+                        LocaleKeys.hike_details_distance.tr(),
+                        '${hike.distance}km',
+                      ),
+                      // Second row : Max altitude
+                      _buildDetailRow(
+                        Icons.arrow_circle_up,
+                        LocaleKeys.hike_details_max_altitude.tr(),
+                        '${hike.maxAlt}m',
+                      ),
+                      // Third row: hiking time
+                      _buildDetailRow(
+                        Icons.timer_outlined,
+                        LocaleKeys.hike_details_hiking_time.tr(),
+                        '${hike.hikingTime}h',
+                      ),
+                    ],
                   ),
-                  // Second row : Max altitude
-                  _buildDetailRow(
-                    Icons.arrow_circle_up,
-                    LocaleKeys.hike_details_max_altitude.tr(),
-                    '${hike.maxAlt} m',
+                ),
+                // Second column (right)
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // First row : Height difference
+                      _buildDetailRow(
+                        _getHeightDifferenceIcon(hike.heightDiff),
+                        LocaleKeys.hike_details_height_diff.tr(),
+                        _formatHeightDifference(hike.heightDiff),
+                      ),
+                      // Second rox: Min altitude
+                      _buildDetailRow(
+                        Icons.arrow_circle_down,
+                        LocaleKeys.hike_details_min_altitude.tr(),
+                        '${hike.minAlt}m',
+                      ),
+                      Row(
+                        children: [
+                          Difficulty(difficulty: hike.difficulty),
+                        ],
+                      ),
+                    ],
                   ),
-                  // Third row: hiking time
-                  _buildDetailRow(
-                    Icons.timer_outlined,
-                    LocaleKeys.hike_details_hiking_time.tr(),
-                    '${hike.hikingTime} h',
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            // Second column (right)
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // First row : Height difference
-                  _buildDetailRow(
-                    _getHeightDifferenceIcon(hike.heightDiff),
-                    LocaleKeys.hike_details_height_diff.tr(),
-                    _formatHeightDifference(hike.heightDiff),
-                  ),
-                  // Second rox: Min altitude
-                  _buildDetailRow(
-                    Icons.arrow_circle_down,
-                    LocaleKeys.hike_details_min_altitude.tr(),
-                    '${hike.minAlt} m',
-                  ),
-                  const SizedBox(height: 10),
-                  // Third row : difficulty
-                  Difficulty(difficulty: hike.difficulty),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -24,8 +24,6 @@ services:
       - db_data:/var/lib/mysql
     ports:
       - "3306:3306"
-    depends_on:
-      - python
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -48,8 +46,6 @@ services:
       - ./backoffice/swagger.json:/openapi.json
     environment:
       SWAGGER_JSON: /openapi.json
-    depends_on:
-      - python
 
   mailer:
     image: axllent/mailpit

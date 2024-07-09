@@ -8,6 +8,8 @@
 		<string>fr</string>
 		<string>es</string>
 	</array>
+	<key>com.apple.security.network.client</key>
+	<true/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>

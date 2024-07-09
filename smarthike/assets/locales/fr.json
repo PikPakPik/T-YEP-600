@@ -6,7 +6,8 @@
       "level_3": "Randonneur en montagne",
       "level_4": "Gourou de la randonnée",
       "level_5": "Gourou de la montagne"
-    }
+    },
+    "fav_hikes": "Randonnées favoris"
   },
   "profile": {
     "title": "Profil"

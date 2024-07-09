@@ -1,18 +1,16 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:smarthike/pages/map_page.dart';
-
-import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:provider/provider.dart';
+import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/pages/auth/login_page.dart';
 import 'package:smarthike/pages/auth/register_page.dart';
+import 'package:smarthike/pages/map_page.dart';
 import 'package:smarthike/pages/profile_page.dart';
 import 'package:smarthike/pages/settings/language_page.dart';
 import 'package:smarthike/pages/settings/security_page.dart';
@@ -36,13 +34,26 @@ Future<void> main() async {
     lang = 'en';
   }
 
+  final apiService = ApiService(token: ''); // Initial token can be empty
+
   runApp(
-    EasyLocalization(
-      supportedLocales: const [Locale('en'), Locale('fr'), Locale('es')],
-      path: 'assets/locales',
-      fallbackLocale: const Locale('en'),
-      startLocale: Locale(lang),
-      child: const SmartHikeApp(),
+    MultiProvider(
+      providers: [
+        Provider<ApiService>(create: (_) => apiService),
+        Provider<AuthService>(
+          create: (context) => AuthService(
+            apiService: apiService,
+            sharedPreferencesUtil: sharedPreferencesUtil,
+          ),
+        ),
+      ],
+      child: EasyLocalization(
+        supportedLocales: const [Locale('en'), Locale('fr'), Locale('es')],
+        path: 'assets/locales',
+        fallbackLocale: const Locale('en'),
+        startLocale: Locale(lang),
+        child: const SmartHikeApp(),
+      ),
     ),
   );
 }
@@ -92,34 +103,13 @@ class SmartHikeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final easyLocalization = EasyLocalization.of(context);
+    final apiService = Provider.of<ApiService>(context);
     if (easyLocalization == null) {
       return const SizedBox.shrink();
     }
 
-    final apiUrl = Platform.isAndroid
-        ? dotenv.env['API_URL_ANDROID']!
-        : dotenv.env['API_URL_OTHER']!;
+    final authService = Provider.of<AuthService>(context);
 
-    final dio = Dio(BaseOptions(
-      baseUrl: "$apiUrl/api",
-      headers: {
-        HttpHeaders.userAgentHeader: 'dio',
-        'common-header': 'xx',
-        'Content-Type': 'application/json',
-      },
-    ));
-    dio.interceptors.add(PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-        compact: true,
-        maxWidth: 90));
-
-    final sharedPreferencesUtil = SharedPreferencesUtil.instance;
-    final authService =
-        AuthService(dio: dio, sharedPreferencesUtil: sharedPreferencesUtil);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -138,7 +128,7 @@ class SmartHikeApp extends StatelessWidget {
             primaryTextTheme:
                 GoogleFonts.rubikTextTheme(Theme.of(context).primaryTextTheme),
           ),
-          home: NavigationBarApp(key: navBarKey),
+          home: NavigationBarApp(key: navBarKey, apiService: apiService),
         ),
       ),
     );
@@ -146,7 +136,9 @@ class SmartHikeApp extends StatelessWidget {
 }
 
 class NavigationBarApp extends StatefulWidget {
-  const NavigationBarApp({super.key});
+  const NavigationBarApp({super.key, required this.apiService});
+
+  final ApiService apiService;
 
   @override
   State<NavigationBarApp> createState() => _NavigationExampleState();

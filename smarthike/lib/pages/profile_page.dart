@@ -1,19 +1,54 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/components/button.dart';
+import 'package:smarthike/components/hikes/horizontal_card.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
+import 'package:smarthike/models/hike.dart';
 
 import '../providers/user_provider.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
+  const ProfilePage({
+    super.key,
+    required this.onRegisterButtonPressed,
+    required this.onSignInButtonPressed,
+  });
+
   final VoidCallback onRegisterButtonPressed;
   final VoidCallback onSignInButtonPressed;
-  const ProfilePage(
-      {super.key,
-      required this.onRegisterButtonPressed,
-      required this.onSignInButtonPressed});
+
+  @override
+  ProfilePageState createState() => ProfilePageState();
+}
+
+class ProfilePageState extends State<ProfilePage> {
+  List<Hike> favHikes = [];
+  late VoidCallback onRegisterButtonPressed;
+  late VoidCallback onSignInButtonPressed;
+  late ApiService apiService;
+
+  @override
+  void initState() {
+    super.initState();
+    onRegisterButtonPressed = widget.onRegisterButtonPressed;
+    onSignInButtonPressed = widget.onSignInButtonPressed;
+    apiService = Provider.of<ApiService>(context, listen: false);
+    getFavHikes();
+  }
+
+  Future<void> getFavHikes() async {
+    final response = await apiService.get('/hike/favorites');
+    final data = response;
+
+    setState(() {
+      favHikes = (data["items"] as List)
+          .map((item) => Hike.fromFavJSON(item))
+          .toList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +71,7 @@ class ProfilePage extends StatelessWidget {
                             maxWidth: 350,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Colors.white.withOpacity(0.7),
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.black.withOpacity(0.1),
@@ -48,7 +83,6 @@ class ProfilePage extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              const SizedBox(height: 40),
                               Card(
                                 color: Constants.secondaryColor,
                                 shape: RoundedRectangleBorder(
@@ -204,6 +238,29 @@ class ProfilePage extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 20),
+                              Text(
+                                LocaleKeys.user_fav_hikes.tr(),
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Expanded(
+                                child: PageView.builder(
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10, horizontal: 10),
+                                      child: HorizontalCard(
+                                          hike: favHikes[index],
+                                          showStats: false),
+                                    );
+                                  },
+                                  itemCount: favHikes.length,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
                               SizedBox(
                                 width: double.infinity,
                                 child: CustomButton(
@@ -245,33 +302,12 @@ class LoginOrSignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // const List<String> scopes = <String>['email', 'profile', 'openid'];
-
-    // ignore: prefer_typing_uninitialized_variables
-    // var googleSignIn;
-
-    // if (Platform.isIOS) {
-    //   googleSignIn = GoogleSignIn(
-    //     clientId:
-    //         '288979728581-7p67fe3pupk83b5rr5nsdcpo9qvfp4o4.apps.googleusercontent.com',
-    //     scopes: scopes,
-    //   );
-    // }
-
-    // Future<void> handleSignIn() async {
-    //   try {
-    //     await googleSignIn.signIn();
-    //   } catch (error) {
-    //     // print(error);
-    //   }
-    // }
-
     return Center(
       child: Container(
         width: 350,
         height: 600,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.white.withOpacity(0.7),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.1),
@@ -311,11 +347,6 @@ class LoginOrSignupPage extends StatelessWidget {
                 onPressed: onRegisterButtonPressed,
               ),
             ),
-            // CustomButton(
-            //   text: 'Se connecter avec Google',
-            //   backgroundColor: Colors.transparent,
-            //   onPressed: handleSignIn,
-            // ),
           ],
         ),
       ),

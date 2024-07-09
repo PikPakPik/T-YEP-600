@@ -8,7 +8,14 @@ def createHike(pytestconfig):
     with app.app_context():
         hikes = []
         for i in range(50):
-            hike = Hike(osmId=i, name=f'Test Hike {i}')
+            hike = Hike(
+                osmId=i, 
+                name=f'Test Hike {i}',
+                firstNodeLat=0.0,
+                firstNodeLon=0.0,
+                lastNodeLat=0.0,
+                lastNodeLon=0.0,
+            )
             db.session.add(hike)
             hikes.append(hike)
         db.session.commit()
@@ -17,7 +24,10 @@ def createHike(pytestconfig):
 
 @pytest.fixture()
 def currentHike(pytestconfig):
-    return pytestconfig.cache.get("current_hike", None)
+    hike_id = pytestconfig.cache.get("current_hike", None)
+    if hike_id is None:
+        pytest.skip("currentHike not set")
+    return hike_id
 
 @pytest.fixture(scope='session')
 def login():

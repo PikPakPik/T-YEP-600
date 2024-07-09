@@ -1,15 +1,14 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
+import 'package:smarthike/api/smarthike_api.dart';
 
 import '../models/user.dart';
 import '../utils/shared_preferences_util.dart';
 
 class AuthService {
-  final Dio dio;
+  final ApiService apiService;
   final SharedPreferencesUtil sharedPreferencesUtil;
 
-  AuthService({required this.dio, required this.sharedPreferencesUtil});
+  AuthService({required this.apiService, required this.sharedPreferencesUtil});
 
   Future<User?> login(String email, String password) async {
     try {
@@ -17,13 +16,12 @@ class AuthService {
         'email': email,
         'password': password,
       });
-      final response = await dio.post('/login', data: formData);
-      if (response.statusCode == 200) {
-        final token = response.data['token'];
-        await SharedPreferencesUtil.instance.setString('token', token);
 
-        return await getUserData(token);
-      }
+      final response = await apiService.post('/login', formData);
+      final token = response['token'];
+      await apiService.updateToken(token);
+
+      return await getUserData(token);
     } on DioException catch (e) {
       if (e.response != null) {
         throw Exception(e.response?.data['i18n']);
@@ -32,7 +30,6 @@ class AuthService {
             requestOptions: e.requestOptions, reason: "Internal server error");
       }
     }
-    return null;
   }
 
   Future<User?> register(
@@ -44,12 +41,12 @@ class AuthService {
         'email': email,
         'password': password
       });
-      final response = await dio.post('/register', data: formData);
-      if (response.statusCode == 200) {
-        final token = response.data['token'];
-        await SharedPreferencesUtil.instance.setString('token', token);
-        return await getUserData(token);
-      }
+
+      final response = await apiService.post('/register', formData);
+      final token = response['token'];
+      await apiService.updateToken(token);
+
+      return await getUserData(token);
     } on DioException catch (e) {
       if (e.response != null) {
         throw Exception(e.response?.data['i18n']);
@@ -58,17 +55,10 @@ class AuthService {
             requestOptions: e.requestOptions, reason: "Internal server error");
       }
     }
-    return null;
   }
 
   Future<void> deleteUser() async {
-    final token = await SharedPreferencesUtil.instance.getString('token');
-    await dio.delete('/user',
-        options: Options(
-          headers: {
-            HttpHeaders.authorizationHeader: 'Bearer $token',
-          },
-        ));
+    await apiService.delete('/user');
   }
 
   Future<User?> logout() async {
@@ -78,19 +68,11 @@ class AuthService {
 
   Future<User?> getUserData(String token) async {
     try {
-      final response = await dio.get('/user',
-          options: Options(
-            headers: {
-              HttpHeaders.authorizationHeader: 'Bearer $token',
-            },
-          ));
-      if (response.statusCode == 200) {
-        return User.fromJson(response.data);
-      }
+      final response = await apiService.get('/user');
+      return User.fromJson(response);
     } catch (e) {
       await SharedPreferencesUtil.instance.setString('token', '');
       throw Exception(e);
     }
-    return null;
   }
 }

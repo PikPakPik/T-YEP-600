@@ -7,6 +7,7 @@ import 'package:smarthike/components/button.dart';
 import 'package:smarthike/components/dropdown.dart';
 import 'package:smarthike/components/input.dart';
 import 'package:smarthike/constants.dart';
+import 'package:smarthike/main.dart';
 import 'package:smarthike/providers/user_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
@@ -227,7 +228,10 @@ class RegisterFormState extends State<RegisterForm> {
                           _emailRegisterController.text,
                           _passwordRegisterController.text,
                         );
-                        if (context.mounted) Navigator.of(context).pop();
+                        if (context.mounted) {
+                          SmartHikeApp.navBarKey.currentState
+                              ?.navigateToSpecificPage(2);
+                        }
                       } catch (e) {
                         if (e is Exception) {
                           Fluttertoast.showToast(
