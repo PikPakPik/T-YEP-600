@@ -77,6 +77,20 @@ services:
         - 'http://localhost:9000/minio/health/live'
       retries: 3
       timeout: 5s
+  
+  minio-init:
+    image: quay.io/minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 minio password;
+      /usr/bin/mc admin config set myminio/ region name=fr-par;
+      /usr/bin/mc admin service restart myminio/;
+      /usr/bin/mc mb myminio/smarthike;
+      /usr/bin/mc anonymous set public myminio/smarthike; 
+      exit 0;
+      "
 
 volumes:
   db_data: {}

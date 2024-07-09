@@ -5,8 +5,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
 
-import 'package:dio/dio.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:smarthike/api/smarthike_api.dart' as _i2;
 import 'package:smarthike/models/user.dart' as _i6;
 import 'package:smarthike/services/auth_service.dart' as _i4;
 import 'package:smarthike/utils/shared_preferences_util.dart' as _i3;
@@ -24,8 +24,8 @@ import 'package:smarthike/utils/shared_preferences_util.dart' as _i3;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
-class _FakeDio_0 extends _i1.SmartFake implements _i2.Dio {
-  _FakeDio_0(
+class _FakeApiService_0 extends _i1.SmartFake implements _i2.ApiService {
+  _FakeApiService_0(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -54,13 +54,13 @@ class MockAuthService extends _i1.Mock implements _i4.AuthService {
   }
 
   @override
-  _i2.Dio get dio => (super.noSuchMethod(
-        Invocation.getter(#dio),
-        returnValue: _FakeDio_0(
+  _i2.ApiService get apiService => (super.noSuchMethod(
+        Invocation.getter(#apiService),
+        returnValue: _FakeApiService_0(
           this,
-          Invocation.getter(#dio),
+          Invocation.getter(#apiService),
         ),
-      ) as _i2.Dio);
+      ) as _i2.ApiService);
 
   @override
   _i3.SharedPreferencesUtil get sharedPreferencesUtil => (super.noSuchMethod(

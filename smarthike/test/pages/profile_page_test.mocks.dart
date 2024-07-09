@@ -6,8 +6,10 @@
 import 'dart:async' as _i5;
 import 'dart:ui' as _i7;
 
+import 'package:dio/dio.dart' as _i9;
 import 'package:logger/web.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:smarthike/api/smarthike_api.dart' as _i8;
 import 'package:smarthike/models/user.dart' as _i6;
 import 'package:smarthike/providers/user_provider.dart' as _i4;
 import 'package:smarthike/services/auth_service.dart' as _i2;
@@ -199,4 +201,64 @@ class MockUserProvider extends _i1.Mock implements _i4.UserProvider {
         ),
         returnValueForMissingStub: null,
       );
+}
+
+/// A class which mocks [ApiService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockApiService extends _i1.Mock implements _i8.ApiService {
+  MockApiService() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<void> updateToken(String? newToken) => (super.noSuchMethod(
+        Invocation.method(
+          #updateToken,
+          [newToken],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<dynamic> get(String? path) => (super.noSuchMethod(
+        Invocation.method(
+          #get,
+          [path],
+        ),
+        returnValue: _i5.Future<dynamic>.value(),
+      ) as _i5.Future<dynamic>);
+
+  @override
+  _i5.Future<dynamic> post(
+    String? path,
+    dynamic data,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #post,
+          [
+            path,
+            data,
+          ],
+        ),
+        returnValue: _i5.Future<dynamic>.value(),
+      ) as _i5.Future<dynamic>);
+
+  @override
+  _i5.Future<dynamic> delete(String? path) => (super.noSuchMethod(
+        Invocation.method(
+          #delete,
+          [path],
+        ),
+        returnValue: _i5.Future<dynamic>.value(),
+      ) as _i5.Future<dynamic>);
+
+  @override
+  dynamic returnResponse(_i9.Response<dynamic>? response) =>
+      super.noSuchMethod(Invocation.method(
+        #returnResponse,
+        [response],
+      ));
 }

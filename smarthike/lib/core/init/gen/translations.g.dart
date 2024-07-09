@@ -8,6 +8,7 @@ abstract class  LocaleKeys {
   static const user_title_level_4 = 'user.title.level_4';
   static const user_title_level_5 = 'user.title.level_5';
   static const user_title = 'user.title';
+  static const user_fav_hikes = 'user.fav_hikes';
   static const user = 'user';
   static const profile_title = 'profile.title';
   static const profile = 'profile';

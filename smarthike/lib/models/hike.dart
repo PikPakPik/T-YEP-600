@@ -14,13 +14,13 @@ class Hike {
 
   Hike(
       {required this.name,
-      required this.distance,
-      required this.heightDiff,
-      required this.maxAlt,
-      required this.minAlt,
-      required this.difficulty,
-      required this.hikingTime,
-      required this.imageUrl});
+      this.distance = 0,
+      this.heightDiff = 0,
+      this.maxAlt = 0,
+      this.minAlt = 0,
+      this.difficulty = 0,
+      this.hikingTime = 0,
+      this.imageUrl = ""});
 
   factory Hike.fromJson(Map<String, dynamic> json) {
     Logger logger = Logger();
@@ -34,6 +34,19 @@ class Hike {
         difficulty: json['difficulty'] as int,
         hikingTime: json['hikingTime'] as int,
         imageUrl: json['imageUrl'] as String,
+      );
+      return hike;
+    } catch (e) {
+      logger.e("Erreur lors de la création de la randonnée: $e");
+      rethrow;
+    }
+  }
+
+  factory Hike.fromFavJSON(Map<String, dynamic> json) {
+    Logger logger = Logger();
+    try {
+      Hike hike = Hike(
+        name: json['name'] as String,
       );
       return hike;
     } catch (e) {

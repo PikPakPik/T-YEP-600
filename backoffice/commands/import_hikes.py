@@ -22,7 +22,11 @@ def importHikes(filename=None):
         for index, row in df.iterrows():
             new_hike = Hike(
                 osmId = int(row['osm_id']),
-                name = row['name'] if row['name'] is not None else f"Hike {index}"
+                name = row['name'] if row['name'] is not None else f"Hike {index}",
+                firstNodeLat = str(row['first_node_lat']),
+                firstNodeLon = str(row['first_node_lon']),
+                lastNodeLat = str(row['last_node_lat']),
+                lastNodeLon = str(row['last_node_lon'])
             )
             db.session.add(new_hike)
             

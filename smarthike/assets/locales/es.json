@@ -6,7 +6,8 @@
       "level_3": "Senderista avanzado",
       "level_4": "Gurú del senderismo",
       "level_5": "Gurú de la montaña"
-    }
+    },
+    "fav_hikes": "Senderos favoritos"
   },
   "profile": {
     "title": "Perfil"
