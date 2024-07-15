@@ -29,25 +29,30 @@ class ProfilePageState extends State<ProfilePage> {
   late VoidCallback onRegisterButtonPressed;
   late VoidCallback onSignInButtonPressed;
   late ApiService apiService;
-
+  late UserProvider userProvider;
   @override
   void initState() {
     super.initState();
     onRegisterButtonPressed = widget.onRegisterButtonPressed;
     onSignInButtonPressed = widget.onSignInButtonPressed;
     apiService = Provider.of<ApiService>(context, listen: false);
-    getFavHikes();
+    userProvider = Provider.of<UserProvider>(context, listen: false);
+    if (userProvider.user != null) {
+      getFavHikes();
+    }
   }
 
   Future<void> getFavHikes() async {
-    final response = await apiService.get('/hike/favorites');
-    final data = response;
+    if (userProvider.user != null) {
+      final response = await apiService.get('/hike/favorites');
+      final data = response;
 
-    setState(() {
-      favHikes = (data["items"] as List)
-          .map((item) => Hike.fromFavJSON(item))
-          .toList();
-    });
+      setState(() {
+        favHikes = (data["items"] as List)
+            .map((item) => Hike.fromFavJSON(item))
+            .toList();
+      });
+    }
   }
 
   @override

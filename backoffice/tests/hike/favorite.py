@@ -65,7 +65,7 @@ def test_hike_get_user_favorite_with_exceed_limit(login):
     response_data = response.data.decode('utf-8')
     response_json = json.loads(response_data)
     assert response_json.get('i18n') == 'pagination.limit.invalid'
-    assert response.status_code == 403
+    assert response.status_code == 400
 
 def test_hike_add_user_favorite_without_user_token():
     client = app.test_client()
@@ -164,4 +164,4 @@ def test_get_hikes_limit_exceed():
     response_data = response.data.decode('utf-8')
     response_json = json.loads(response_data)
     assert response_json.get('i18n') == 'pagination.limit.invalid'
-    assert response.status_code == 403
+    assert response.status_code == 400

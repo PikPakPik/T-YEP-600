@@ -13,7 +13,7 @@ class Hike(db.Model):
     lastNodeLat = db.Column('last_node_lat', db.String(255), nullable=False)
     lastNodeLon = db.Column('last_node_lon', db.String(255), nullable=False)
     difficulty = db.Column(db.Integer, default=None)
-    hikingTime = db.Column('hinking_time', db.Integer, default=None)
+    hikingTime = db.Column('hiking_time', db.Integer, default=None)
     imgName = db.Column('image', db.String(255), default=None)
     createdAt = db.Column('created_at', db.DateTime, nullable=False, default=datetime.datetime.now)
     updatedAt = db.Column('updated_at', db.DateTime, nullable=True, onupdate=datetime.datetime.now)
