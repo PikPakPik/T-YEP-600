@@ -103,14 +103,16 @@
       "distance": "Distance",
       "max_altitude": "Max altitude",
       "min_altitude": "Min altitude",
-      "height_diff":"Dénivelé",
+      "elevation_gain":"Dénivelé",
       "hiking_time": "Tps de rando",
-      "difficulty":{
+      "difficulty": "Difficulté",
+      "difficulty_steps": {
         "easy": "Facile",
         "medium": "Moyen",
-        "difficult": "Difficile",
-        "unknown": "Inconnu"
-      }
-    }
+        "difficult": "Difficile"
+      },
+    "unknown": "Inconnu"
+    },
+    "see_hikes": "Voir toutes les randonnées"
   }
 }

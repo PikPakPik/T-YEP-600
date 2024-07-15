@@ -1,14 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/models/hike_api.dart';
-
-import '../utils/shared_preferences_util.dart';
+import 'package:smarthike/models/paginated_hike.dart';
 
 class HikeService {
   final ApiService apiService;
-  final SharedPreferencesUtil sharedPreferencesUtil;
 
-  HikeService({required this.apiService, required this.sharedPreferencesUtil});
+  HikeService({required this.apiService});
+
+Future<PaginatedHike?> getListHikes(int page) async {
+    try {
+      final response = await apiService.get('/hikes?page=$page&limit=25');
+      return PaginatedHike.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 
   Future<List<HikeApi>> getAllHikes() async {
     List<dynamic> items = [];

@@ -103,14 +103,16 @@
       "distance": "Distancia",
       "max_altitude": "Altitud máxima",
       "min_altitude": "Altitud mínima",
-      "height_diff": "Desnivel",
+      "elevation_gain": "Desnivel",
       "hiking_time": "Tpo de exc",
-      "difficulty": {
+      "difficulty": "Dificultad",
+      "difficulty_steps": {
         "easy": "Fácil",
         "medium": "Medio",
-        "difficult": "Difícil",
-        "unknown": "Desconocido"
-      }
-    }
+        "difficult": "Difícil"
+      },
+    "unknown": "Desconocido"
+    },
+    "see_hikes": "Ver todas las caminatas"
   }
 }

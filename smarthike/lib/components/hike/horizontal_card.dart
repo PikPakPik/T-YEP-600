@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smarthike/components/hikes/details_card.dart';
+import 'package:smarthike/components/hike/details_card.dart';
 import 'package:smarthike/models/hike.dart';
 
 class HorizontalCard extends StatelessWidget {

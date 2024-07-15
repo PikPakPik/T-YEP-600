@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
 
 class Difficulty extends StatelessWidget {
-  final int difficulty;
+  final int? difficulty;
 
   const Difficulty({
     super.key,
-    required this.difficulty,
+    this.difficulty,
   });
 
   @override
@@ -19,22 +19,22 @@ class Difficulty extends StatelessWidget {
     switch (difficulty) {
       case 1:
         color = Colors.green;
-        text = LocaleKeys.hike_details_difficulty_easy.tr();
+        text = LocaleKeys.hike_details_difficulty_steps_easy.tr();
         icon = Icons.looks_one_outlined;
         break;
       case 2:
         color = Colors.orange;
-        text = LocaleKeys.hike_details_difficulty_medium.tr();
+        text = LocaleKeys.hike_details_difficulty_steps_medium.tr();
         icon = Icons.looks_two_outlined;
         break;
       case 3:
         color = Colors.red;
-        text = LocaleKeys.hike_details_difficulty_difficult.tr();
+        text = LocaleKeys.hike_details_difficulty_steps_difficult.tr();
         icon = Icons.looks_3_outlined;
         break;
       default:
         color = Colors.grey;
-        text = LocaleKeys.hike_details_difficulty_unknown.tr();
+        text = LocaleKeys.hike_details_unknown.tr();
         icon = Icons.help_outline;
     }
 
