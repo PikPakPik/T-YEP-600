@@ -410,8 +410,8 @@
                             "$ref": "#/definitions/ApiUnauthorizedResponse"
                         }
                     },
-                    "403": {
-                        "description": "Forbidden",
+                    "400": {
+                        "description": "Bad request",
                         "schema": {
                             "type": "object",
                             "properties": {
@@ -455,14 +455,8 @@
                             "$ref": "#/definitions/PaginateResponse"
                         }
                     },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/ApiUnauthorizedResponse"
-                        }
-                    },
-                    "403": {
-                        "description": "Forbidden",
+                    "400": {
+                        "description": "Bad request",
                         "schema": {
                             "type": "object",
                             "properties": {
@@ -471,6 +465,12 @@
                                     "example": "pagination.limit.invalid"
                                 }
                             }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUnauthorizedResponse"
                         }
                     }
                 },

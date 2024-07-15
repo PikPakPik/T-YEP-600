@@ -10,12 +10,12 @@ from flask_login import login_required, current_user
 def get_favorite_hike():
     page = request.args.get('page', 1, type=int)
     limit = request.args.get('limit', 25, type=int)
-    if limit >= 1000:
+    if limit > 1000:
         return app.response_class(
             response=json.dumps({
                 'i18n': 'pagination.limit.invalid'
             }),
-            status=403,
+            status=400,
             mimetype='application/json'
         )
 
@@ -118,12 +118,12 @@ def delete_favorite_hike(hike_id):
 def get_hikes():
     page = request.args.get('page', 1, type=int)
     limit = request.args.get('limit', 25, type=int)
-    if limit >= 1000:
+    if limit > 1000:
         return app.response_class(
             response=json.dumps({
                 'i18n': 'pagination.limit.invalid'
             }),
-            status=403,
+            status=400,
             mimetype='application/json'
         )
 

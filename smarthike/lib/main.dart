@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/pages/auth/login_page.dart';
 import 'package:smarthike/pages/auth/register_page.dart';
+import 'package:smarthike/pages/hikes/hike_list_page.dart';
 import 'package:smarthike/pages/map_page.dart';
 import 'package:smarthike/pages/profile_page.dart';
 import 'package:smarthike/pages/settings/language_page.dart';
@@ -18,6 +20,7 @@ import 'package:smarthike/pages/settings/subpages/delete_account_warning_page.da
 import 'package:smarthike/pages/settings_page.dart';
 import 'package:smarthike/providers/user_provider.dart';
 import 'package:smarthike/services/auth_service.dart';
+import 'package:smarthike/services/hike_service.dart';
 import 'package:smarthike/utils/shared_preferences_util.dart';
 
 Future<void> main() async {
@@ -34,6 +37,14 @@ Future<void> main() async {
     lang = 'en';
   }
 
+  try {
+    await FMTCObjectBoxBackend().initialise(); // The default/built-in backend
+    // ignore: unused_catch_stack
+  } catch (error, stackTrace) {
+    // See below for error/exception handling
+  }
+  await const FMTCStore('mapStore').manage.create();
+
   final apiService = ApiService(token: ''); // Initial token can be empty
 
   runApp(
@@ -42,6 +53,12 @@ Future<void> main() async {
         Provider<ApiService>(create: (_) => apiService),
         Provider<AuthService>(
           create: (context) => AuthService(
+            apiService: apiService,
+            sharedPreferencesUtil: sharedPreferencesUtil,
+          ),
+        ),
+        Provider<HikeService>(
+          create: (context) => HikeService(
             apiService: apiService,
             sharedPreferencesUtil: sharedPreferencesUtil,
           ),
@@ -231,6 +248,7 @@ class _NavigationExampleState extends State<NavigationBarApp> {
           },
         ),
         const DeleteAccountWarningPage(),
+        const HikeListPage()
       ][currentPageIndex],
     );
   }
