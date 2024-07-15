@@ -3,10 +3,12 @@ import 'package:smarthike/api/smarthike_api.dart';
 
 import '../models/user.dart';
 import '../utils/shared_preferences_util.dart';
+import 'package:logger/logger.dart';
 
 class AuthService {
   final ApiService apiService;
   final SharedPreferencesUtil sharedPreferencesUtil;
+  final Logger logger = Logger();
 
   AuthService({required this.apiService, required this.sharedPreferencesUtil});
 
@@ -73,6 +75,17 @@ class AuthService {
     } catch (e) {
       await SharedPreferencesUtil.instance.setString('token', '');
       throw Exception(e);
+    }
+  }
+
+  Future<User> updateUser(User user) async {
+    final requestData = user.toJson();
+
+    try {
+      final response = await apiService.put('/user', requestData);
+      return User.fromJson(response);
+    } catch (e) {
+      throw Exception('Failed to update user $e');
     }
   }
 }

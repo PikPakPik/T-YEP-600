@@ -40,7 +40,7 @@ void main() async {
     await tester.pumpWidget(
       makeTestableWidget(
         child: SecurityPage(
-          onDeleteAccountPressed: onDeleteAccountPressed.call,
+          onDeleteAccountPressed: onDeleteAccountPressed.call, onEditProfilePressed: () {  },
         ),
       ),
     );
@@ -61,7 +61,7 @@ void main() async {
     await tester.pumpWidget(
       makeTestableWidget(
         child: SecurityPage(
-          onDeleteAccountPressed: onDeleteAccountPressed.call,
+          onDeleteAccountPressed: onDeleteAccountPressed.call, onEditProfilePressed: () {  },
         ),
       ),
     );

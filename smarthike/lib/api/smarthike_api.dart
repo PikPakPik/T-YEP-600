@@ -86,6 +86,18 @@ class ApiService {
     return responseJson;
   }
 
+  Future<dynamic> put(String path, dynamic data) async {
+    dynamic responseJson;
+    data = FormData.fromMap(data);
+    try {
+      final response = await _dio.put(_baseURL + path, data: data);
+      responseJson = returnResponse(response);
+    } on SocketException {
+      throw Exception('No Internet connection');
+    }
+    return responseJson;
+  }
+
   dynamic returnResponse(Response response) {
     switch (response.statusCode) {
       case 200:

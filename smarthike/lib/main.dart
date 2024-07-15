@@ -14,6 +14,7 @@ import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/pages/auth/login_page.dart';
 import 'package:smarthike/pages/auth/register_page.dart';
+import 'package:smarthike/pages/edit_profile_page.dart';
 import 'package:smarthike/pages/profile_page.dart';
 import 'package:smarthike/pages/settings/language_page.dart';
 import 'package:smarthike/pages/settings/security_page.dart';
@@ -38,7 +39,7 @@ Future<void> main() async {
   if (lang != 'fr' && lang != 'es') {
     lang = 'en';
   }
-  
+
   try {
     await FMTCObjectBoxBackend().initialise(); // The default/built-in backend
     // ignore: unused_catch_stack
@@ -62,12 +63,10 @@ Future<void> main() async {
         Provider<HikeService>(
           create: (context) => HikeService(
             apiService: apiService,
-            ),
+          ),
         ),
         Provider<HikeService>(
-          create: (context) => HikeService(
-            apiService: apiService
-          ),
+          create: (context) => HikeService(apiService: apiService),
         ),
       ],
       child: EasyLocalization(
@@ -90,6 +89,7 @@ const int registerPageIndex = 5;
 const int signInPageIndex = 6;
 const int securityPageIndex = 7;
 const int deleteAccountPageIndex = 8;
+const int editProfilePageIndex = 10;
 const int hikeListPageIndex = 9;
 
 class AppInitializer extends StatefulWidget {
@@ -256,9 +256,21 @@ class _NavigationExampleState extends State<NavigationBarApp> {
           onDeleteAccountPressed: () {
             _navigateToPage(deleteAccountPageIndex);
           },
+          onEditProfilePressed: () {
+            _navigateToPage(editProfilePageIndex);
+          },
         ),
         const DeleteAccountWarningPage(),
-        const HikeListPage()
+        const HikeListPage(),
+        Consumer<UserProvider>(
+          builder: (context, userProvider, child) {
+            if (userProvider.user != null) {
+              return EditProfilePage(user: userProvider.user!);
+            } else {
+              return Container();
+            }
+          },
+        ),
       ][currentPageIndex],
     );
   }
