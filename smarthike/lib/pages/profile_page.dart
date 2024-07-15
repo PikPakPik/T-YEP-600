@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/components/button.dart';
-import 'package:smarthike/components/hikes/horizontal_card.dart';
+import 'package:smarthike/components/hike/horizontal_card.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/models/hike.dart';

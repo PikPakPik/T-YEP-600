@@ -103,14 +103,16 @@
       "distance": "Distance",
       "max_altitude": "Max altitude",
       "min_altitude": "Min altitude",
-      "height_diff":"Height diff",
+      "elevation_gain":"Elevation gain",
       "hiking_time": "Hiking time",
-      "difficulty":{
+      "difficulty": "Difficulty",
+      "difficulty_steps": {
         "easy": "Easy",
         "medium": "Medium",
-        "difficult": "Difficult",
-        "unknown": "unknown"
-      }
-    }
+        "difficult": "Difficult"
+      },
+    "unknown": "unknown"
+    },
+    "see_hikes": "See all hikes"
   }
 }

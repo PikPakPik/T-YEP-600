@@ -1,18 +1,17 @@
 import 'dart:async';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_map_marker_cluster_2/flutter_map_marker_cluster.dart';
-import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart'; // Added this line to import the flutter_map_tile_caching package
+import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart'; 
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/main.dart';
-import 'package:smarthike/models/hike_api.dart';
 import 'package:smarthike/services/hike_service.dart';
+import 'package:smarthike/models/hike_api.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -274,6 +273,7 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
             ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

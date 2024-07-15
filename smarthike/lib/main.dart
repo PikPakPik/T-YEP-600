@@ -1,7 +1,10 @@
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:smarthike/pages/hike/hike_list_page.dart';
+import 'package:smarthike/pages/map_page.dart';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_map_tile_caching/flutter_map_tile_caching.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -11,13 +14,12 @@ import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/pages/auth/login_page.dart';
 import 'package:smarthike/pages/auth/register_page.dart';
-import 'package:smarthike/pages/hikes/hike_list_page.dart';
-import 'package:smarthike/pages/map_page.dart';
 import 'package:smarthike/pages/profile_page.dart';
 import 'package:smarthike/pages/settings/language_page.dart';
 import 'package:smarthike/pages/settings/security_page.dart';
 import 'package:smarthike/pages/settings/subpages/delete_account_warning_page.dart';
 import 'package:smarthike/pages/settings_page.dart';
+import 'package:smarthike/providers/hike_provider.dart';
 import 'package:smarthike/providers/user_provider.dart';
 import 'package:smarthike/services/auth_service.dart';
 import 'package:smarthike/services/hike_service.dart';
@@ -36,7 +38,7 @@ Future<void> main() async {
   if (lang != 'fr' && lang != 'es') {
     lang = 'en';
   }
-
+  
   try {
     await FMTCObjectBoxBackend().initialise(); // The default/built-in backend
     // ignore: unused_catch_stack
@@ -60,7 +62,11 @@ Future<void> main() async {
         Provider<HikeService>(
           create: (context) => HikeService(
             apiService: apiService,
-            sharedPreferencesUtil: sharedPreferencesUtil,
+            ),
+        ),
+        Provider<HikeService>(
+          create: (context) => HikeService(
+            apiService: apiService
           ),
         ),
       ],
@@ -84,6 +90,7 @@ const int registerPageIndex = 5;
 const int signInPageIndex = 6;
 const int securityPageIndex = 7;
 const int deleteAccountPageIndex = 8;
+const int hikeListPageIndex = 9;
 
 class AppInitializer extends StatefulWidget {
   final Widget child;
@@ -126,11 +133,14 @@ class SmartHikeApp extends StatelessWidget {
     }
 
     final authService = Provider.of<AuthService>(context);
+    final hikeService = Provider.of<HikeService>(context);
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
             create: (_) => UserProvider(authService: authService)),
+        ChangeNotifierProvider(
+            create: (_) => HikeProvider(hikeService: hikeService)),
       ],
       child: AppInitializer(
         child: MaterialApp(
