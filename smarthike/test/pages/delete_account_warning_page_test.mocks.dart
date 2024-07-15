@@ -3,12 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i7;
 
+import 'package:logger/logger.dart' as _i4;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:smarthike/api/smarthike_api.dart' as _i2;
-import 'package:smarthike/models/user.dart' as _i6;
-import 'package:smarthike/services/auth_service.dart' as _i4;
+import 'package:smarthike/models/user.dart' as _i5;
+import 'package:smarthike/services/auth_service.dart' as _i6;
 import 'package:smarthike/utils/shared_preferences_util.dart' as _i3;
 
 // ignore_for_file: type=lint
@@ -45,10 +46,30 @@ class _FakeSharedPreferencesUtil_1 extends _i1.SmartFake
         );
 }
 
+class _FakeLogger_2 extends _i1.SmartFake implements _i4.Logger {
+  _FakeLogger_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeUser_3 extends _i1.SmartFake implements _i5.User {
+  _FakeUser_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [AuthService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAuthService extends _i1.Mock implements _i4.AuthService {
+class MockAuthService extends _i1.Mock implements _i6.AuthService {
   MockAuthService() {
     _i1.throwOnMissingStub(this);
   }
@@ -72,7 +93,16 @@ class MockAuthService extends _i1.Mock implements _i4.AuthService {
       ) as _i3.SharedPreferencesUtil);
 
   @override
-  _i5.Future<_i6.User?> login(
+  _i4.Logger get logger => (super.noSuchMethod(
+        Invocation.getter(#logger),
+        returnValue: _FakeLogger_2(
+          this,
+          Invocation.getter(#logger),
+        ),
+      ) as _i4.Logger);
+
+  @override
+  _i7.Future<_i5.User?> login(
     String? email,
     String? password,
   ) =>
@@ -84,11 +114,11 @@ class MockAuthService extends _i1.Mock implements _i4.AuthService {
             password,
           ],
         ),
-        returnValue: _i5.Future<_i6.User?>.value(),
-      ) as _i5.Future<_i6.User?>);
+        returnValue: _i7.Future<_i5.User?>.value(),
+      ) as _i7.Future<_i5.User?>);
 
   @override
-  _i5.Future<_i6.User?> register(
+  _i7.Future<_i5.User?> register(
     String? firstname,
     String? lastname,
     String? email,
@@ -104,34 +134,49 @@ class MockAuthService extends _i1.Mock implements _i4.AuthService {
             password,
           ],
         ),
-        returnValue: _i5.Future<_i6.User?>.value(),
-      ) as _i5.Future<_i6.User?>);
+        returnValue: _i7.Future<_i5.User?>.value(),
+      ) as _i7.Future<_i5.User?>);
 
   @override
-  _i5.Future<void> deleteUser() => (super.noSuchMethod(
+  _i7.Future<void> deleteUser() => (super.noSuchMethod(
         Invocation.method(
           #deleteUser,
           [],
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 
   @override
-  _i5.Future<_i6.User?> logout() => (super.noSuchMethod(
+  _i7.Future<_i5.User?> logout() => (super.noSuchMethod(
         Invocation.method(
           #logout,
           [],
         ),
-        returnValue: _i5.Future<_i6.User?>.value(),
-      ) as _i5.Future<_i6.User?>);
+        returnValue: _i7.Future<_i5.User?>.value(),
+      ) as _i7.Future<_i5.User?>);
 
   @override
-  _i5.Future<_i6.User?> getUserData(String? token) => (super.noSuchMethod(
+  _i7.Future<_i5.User?> getUserData(String? token) => (super.noSuchMethod(
         Invocation.method(
           #getUserData,
           [token],
         ),
-        returnValue: _i5.Future<_i6.User?>.value(),
-      ) as _i5.Future<_i6.User?>);
+        returnValue: _i7.Future<_i5.User?>.value(),
+      ) as _i7.Future<_i5.User?>);
+
+  @override
+  _i7.Future<_i5.User> updateUser(_i5.User? user) => (super.noSuchMethod(
+        Invocation.method(
+          #updateUser,
+          [user],
+        ),
+        returnValue: _i7.Future<_i5.User>.value(_FakeUser_3(
+          this,
+          Invocation.method(
+            #updateUser,
+            [user],
+          ),
+        )),
+      ) as _i7.Future<_i5.User>);
 }

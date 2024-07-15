@@ -69,6 +69,7 @@ abstract class  LocaleKeys {
   static const settings_delete_account_confirmation_message = 'settings.delete_account_confirmation_message';
   static const settings_delete_account_cancel_button = 'settings.delete_account_cancel_button';
   static const settings_delete_account_success = 'settings.delete_account_success';
+  static const settings_edit_profile = 'settings.edit_profile';
   static const settings_language_title = 'settings.language.title';
   static const settings_language_modal_title = 'settings.language.modal.title';
   static const settings_language_modal_confirm = 'settings.language.modal.confirm';

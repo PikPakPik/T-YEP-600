@@ -77,6 +77,7 @@
     "delete_account_confirmation_message": "¿Estás seguro de que desea eliminar su cuenta?",
     "delete_account_cancel_button": "Cancelar",
     "delete_account_success": "Cuenta eliminada con éxito",
+    "edit_profile": "Editar perfil",
     "language": {
       "title": "Idioma",
       "modal": {

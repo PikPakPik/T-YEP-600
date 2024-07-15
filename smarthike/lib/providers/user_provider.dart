@@ -63,6 +63,17 @@ class UserProvider extends ChangeNotifier {
   }
 
   Future<void> updateUser(User user) async {
-    notifyListeners();
+    logger.i("Début de la mise à jour de l'utilisateur dans UserProvider.");
+    try {
+      logger.i("Appel à authService.updateUser.");
+      final updatedUser = await authService.updateUser(user);
+      _user = updatedUser;
+      notifyListeners();
+      logger.i(
+          "Mise à jour de l'utilisateur réussie et notification des écouteurs.");
+    } catch (e) {
+      logger.e("Erreur lors de la mise à jour de l'utilisateur : $e");
+      throw Exception('Failed to update user');
+    }
   }
 }

@@ -1,13 +1,17 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SecurityPage extends StatelessWidget {
   final VoidCallback onDeleteAccountPressed;
+  final VoidCallback onEditProfilePressed;
 
-  const SecurityPage({super.key, required this.onDeleteAccountPressed});
+  const SecurityPage(
+      {super.key,
+      required this.onDeleteAccountPressed,
+      required this.onEditProfilePressed});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +40,14 @@ class SecurityPage extends StatelessWidget {
                           width: MediaQuery.of(context).size.width * 0.3,
                           height: MediaQuery.of(context).size.height * 0.3,
                           child: Image.asset('assets/images/LogoSmartHike.png'),
+                        ),
+                        CustomButton(
+                          key: const Key('settings_edit_profile'),
+                          text: LocaleKeys.settings_edit_profile.tr(),
+                          backgroundColor: Constants.primaryColor,
+                          textColor: Colors.black,
+                          fontWeight: FontWeight.w900,
+                          onPressed: onEditProfilePressed,
                         ),
                         // Boutons
                         CustomButton(
