@@ -1,9 +1,12 @@
+import io
 from app import app, db
 from dtos.paginator import PaginatorDTO
 from models.Hike import Hike
 from models.User import User
+from models.Files import Files
 from flask import json, request
 from flask_login import login_required, current_user
+from services.minio import MinioClient
 import requests
 
 @app.route("/api/hike/favorites", methods = ['GET'])
@@ -141,6 +144,78 @@ def get_hikes():
         mimetype='application/json'
     )
 
+@app.route("/api/hike/<int:hike_id>", methods=['GET'])
+def get_hike(hike_id):
+    hike = db.session.query(Hike).get(hike_id)
+    
+    if not hike:
+        return app.response_class(
+            response=json.dumps({
+                'i18n': 'hike.not_found'
+            }),
+            status=404,
+            mimetype='application/json'
+        )
+
+    return app.response_class(
+        response=json.dumps(hike.serialize()),
+        status=200,
+        mimetype='application/json'
+    )
+
+@app.route('/api/hike/<int:hike_id>/image', methods=['POST'])
+@login_required
+def upload_image(hike_id):
+    hike = db.session.query(Hike).get(hike_id)
+    
+    if not hike:
+        return app.response_class(
+            response=json.dumps({
+                'i18n': 'hike.not_found'
+            }),
+            status=404,
+            mimetype='application/json'
+        )
+    
+    if 'file' not in request.files:
+        return app.response_class(
+            response=json.dumps({
+                'i18n': 'validator.file.not_found'
+            }),
+            status=400,
+            mimetype='application/json'
+        )
+
+    file = request.files['file']
+    allowed_content_types = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/webp', 'image/tiff', 'image/bmp']
+    if file.content_type not in allowed_content_types:
+        return app.response_class(
+            response=json.dumps({
+                'i18n': 'validator.file.invalid_content_type',
+                'expected': allowed_content_types,
+            }),
+            status=400,
+            mimetype='application/json'
+        )
+
+    client = MinioClient().uploadHikeImage(hike_id, file)
+    if client is None:
+        return app.response_class(
+            response=json.dumps({'i18n': 'hike.image.error'}),
+            status=500,
+            mimetype='application/json'
+        )
+
+    new_file = Files(imgName=client, hikeId=hike_id)
+    db.session.add(new_file)
+    db.session.commit()
+
+    return app.response_class(
+        response=json.dumps({'i18n': 'hike.image.uploaded'}),
+        status=200,
+        mimetype='application/json'
+    )
+
 @app.route("/api/hike/<int:hike_id>/geometry", methods = ['GET'])
 def get_hike_geometry(hike_id):
     hike = db.session.get(Hike, hike_id)
@@ -173,7 +248,6 @@ def get_hike_geometry(hike_id):
             mimetype='application/json'
         )
     except Exception as e:
-        app.logger.info(e)
         return app.response_class(
             response=json.dumps({
                 'i18n': 'hike.geometry.error'
