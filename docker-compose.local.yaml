@@ -5,11 +5,7 @@ services:
       - ./backoffice:/usr/src/app
     ports:
       - "5000:5000"
-    environment:
-      FLASK_ENV: development
-      SECRET_KEY: "s3cr3t"
-      JWT_KEY: "s3cr3t"
-      DATABASE_URI: "mysql://yep600:yep600@database/yep600"
+    env_file: .env
     depends_on:
       - database
 
@@ -85,8 +81,7 @@ services:
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc alias set myminio http://minio:9000 minio password;
-      /usr/bin/mc admin config set myminio/ region name=fr-par;
-      /usr/bin/mc admin service restart myminio/;
+      /usr/bin/mc admin service restart myminio;
       /usr/bin/mc mb myminio/smarthike;
       /usr/bin/mc anonymous set public myminio/smarthike; 
       exit 0;

@@ -374,7 +374,7 @@
                 ]
             }
         },
-        "/api/hike": {
+        "/api/hikes": {
             "get": {
                 "tags": ["Hike"],
                 "summary": "Get hikes",
@@ -412,59 +412,12 @@
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "format": "number"
-                                                    },
-                                                    "osmId": {
-                                                        "type": "integer",
-                                                        "format": "number"
-                                                    },
-                                                    "name": {
-                                                        "type": "string"
-                                                    },
-                                                    "firstNodeLat": {
-                                                        "type": "string"
-                                                    },
-                                                    "firstNodeLon": {
-                                                        "type": "string"
-                                                    },
-                                                    "lastNodeLat": {
-                                                        "type": "string"
-                                                    },
-                                                    "lastNodeLon": {
-                                                        "type": "string"
-                                                    },
-                                                    "difficulty": {
-                                                        "type": "string"
-                                                    },
-                                                    "hikingTime": {
-                                                        "type": "string"
-                                                    },
-                                                    "imgName": {
-                                                        "type": "string"
-                                                    },
-                                                    "createdAt": {
-                                                        "type": "string",
-                                                        "format": "date-time"
-                                                    },
-                                                    "updatedAt": {
-                                                        "type": "string",
-                                                        "format": "date-time"
-                                                    }
-                                                }
+                                                "$ref": "#/definitions/HikeResponse"
                                             }
                                         }
                                     }
                                 }
                             ]
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/ApiUnauthorizedResponse"
                         }
                     },
                     "400": {
@@ -476,6 +429,39 @@
                                     "type": "string",
                                     "example": "pagination.limit.invalid"
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/hike/{id}": {
+            "get": {
+                "tags": ["Hike"],
+                "summary": "Get hike by ID",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/HikeResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "i18n": "hike.not_found"
                             }
                         }
                     }
@@ -520,19 +506,7 @@
                                             "type": "array",
                                             "items": {
                                                 "type": "object",
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "format": "number"
-                                                    },
-                                                    "osmId": {
-                                                        "type": "integer",
-                                                        "format": "number"
-                                                    },
-                                                    "name": {
-                                                        "type": "string"
-                                                    }
-                                                }
+                                                "$ref": "#/definitions/FavoriteHikeResponse"
                                             }
                                         }
                                     }
@@ -730,6 +704,84 @@
                     }
                 }
             }
+        },
+        "/api/hike/{id}/image": {
+            "post": {
+                "tags": ["Hike"],
+                "summary": "Upload an image for a hike",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the hike to upload an image for",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "name": "file",
+                        "in": "formData",
+                        "description": "The image file to upload",
+                        "required": true,
+                        "type": "file"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "hike.image.uploaded"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "validator.file.invalid_content_type"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "hike.not_found"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "i18n": {
+                                    "type": "string",
+                                    "example": "hike.image.error"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
         }
     },
     "securityDefinitions": {
@@ -805,6 +857,100 @@
                 "totalItems": {
                     "type": "integer",
                     "format": "number"
+                }
+            }
+        },
+        "HikeResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "number"
+                },
+                "osmId": {
+                    "type": "integer",
+                    "format": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "firstNodeLat": {
+                    "type": "string"
+                },
+                "firstNodeLon": {
+                    "type": "string"
+                },
+                "lastNodeLat": {
+                    "type": "string"
+                },
+                "lastNodeLon": {
+                    "type": "string"
+                },
+                "difficulty": {
+                    "type": "string"
+                },
+                "hikingTime": {
+                    "type": "string"
+                },
+                "positiveAltitude": {
+                    "type": "string",
+                    "nullable": true
+                },
+                "files": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "integer",
+                                "format": "number"
+                            },
+                            "hikeId": {
+                                "type": "integer",
+                                "format": "number"
+                            },
+                            "imgName": {
+                                "type": "string",
+                                "example": "d290f1ee-6c54-4b01-90e6-d701748f0851.jpg"
+                            },
+                            "link": {
+                                "type": "string",
+                                "example": "://S3_DOMAIN/smarthike/{hikeId}/{imageName}"
+                            },
+                            "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        }
+                    }
+                },
+                "negativeAltitude": {
+                    "type": "string",
+                    "nullable": true
+                },
+                "createdAt": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updatedAt": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "FavoriteHikeResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "number"
+                },
+                "osmId": {
+                    "type": "integer",
+                    "format": "number"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         }

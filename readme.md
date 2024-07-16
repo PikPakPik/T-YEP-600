@@ -3,7 +3,7 @@
 # Welcome to Smart'Hike :rocket:
 
 End-of-year project for our first year in the MSC program at Epitech Nantes.  
-We're a team of 4 students working on a project to offer our users personalized hiking routes to reach their final goal.
+We're a team of 5 students working on a project to offer our users personalized hiking routes to reach their final goal.
 
 # What is Smart'Hike ?
 Smart'Hike is a mobile application that allows you to create personalized hiking routes.
@@ -17,11 +17,13 @@ Smart'Hike is a mobile application that allows you to create personalized hiking
 
 ## Run projet
 ```bash
-With make
+With make : 
+
 make build
 make install
 
-With sh
+With sh : 
+
 Usage: ./smarthike {env(local|dev|ci|prod)} {build|down|re-build|logs|install|test}
 
 ./smarthike.sh local build
@@ -32,7 +34,7 @@ Usage: ./smarthike {env(local|dev|ci|prod)} {build|down|re-build|logs|install|te
 | Name              | Role                          | Github Profile |
 |-------------------|-------------------------------|----------------|
 | Eloi JAHAN        | Project Manager / Developer   | [@Eloi J](https://github.com/EloiJhn) |
-| Julien MERCOUT    | Developer                     | [@Julien M](https://github.com/JuMercourt) |
+| Julien MERCOURT   | Developer                     | [@Julien M](https://github.com/JuMercourt) |
 | Charlotte LAURENT | Developer                     | [@Charlotte L](https://github.com/charlottelaurent50) |
 | Valentin RAGOT    | Developer                     | [@Valentin R](https://github.com/ValentinRgt) |
 | Alexendre TRESSEL | Developer                     | [@Alexandre T](https://github.com/PikPakPik) |
