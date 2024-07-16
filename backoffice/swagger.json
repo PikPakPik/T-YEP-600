@@ -733,6 +733,8 @@
             "post": {
                 "tags": ["Hike"],
                 "summary": "Upload an image for a hike",
+                "consumes": ["multipart/form-data"],
+                "produces": ["application/json"],
                 "parameters": [
                     {
                         "name": "id",
@@ -740,7 +742,7 @@
                         "description": "ID of the hike to upload an image for",
                         "required": true,
                         "type": "integer",
-                        "format": "int64"
+                        "format": "number"
                     },
                     {
                         "name": "file",
