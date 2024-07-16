@@ -922,6 +922,10 @@
                     "type": "string",
                     "nullable": true
                 },
+                "negativeAltitude": {
+                    "type": "string",
+                    "nullable": true
+                },
                 "files": {
                     "type": "array",
                     "items": {
@@ -950,9 +954,9 @@
                         }
                     }
                 },
-                "negativeAltitude": {
-                    "type": "string",
-                    "nullable": true
+                "likes": {
+                    "type": "integer",
+                    "format": "number"
                 },
                 "createdAt": {
                     "type": "string",

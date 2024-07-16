@@ -36,8 +36,8 @@ class Hike(db.Model):
             'negativeAltitude': self.negativeAltitude,
             'createdAt': self.createdAt.isoformat(),
             'updatedAt': self.updatedAt.isoformat() if self.updatedAt else None,
-            'files': [file.serialize() for file in self.files]
-            
+            'files': [file.serialize() for file in self.files],
+            'likes': len(self.users)
         }
     
     def serializeFavorite(self):
