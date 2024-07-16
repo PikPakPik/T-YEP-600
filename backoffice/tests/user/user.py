@@ -5,6 +5,7 @@ import pytest
 from faker import Faker
 fake = Faker()
 from flask_bcrypt import generate_password_hash
+from tests.fixtures import login
 
 @pytest.fixture(scope='session')
 def loginFakeUser():
@@ -19,18 +20,6 @@ def loginFakeUser():
     client = app.test_client()
     data = {
         'email': email,
-        'password': 'azertyuiop'
-    }
-    response = client.post('/api/login', content_type='multipart/form-data', data=data)
-    response_data = response.data.decode('utf-8')
-    response_json = json.loads(response_data)
-    return response_json.get('token')
-
-@pytest.fixture(scope='session')
-def login():
-    client = app.test_client()
-    data = {
-        'email': 'admin@tyep600.org',
         'password': 'azertyuiop'
     }
     response = client.post('/api/login', content_type='multipart/form-data', data=data)

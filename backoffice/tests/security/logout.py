@@ -1,19 +1,7 @@
 from app import app
-import json
 import pytest
 import jwt
-
-@pytest.fixture(scope='session')
-def login():
-    client = app.test_client()
-    data = {
-        'email': 'admin@tyep600.org',
-        'password': 'azertyuiop'
-    }
-    response = client.post('/api/login', content_type='multipart/form-data', data=data)
-    response_data = response.data.decode('utf-8')
-    response_json = json.loads(response_data)
-    return response_json.get('token')
+from tests.fixtures import login
 
 @pytest.mark.depends(depends=['login'])
 def test_user_logout(login):

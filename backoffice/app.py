@@ -17,7 +17,7 @@ login_manager = LoginManager()
 
 from controllers import *
 from commands import *
-import services.authorization
+from services import authorization
 
 db.init_app(app)
 login_manager.init_app(app)

@@ -13,13 +13,6 @@ include:
 pages:
   image: node:alpine
   stage: build
-  variables:
-    PAGES_PREFIX: ""
-  pages:
-    path_prefix: "$PAGES_PREFIX"
-  environment:
-    name: "Pages ${PAGES_PREFIX}"
-    url: "${CI_PAGES_URL}/${PAGES_PREFIX}"
   script:
     - npm install -g redoc-cli
     - redoc-cli bundle -o public/index.html backoffice/swagger.json
@@ -27,13 +20,6 @@ pages:
     paths:
       - public
   rules:
-    - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH =~ /^(develop|main)/'
       changes:
         - backoffice/swagger.json
-      variables:
-        PAGES_PREFIX: ""
-    - if: '$CI_COMMIT_BRANCH == "develop"'
-      changes:
-        - backoffice/swagger.json
-      variables:
-        PAGES_PREFIX: "develop"
