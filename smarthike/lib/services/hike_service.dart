@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:smarthike/api/smarthike_api.dart';
-import 'package:smarthike/models/hike_api.dart';
+import 'package:smarthike/models/hike.dart';
 import 'package:smarthike/models/paginated_hike.dart';
 
 class HikeService {
@@ -17,7 +17,7 @@ Future<PaginatedHike?> getListHikes(int page) async {
     }
   }
 
-  Future<List<HikeApi>> getAllHikes() async {
+  Future<List<Hike>> getAllHikes() async {
     List<dynamic> items = [];
     int page = 1;
     bool hasNextPage = true;
@@ -30,7 +30,7 @@ Future<PaginatedHike?> getListHikes(int page) async {
         page++;
       }
       return items
-          .map((e) => HikeApi.fromJson(e as Map<String, dynamic>))
+          .map((e) => Hike.fromJson(e as Map<String, dynamic>))
           .toList();
     } on DioException catch (e) {
       if (e.response != null) {

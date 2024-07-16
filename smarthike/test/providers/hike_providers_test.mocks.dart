@@ -7,7 +7,7 @@ import 'dart:async' as _i4;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:smarthike/api/smarthike_api.dart' as _i2;
-import 'package:smarthike/models/hike_api.dart' as _i6;
+import 'package:smarthike/models/hike.dart' as _i6;
 import 'package:smarthike/models/paginated_hike.dart' as _i5;
 import 'package:smarthike/services/hike_service.dart' as _i3;
 
@@ -61,11 +61,11 @@ class MockHikeService extends _i1.Mock implements _i3.HikeService {
       ) as _i4.Future<_i5.PaginatedHike?>);
 
   @override
-  _i4.Future<List<_i6.HikeApi>> getAllHikes() => (super.noSuchMethod(
+  _i4.Future<List<_i6.Hike>> getAllHikes() => (super.noSuchMethod(
         Invocation.method(
           #getAllHikes,
           [],
         ),
-        returnValue: _i4.Future<List<_i6.HikeApi>>.value(<_i6.HikeApi>[]),
-      ) as _i4.Future<List<_i6.HikeApi>>);
+        returnValue: _i4.Future<List<_i6.Hike>>.value(<_i6.Hike>[]),
+      ) as _i4.Future<List<_i6.Hike>>);
 }

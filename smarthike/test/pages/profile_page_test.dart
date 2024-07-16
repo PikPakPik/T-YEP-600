@@ -52,8 +52,8 @@ void main() async {
     when(userProvider.user).thenReturn(user);
     when(apiService.get("/hike/favorites")).thenAnswer((_) async => {
           "items": [
-            {"id": 1, "name": "Hike 1"},
-            {"id": 2, "name": "Hike 2"}
+            {"id": 1, "name": "Hike 1", "osmId" : 1},
+            {"id": 2, "name": "Hike 2", "osmId" : 2}
           ]
         });
 
@@ -72,8 +72,8 @@ void main() async {
     when(userProvider.user).thenReturn(null);
     when(apiService.get("/hike/favorites")).thenAnswer((_) async => {
           "items": [
-            {"id": 1, "name": "Hike 1"},
-            {"id": 2, "name": "Hike 2"}
+            {"id": 1, "name": "Hike 1", "osmId" : 1},
+            {"id": 2, "name": "Hike 2", "osmId" : 2}
           ]
         });
     await tester.pumpWidget(makeTestableWidget(

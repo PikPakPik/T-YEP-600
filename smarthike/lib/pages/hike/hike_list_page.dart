@@ -49,7 +49,10 @@ class HikeListPageState extends State<HikeListPage> {
                   return _buildProgressIndicator(hikeProvider.isLoading);
                 } else {
                   final hike = hikes[index];
-                  return HorizontalCard(hike: hike);
+                  return HorizontalCard(
+                    key: Key(hike.id.toString()),
+                    hike: hike,
+                  );
                 }
               },
             ),

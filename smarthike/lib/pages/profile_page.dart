@@ -6,7 +6,7 @@ import 'package:smarthike/components/button.dart';
 import 'package:smarthike/components/hike/horizontal_card.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
-import 'package:smarthike/models/hike.dart';
+import 'package:smarthike/models/fav_hike.dart';
 
 import '../providers/user_provider.dart';
 
@@ -25,7 +25,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
-  List<Hike> favHikes = [];
+  List<HikeFav> favHikes = [];
   late VoidCallback onRegisterButtonPressed;
   late VoidCallback onSignInButtonPressed;
   late ApiService apiService;
@@ -49,7 +49,7 @@ class ProfilePageState extends State<ProfilePage> {
 
       setState(() {
         favHikes = (data["items"] as List)
-            .map((item) => Hike.fromFavJSON(item))
+            .map((item) => HikeFav.fromJson(item))
             .toList();
       });
     }
@@ -258,8 +258,7 @@ class ProfilePageState extends State<ProfilePage> {
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 10, horizontal: 10),
                                       child: HorizontalCard(
-                                          hike: favHikes[index],
-                                          showStats: false),
+                                          hike: favHikes[index]),
                                     );
                                   },
                                   itemCount: favHikes.length,

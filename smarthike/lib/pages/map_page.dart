@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/main.dart';
 import 'package:smarthike/services/hike_service.dart';
-import 'package:smarthike/models/hike_api.dart';
+import 'package:smarthike/models/hike.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -32,7 +32,7 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
   List<dynamic> points = [];
   List<Polyline> polylines = [];
   bool showPolylines = false;
-  List<HikeApi> hikes = [];
+  List<Hike> hikes = [];
 
   List<Polyline> selectedPolylines = [];
   // ignore: unused_field
