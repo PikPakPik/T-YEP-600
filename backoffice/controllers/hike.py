@@ -4,6 +4,7 @@ from models.Hike import Hike
 from models.User import User
 from flask import json, request
 from flask_login import login_required, current_user
+import requests
 
 @app.route("/api/hike/favorites", methods = ['GET'])
 @login_required
@@ -139,3 +140,44 @@ def get_hikes():
         status=200,
         mimetype='application/json'
     )
+
+@app.route("/api/hike/<int:hike_id>/geometry", methods = ['GET'])
+def get_hike_geometry(hike_id):
+    hike = db.session.get(Hike, hike_id)
+    if not hike:
+        return app.response_class(
+            response=json.dumps({
+                'i18n': 'hike.not_found'
+            }),
+            status=404,
+            mimetype='application/json'
+        )
+
+    try:
+        query = f"[out:json][timeout:25];(rel(id:{hike.osmId}););(._;>;);out geom;>;"
+        response = requests.get("https://overpass-api.de/api/interpreter", params={'data': query})
+        data = response.json()
+        elements = data.get('elements', [])
+        ways = [element for element in elements if element['type'] == 'way']
+        geometries = []
+        for way in ways:
+            for geom in way['geometry']:
+                geometries.append({
+                    'lat': geom['lat'],
+                    'lon': geom['lon'],
+                })
+
+        return app.response_class(
+            response=json.dumps(geometries),
+            status=200,
+            mimetype='application/json'
+        )
+    except Exception as e:
+        app.logger.info(e)
+        return app.response_class(
+            response=json.dumps({
+                'i18n': 'hike.geometry.error'
+            }),
+            status=500,
+            mimetype='application/json'
+        )

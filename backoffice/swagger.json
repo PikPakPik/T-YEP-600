@@ -401,7 +401,64 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/PaginateResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/PaginateResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "format": "number"
+                                                    },
+                                                    "osmId": {
+                                                        "type": "integer",
+                                                        "format": "number"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "firstNodeLat": {
+                                                        "type": "string"
+                                                    },
+                                                    "firstNodeLon": {
+                                                        "type": "string"
+                                                    },
+                                                    "lastNodeLat": {
+                                                        "type": "string"
+                                                    },
+                                                    "lastNodeLon": {
+                                                        "type": "string"
+                                                    },
+                                                    "difficulty": {
+                                                        "type": "string"
+                                                    },
+                                                    "hikingTime": {
+                                                        "type": "string"
+                                                    },
+                                                    "imgName": {
+                                                        "type": "string"
+                                                    },
+                                                    "createdAt": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    },
+                                                    "updatedAt": {
+                                                        "type": "string",
+                                                        "format": "date-time"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "401": {
@@ -452,7 +509,35 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/PaginateResponse"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/PaginateResponse"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "format": "number"
+                                                    },
+                                                    "osmId": {
+                                                        "type": "integer",
+                                                        "format": "number"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     },
                     "400": {
@@ -486,6 +571,14 @@
                 "tags": ["Hike"],
                 "summary": "Add hike to favorite",
                 "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -510,6 +603,15 @@
                                 "i18n": "hike.favorite.already_exists"
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "i18n": "hike.not_found"
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -522,6 +624,14 @@
                 "tags": ["Hike"],
                 "summary": "Delete hike from favorite",
                 "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Success",
@@ -546,6 +656,15 @@
                                 "i18n": "hike.favorite.does_not_exist"
                             }
                         }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "i18n": "hike.not_found"
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -553,6 +672,63 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/hike/{id}/geometry": {
+            "get": {
+                "tags": ["Hike"],
+                "summary": "Get hike geometry",
+                "produces": ["application/json"],
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "lat": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 43.6974508
+                                    },
+                                    "lon": {
+                                        "type": "number",
+                                        "format": "float",
+                                        "example": 6.0225858
+                                    }
+                                }
+                            },
+                            "example": [
+                                {
+                                    "lat": 43.6974508,
+                                    "lon": 6.0225858
+                                },
+                                {
+                                    "lat": 43.6975254,
+                                    "lon": 6.0225832
+                                }
+                            ]
+                        }
+                    },
+                    "404": {
+                        "description": "Not found",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "i18n": "hike.not_found"
+                            }
+                        }
+                    }
+                }
             }
         }
     },
@@ -608,11 +784,6 @@
         "PaginateResponse": {
             "type": "object",
             "properties": {
-                "items": {
-                    "type": "object",
-                    "format": "number",
-                    "example": "{...}"
-                },
                 "currentPage": {
                     "type": "integer",
                     "format": "number"
