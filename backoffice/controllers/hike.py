@@ -5,6 +5,7 @@ from models.Hike import Hike
 from models.User import User
 from models.Files import Files
 from flask import json, request
+from sqlalchemy import text
 from flask_login import login_required, current_user
 from services.minio import MinioClient
 import requests
@@ -122,6 +123,10 @@ def delete_favorite_hike(hike_id):
 def get_hikes():
     page = request.args.get('page', 1, type=int)
     limit = request.args.get('limit', 25, type=int)
+    latitude = request.args.get('latitude', type=str)
+    longitude = request.args.get('longitude', type=str)
+    distance = request.args.get('distance', 30, type=int)
+
     if limit > 1000:
         return app.response_class(
             response=json.dumps({
@@ -132,6 +137,20 @@ def get_hikes():
         )
 
     hikes_query = db.session.query(Hike).order_by(Hike.createdAt)
+
+    if latitude is not None and longitude is not None:
+        latitude = float(latitude)
+        longitude = float(longitude)
+        
+        distance_filter = text(f"""
+            6371 * acos(
+                cos(radians(:latitude)) * cos(radians(hikes.first_node_lat)) * cos(radians(hikes.first_node_lon) - radians(:longitude))
+                + sin(radians(:latitude)) * sin(radians(hikes.first_node_lat))
+            ) < :distance
+        """)
+        
+        hikes_query = hikes_query.filter(distance_filter).params(latitude=latitude, longitude=longitude, distance=distance)
+
     totalItems = hikes_query.count()
     hikes = hikes_query.offset((page - 1) * limit).limit(limit).all()
     hikes = [hike.serialize() for hike in hikes]

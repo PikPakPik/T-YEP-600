@@ -395,6 +395,30 @@
                         "required": false,
                         "type": "integer",
                         "default": 0
+                    },
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "description": "Set the latitude to search hikes around",
+                        "required": false,
+                        "type": "integer",
+                        "example": 47.21882037436719
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "Set the longitude to search hikes around",
+                        "required": false,
+                        "type": "integer",
+                        "example": -1.5534999280547395
+                    },
+                    {
+                        "name": "distance",
+                        "in": "query",
+                        "description": "Set the distance in meters to search hikes around",
+                        "required": false,
+                        "type": "integer",
+                        "default": 30
                     }
                 ],
                 "responses": {
