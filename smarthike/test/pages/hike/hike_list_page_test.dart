@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthike/pages/hike/hike_list_page.dart';
 import 'package:smarthike/providers/hike_provider.dart';
-import 'package:smarthike/data/hike/mock_list_hikes_data.dart';
+import '../../data/hike/mock_list_hikes_data.dart';
 
 import 'hike_list_page_test.mocks.dart';
 
@@ -28,8 +28,8 @@ void main() async {
     // Mock the hikes property to return the mock data items
     when(hikeProvider.hikes).thenReturn(mockData.items);
     when(hikeProvider.isLoading).thenReturn(false);
-    when(hikeProvider.currentPage).thenReturn(1);
-    when(hikeProvider.totalPages).thenReturn(1);
+    when(hikeProvider.currentPage).thenReturn(mockData.currentPage);
+    when(hikeProvider.totalPages).thenReturn(mockData.totalPages);
 
     // Build the widget tree
     await tester.pumpWidget(
@@ -48,15 +48,19 @@ void main() async {
 
     // Trigger a frame
     await tester.pumpAndSettle();
-
+    
     // Verify the hikes info is displayed initially
     for (final hike in mockData.items) {
       await tester.dragUntilVisible(
-        find.text(hike.name),
+        find.byKey(Key(hike.id.toString())),
         find.byType(ListView),
         const Offset(0, -300),
       );
-      expect(find.text(hike.name), findsOneWidget);
+
+      // Verify the hike name is displayed within the HorizontalCard
+      expect(
+        find.text(hike.name),findsOneWidget,
+      );
     }
   });
 }

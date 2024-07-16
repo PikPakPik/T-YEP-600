@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:smarthike/models/hike.dart';
+import 'package:smarthike/models/fav_hike.dart';
 import 'package:smarthike/utils/shared_preferences_util.dart';
 
 class UserService {
@@ -8,7 +8,7 @@ class UserService {
 
   UserService({required this.dio, required this.sharedPreferencesUtil});
 
-  Future<List<Hike>> getFavHikes() async {
+  Future<List<HikeFav>> getFavHikes() async {
     final token = await sharedPreferencesUtil.getString('token');
     if (token == null) {
       throw Exception('No token found');
@@ -18,7 +18,7 @@ class UserService {
 
       if (response.statusCode == 200) {
         return (response.data['items'] as List)
-            .map((item) => Hike.fromFavJSON(item))
+            .map((item) => HikeFav.fromJson(item))
             .toList();
       }
     } on DioException catch (e) {

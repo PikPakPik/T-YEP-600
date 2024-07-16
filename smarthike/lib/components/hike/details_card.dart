@@ -18,14 +18,6 @@ class DetailsCard extends StatelessWidget {
       child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Hike title
-        Text(
-          hike.name,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
         const SizedBox(height: 5),
         // Hike details
         
