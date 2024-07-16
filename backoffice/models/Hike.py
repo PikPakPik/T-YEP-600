@@ -15,6 +15,8 @@ class Hike(db.Model):
     difficulty = db.Column(db.Integer, default=None)
     hikingTime = db.Column('hiking_time', db.Integer, default=None)
     imgName = db.Column('image', db.String(255), default=None)
+    positiveAltitude = db.Column('positive_altitude', db.String(255), default=None)
+    negativeAltitude = db.Column('negative_altitude', db.String(255), default=None)
     createdAt = db.Column('created_at', db.DateTime, nullable=False, default=datetime.datetime.now)
     updatedAt = db.Column('updated_at', db.DateTime, nullable=True, onupdate=datetime.datetime.now)
     users = db.relationship('User', secondary='user_hike', back_populates='hikes', lazy=True)
@@ -31,6 +33,8 @@ class Hike(db.Model):
             'difficulty': self.difficulty,
             'hikingTime': self.hikingTime,
             'imgName': self.imgName,
+            'positiveAltitude': self.positiveAltitude,
+            'negativeAltitude': self.negativeAltitude,
             'createdAt': self.createdAt.isoformat(),
             'updatedAt': self.updatedAt.isoformat() if self.updatedAt else None
         }
