@@ -14,6 +14,7 @@ class Hike(db.Model):
     lastNodeLon = db.Column('last_node_lon', db.String(255), nullable=False)
     difficulty = db.Column(db.Integer, default=None)
     hikingTime = db.Column('hiking_time', db.Integer, default=None)
+    distance = db.Column('distance', db.String(255), default=None)
     positiveAltitude = db.Column('positive_altitude', db.String(255), default=None)
     negativeAltitude = db.Column('negative_altitude', db.String(255), default=None)
     createdAt = db.Column('created_at', db.DateTime, nullable=False, default=datetime.datetime.now)
@@ -22,6 +23,15 @@ class Hike(db.Model):
     files = db.relationship('Files', back_populates='hike', lazy=True)
 
     def serialize(self):
+        duration = None
+        if self.hikingTime is not None:
+            total_minutes = int(self.hikingTime)
+            duration_days = total_minutes // (24 * 60)
+            remaining_minutes_after_days = total_minutes % (24 * 60)
+            duration_hours = remaining_minutes_after_days // 60
+            duration_minutes = remaining_minutes_after_days % 60
+            duration = f"{duration_days}D{duration_hours}H{duration_minutes}M"
+
         return {
             'id': self.id,
             'osmId': self.osmId,
@@ -31,7 +41,8 @@ class Hike(db.Model):
             'lastNodeLat': self.lastNodeLat,
             'lastNodeLon': self.lastNodeLon,
             'difficulty': self.difficulty,
-            'hikingTime': self.hikingTime,
+            'hikingTime': duration,
+            'distance': self.distance,
             'positiveAltitude': self.positiveAltitude,
             'negativeAltitude': self.negativeAltitude,
             'createdAt': self.createdAt.isoformat(),

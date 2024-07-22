@@ -126,6 +126,9 @@ def get_hikes():
     latitude = request.args.get('latitude', type=str)
     longitude = request.args.get('longitude', type=str)
     distance = request.args.get('distance', 30, type=int)
+    difficulty = request.args.get('difficulty', type=str)
+    hiking_time = request.args.get('hiking_time', type=int)
+    hike_distance = request.args.get('hike_distance', type=int)
 
     if limit > 1000:
         return app.response_class(
@@ -136,7 +139,7 @@ def get_hikes():
             mimetype='application/json'
         )
 
-    hikes_query = db.session.query(Hike).order_by(Hike.createdAt)
+    hikes_query = db.session.query(Hike)
 
     if latitude is not None and longitude is not None:
         latitude = float(latitude)
@@ -150,6 +153,15 @@ def get_hikes():
         """)
         
         hikes_query = hikes_query.filter(distance_filter).params(latitude=latitude, longitude=longitude, distance=distance)
+
+    if difficulty is not None:
+        hikes_query = hikes_query.filter(Hike.difficulty == difficulty)
+
+    if hiking_time is not None:
+        hikes_query = hikes_query.filter(Hike.hikingTime <= hiking_time)
+
+    if hike_distance is not None:
+        hikes_query = hikes_query.filter(Hike.distance <= hike_distance)
 
     totalItems = hikes_query.count()
     hikes = hikes_query.offset((page - 1) * limit).limit(limit).all()
