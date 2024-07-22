@@ -217,7 +217,6 @@ class _NavigationExampleState extends State<NavigationBarApp> {
           onEditProfilePressed: () => navigateToPage(editProfilePageIndex),
         ),
         const DeleteAccountWarningPage(),
-        const HikeListPage(),
         Consumer<UserProvider>(
           builder: (context, userProvider, child) {
             if (userProvider.user != null) {
@@ -227,6 +226,7 @@ class _NavigationExampleState extends State<NavigationBarApp> {
             }
           },
         ),
+        const HikeListPage(),
       ][currentPageIndex],
     );
   }
