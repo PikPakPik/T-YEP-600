@@ -8,6 +8,7 @@ class CustomButton extends StatelessWidget {
   final Color? textColor;
   final VoidCallback? onPressed;
   final IconData? icon;
+  final double? radius;
   final bool isEnable;
 
   const CustomButton(
@@ -17,6 +18,7 @@ class CustomButton extends StatelessWidget {
       this.textColor,
       this.onPressed,
       this.icon,
+      this.radius,
       this.width,
       this.isEnable = true,
       this.fontWeight});
@@ -28,7 +30,7 @@ class CustomButton extends StatelessWidget {
       onPressed: isEnable ? onPressed : null,
       disabledColor: backgroundColor.withOpacity(0.5),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(radius ?? 20),
       ),
       child: SizedBox(
         width: width ?? 200,

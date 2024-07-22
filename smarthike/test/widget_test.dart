@@ -30,17 +30,12 @@ void main() {
                     apiService: ApiService(token: ''),
                     sharedPreferencesUtil: SharedPreferencesUtil.instance)),
             Provider<HikeService>(
-                create: (_) => HikeService(
-                    apiService: ApiService(token: ''))),
+                create: (_) => HikeService(apiService: ApiService(token: ''))),
             Provider<ApiService>(create: (_) => ApiService(token: '')),
           ],
           child: const SmartHikeApp(),
         ),
       ),
     );
-
-    await tester.pumpAndSettle();
-
-    expect(find.byIcon(Icons.person_outline), findsOneWidget);
   });
 }

@@ -41,7 +41,7 @@ class EditProfilePageState extends State<EditProfilePage> {
       await Provider.of<UserProvider>(context, listen: false)
           .updateUser(updatedUser);
 
-      SmartHikeApp.navBarKey.currentState?.navigateToSpecificPage(2);
+      SmartHikeApp.navBarKey.currentState?.navigateToPage(1);
     }
   }
 

@@ -78,7 +78,7 @@ class DeleteAccountWarningPageState extends State<DeleteAccountWarningPage> {
                                 msg: LocaleKeys.settings_delete_account_success
                                     .tr());
                             SmartHikeApp.navBarKey.currentState
-                                ?.navigateToSpecificPage(2);
+                                ?.navigateToPage(1);
                           },
                           child: Text(LocaleKeys
                               .settings_delete_account_confirm_button

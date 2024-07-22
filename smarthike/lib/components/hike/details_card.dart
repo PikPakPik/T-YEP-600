@@ -16,89 +16,81 @@ class DetailsCard extends StatelessWidget {
     return Container(
       color: Colors.white,
       child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 5),
-        // Hike details
-        
-        if (showStats)
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // First column (left)
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // First row: distance
-                  hike.distance != null
-                      ? _buildDetailRow(
-                          Icons.earbuds,
-                          LocaleKeys.hike_details_distance.tr(),
-                          '${hike.distance} km',
-                        )
-                      : _buildDetailRowUnknown(
-                          Icons.earbuds, LocaleKeys.hike_details_distance.tr()),
-                  // Second row : Max altitude
-                  hike.maxAlt != null
-                      ? _buildDetailRow(
-                          Icons.arrow_circle_up,
-                          LocaleKeys.hike_details_max_altitude.tr(),
-                          '${hike.maxAlt} m',
-                        )
-                      : _buildDetailRowUnknown(Icons.arrow_circle_up,
-                          LocaleKeys.hike_details_max_altitude.tr()),
-                  // Third row: hiking time
-                  hike.hikingTime != null
-                      ? _buildDetailRow(
-                          Icons.timer_outlined,
-                          LocaleKeys.hike_details_hiking_time.tr(),
-                          '${hike.hikingTime} h',
-                        )
-                      : _buildDetailRowUnknown(Icons.timer_outlined,
-                          LocaleKeys.hike_details_hiking_time.tr()),
-                ],
-              ),
-            ),
-            // Second column (right)
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // First row : Elevation gainerence
-                  hike.elevationGain != null
-                      ? _buildDetailRow(
-                          Icons.trending_up,
-                          LocaleKeys.hike_details_elevation_gain.tr(),
-                          '${hike.elevationGain}',
-                        )
-                      : _buildDetailRowUnknown(Icons.trending_up,
-                          LocaleKeys.hike_details_elevation_gain.tr()),
-                  // Second row: Min altitude
-                  hike.minAlt != null
-                      ? _buildDetailRow(
-                          Icons.arrow_circle_down,
-                          LocaleKeys.hike_details_min_altitude.tr(),
-                          '${hike.minAlt} m',
-                        )
-                      : _buildDetailRowUnknown(Icons.arrow_circle_down,
-                          LocaleKeys.hike_details_min_altitude.tr()),
-                  // Third row : difficulty
-                  Text(
-                    LocaleKeys.hike_details_difficulty.tr(),
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[400],
-                    ),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 5),
+          if (showStats)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // First column (left)
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // First row: distance
+                      hike.distance != null
+                          ? _buildDetailRow(
+                              Icons.earbuds,
+                              LocaleKeys.hike_details_distance.tr(),
+                              '${hike.distance} km',
+                            )
+                          : _buildDetailRowUnknown(Icons.earbuds,
+                              LocaleKeys.hike_details_distance.tr()),
+                      // Second row : Max altitude
+                      hike.maxAlt != null
+                          ? _buildDetailRow(
+                              Icons.arrow_circle_up,
+                              LocaleKeys.hike_details_max_altitude.tr(),
+                              '${hike.maxAlt} m',
+                            )
+                          : _buildDetailRowUnknown(Icons.arrow_circle_up,
+                              LocaleKeys.hike_details_max_altitude.tr()),
+                      // Third row: hiking time
+                      hike.hikingTime != null
+                          ? _buildDetailRow(
+                              Icons.timer_outlined,
+                              LocaleKeys.hike_details_hiking_time.tr(),
+                              '${hike.hikingTime} h',
+                            )
+                          : _buildDetailRowUnknown(Icons.timer_outlined,
+                              LocaleKeys.hike_details_hiking_time.tr()),
+                    ],
                   ),
-                  Difficulty(difficulty: hike.difficulty),
-                ],
-              ),
+                ),
+                // Second column (right)
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // First row : Elevation gainerence
+                      hike.elevationGain != null
+                          ? _buildDetailRow(
+                              Icons.trending_up,
+                              LocaleKeys.hike_details_elevation_gain.tr(),
+                              '${hike.elevationGain}',
+                            )
+                          : _buildDetailRowUnknown(Icons.trending_up,
+                              LocaleKeys.hike_details_elevation_gain.tr()),
+                      // Second row: Min altitude
+                      hike.minAlt != null
+                          ? _buildDetailRow(
+                              Icons.arrow_circle_down,
+                              LocaleKeys.hike_details_min_altitude.tr(),
+                              '${hike.minAlt} m',
+                            )
+                          : _buildDetailRowUnknown(Icons.arrow_circle_down,
+                              LocaleKeys.hike_details_min_altitude.tr()),
+                      // Third row : difficulty
+                      Difficulty(difficulty: hike.difficulty),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ],
-    ),);
+        ],
+      ),
+    );
   }
 
   Widget _buildDetailRow(IconData iconData, String title, String text) {

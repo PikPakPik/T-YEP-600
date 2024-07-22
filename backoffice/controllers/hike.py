@@ -248,28 +248,39 @@ def get_hike_geometry(hike_id):
         )
 
     try:
-        query = f"[out:json][timeout:25];(rel(id:{hike.osmId}););(._;>;);out geom;>;"
+        query = f"[out:json][timeout:25];(rel(id:{hike.osmId}););(._;>;);out body;>;"
         response = requests.get("https://overpass-api.de/api/interpreter", params={'data': query})
         data = response.json()
+        
         elements = data.get('elements', [])
+        nodes = [element for element in elements if element['type'] == 'node']
         ways = [element for element in elements if element['type'] == 'way']
-        geometries = []
+
+        node_map = {node['id']: node for node in nodes}
+        
+        way_polylines = []
+
         for way in ways:
-            for geom in way['geometry']:
-                geometries.append({
-                    'lat': geom['lat'],
-                    'lon': geom['lon'],
-                })
+            way_nodes = way['nodes']
+            way_polylines_points = []
+            for i in range(len(way_nodes) - 1):
+                start_node = node_map.get(way_nodes[i])
+                end_node = node_map.get(way_nodes[i + 1])
+                if start_node and end_node:
+                    way_polylines_points.append({'lat': start_node['lat'], 'lon': start_node['lon']})
+                    way_polylines_points.append({'lat': end_node['lat'], 'lon': end_node['lon']})
+            way_polylines.append(way_polylines_points)
 
         return app.response_class(
-            response=json.dumps(geometries),
+            response=json.dumps(way_polylines),
             status=200,
             mimetype='application/json'
         )
     except Exception as e:
         return app.response_class(
             response=json.dumps({
-                'i18n': 'hike.geometry.error'
+                'i18n': 'hike.geometry.error',
+                'error': str(e)
             }),
             status=500,
             mimetype='application/json'
