@@ -1,17 +1,49 @@
 import 'package:dio/dio.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/models/hike.dart';
 import 'package:smarthike/models/paginated_hike.dart';
+
+class Ways {
+  final List<LatLng> points;
+
+  Ways({required this.points});
+
+  factory Ways.fromJson(Map<String, dynamic> json) {
+    // Création d'un point LatLng à partir des valeurs lat et lon
+    var point = LatLng(json['lat'] as double, json['lon'] as double);
+    // Retourne un HikeGeometry avec ce point
+    return Ways(points: [point]);
+  }
+}
 
 class HikeService {
   final ApiService apiService;
 
   HikeService({required this.apiService});
 
-Future<PaginatedHike?> getListHikes(int page) async {
+  Future<PaginatedHike?> getListHikes(int page) async {
     try {
       final response = await apiService.get('/hikes?page=$page&limit=25');
       return PaginatedHike.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<List<Ways>> getHikeGeometry(int hikeId) async {
+    try {
+      final response = await apiService.get('/hike/$hikeId/geometry');
+      List<dynamic> ways =
+          response; // Supposons que la réponse est directement la liste des chemins
+      // Transforme chaque chemin en une liste de HikeGeometry
+      return ways.map((way) {
+        List<LatLng> points = (way as List<dynamic>)
+            .map((pointJson) =>
+                LatLng(pointJson['lat'] as double, pointJson['lon'] as double))
+            .toList();
+        return Ways(points: points);
+      }).toList();
     } catch (e) {
       throw Exception(e);
     }

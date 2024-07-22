@@ -31,24 +31,19 @@ Future<void> main() async {
   await EasyLocalization.ensureInitialized();
   await dotenv.load(fileName: ".env");
 
-  Provider.debugCheckInvalidValueType = null;
-
   final sharedPreferencesUtil = SharedPreferencesUtil.instance;
   String? lang = await sharedPreferencesUtil.getString('lang') ??
       Platform.localeName.split('_')[0];
-  if (lang != 'fr' && lang != 'es') {
-    lang = 'en';
-  }
+  lang = (lang == 'fr' || lang == 'es') ? lang : 'en';
 
   try {
-    await FMTCObjectBoxBackend().initialise(); // The default/built-in backend
-    // ignore: unused_catch_stack
-  } catch (error, stackTrace) {
-    // See below for error/exception handling
+    await FMTCObjectBoxBackend().initialise();
+  } catch (error) {
+    throw Exception('Error initializing FMTCObjectBoxBackend: $error');
   }
   await const FMTCStore('mapStore').manage.create();
 
-  final apiService = ApiService(token: ''); // Initial token can be empty
+  final apiService = ApiService(token: '');
 
   runApp(
     MultiProvider(
@@ -58,11 +53,6 @@ Future<void> main() async {
           create: (context) => AuthService(
             apiService: apiService,
             sharedPreferencesUtil: sharedPreferencesUtil,
-          ),
-        ),
-        Provider<HikeService>(
-          create: (context) => HikeService(
-            apiService: apiService,
           ),
         ),
         Provider<HikeService>(
@@ -80,16 +70,15 @@ Future<void> main() async {
   );
 }
 
-const int homePageIndex = 0;
-const int mapPageIndex = 1;
-const int profilePageIndex = 2;
-const int settingsPageIndex = 3;
-const int languagePageIndex = 4;
-const int registerPageIndex = 5;
-const int signInPageIndex = 6;
-const int securityPageIndex = 7;
-const int deleteAccountPageIndex = 8;
-const int editProfilePageIndex = 10;
+const int mapPageIndex = 0;
+const int profilePageIndex = 1;
+const int settingsPageIndex = 2;
+const int languagePageIndex = 3;
+const int registerPageIndex = 4;
+const int signInPageIndex = 5;
+const int securityPageIndex = 6;
+const int deleteAccountPageIndex = 7;
+const int editProfilePageIndex = 8;
 const int hikeListPageIndex = 9;
 
 class AppInitializer extends StatefulWidget {
@@ -174,21 +163,16 @@ class NavigationBarApp extends StatefulWidget {
 class _NavigationExampleState extends State<NavigationBarApp> {
   int currentPageIndex = 0;
 
-  void _navigateToPage(int index) {
+  void navigateToPage(int index) {
     setState(() {
       currentPageIndex = index;
     });
   }
 
-  void navigateToSpecificPage(int index) {
-    _navigateToPage(index);
-  }
-
   bool _isSubPageOf(int mainPageIndex) {
     return (mainPageIndex == settingsPageIndex &&
-            (currentPageIndex == languagePageIndex ||
-                currentPageIndex == securityPageIndex ||
-                currentPageIndex == deleteAccountPageIndex)) ||
+            currentPageIndex >= languagePageIndex &&
+            currentPageIndex <= deleteAccountPageIndex) ||
         (mainPageIndex == profilePageIndex &&
             (currentPageIndex == registerPageIndex ||
                 currentPageIndex == signInPageIndex));
@@ -196,69 +180,41 @@ class _NavigationExampleState extends State<NavigationBarApp> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-    int selectedIndex =
-        _isSubPageOf(settingsPageIndex) || _isSubPageOf(profilePageIndex)
-            ? (currentPageIndex == languagePageIndex ||
-                    currentPageIndex == securityPageIndex ||
-                    currentPageIndex == deleteAccountPageIndex)
-                ? settingsPageIndex
-                : profilePageIndex
-            : currentPageIndex;
-
-    if (selectedIndex >= 4) {
-      selectedIndex = profilePageIndex;
-    }
+    int selectedIndex = _isSubPageOf(settingsPageIndex)
+        ? settingsPageIndex
+        : (_isSubPageOf(profilePageIndex)
+            ? profilePageIndex
+            : currentPageIndex);
 
     return Scaffold(
       bottomNavigationBar: NavigationBar(
-        onDestinationSelected: _navigateToPage,
+        onDestinationSelected: navigateToPage,
         indicatorColor: Constants.navBar,
         backgroundColor: Constants.navBar,
         surfaceTintColor: Constants.navBar,
         selectedIndex: selectedIndex,
         destinations: <Widget>[
-          _buildNavItem(
-              Icons.home_outlined, homePageIndex, Constants.primaryColor),
-          _buildNavItem(
-              Icons.map_outlined, mapPageIndex, Constants.fourthColor),
-          _buildNavItem(
-              Icons.person_outline, profilePageIndex, Constants.primaryColor),
-          _buildNavItem(Icons.settings_outlined, settingsPageIndex,
-              Constants.primaryColor),
+          _buildNavItem(Icons.map_outlined, mapPageIndex),
+          _buildNavItem(Icons.person_outline, profilePageIndex),
+          _buildNavItem(Icons.settings_outlined, settingsPageIndex),
         ],
       ),
       body: <Widget>[
-        _buildPage('Home page', theme),
         const MapPage(),
         ProfilePage(
-          onRegisterButtonPressed: () {
-            _navigateToPage(registerPageIndex);
-          },
-          onSignInButtonPressed: () {
-            _navigateToPage(signInPageIndex);
-          },
+          onRegisterButtonPressed: () => navigateToPage(registerPageIndex),
+          onSignInButtonPressed: () => navigateToPage(signInPageIndex),
         ),
-
-        /// Settings page
         SettingsPage(
-          onLanguageButtonPressed: () {
-            _navigateToPage(languagePageIndex);
-          },
-          onSecurityButtonPressed: () {
-            _navigateToPage(securityPageIndex);
-          },
+          onLanguageButtonPressed: () => navigateToPage(languagePageIndex),
+          onSecurityButtonPressed: () => navigateToPage(securityPageIndex),
         ),
         const LanguagePage(),
         const RegisterPage(),
         const LoginPage(),
         SecurityPage(
-          onDeleteAccountPressed: () {
-            _navigateToPage(deleteAccountPageIndex);
-          },
-          onEditProfilePressed: () {
-            _navigateToPage(editProfilePageIndex);
-          },
+          onDeleteAccountPressed: () => navigateToPage(deleteAccountPageIndex),
+          onEditProfilePressed: () => navigateToPage(editProfilePageIndex),
         ),
         const DeleteAccountWarningPage(),
         const HikeListPage(),
@@ -275,63 +231,24 @@ class _NavigationExampleState extends State<NavigationBarApp> {
     );
   }
 
-  Widget _buildNavItem(IconData icon, int index, Color selectedColor) {
+  Widget _buildNavItem(IconData icon, int index) {
+    final isSelected = currentPageIndex == index || _isSubPageOf(index);
     return SizedBox(
       height: 60,
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
-        ),
-        child: FloatingActionButton(
-          heroTag: index.toString(),
-          hoverColor: Colors.transparent,
-          focusColor: Colors.transparent,
-          splashColor: Colors.transparent,
-          highlightElevation: 0.0,
-          onPressed: () {
-            _navigateToPage(index);
-          },
-          backgroundColor: Constants.navBar,
-          elevation: 0.0,
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Icon(
-                icon,
-                color: (currentPageIndex == index ||
-                        (_isSubPageOf(index) && index == settingsPageIndex))
-                    ? selectedColor
-                    : Constants.navButtonNotSelected,
-              ),
-              Positioned(
-                bottom: -3,
-                child: Container(
-                  height: 4,
-                  width: 4,
-                  decoration: const BoxDecoration(
-                    color: Constants.primaryColor,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildPage(String text, ThemeData theme) {
-    return Card(
-      shadowColor: Colors.transparent,
-      margin: const EdgeInsets.all(8.0),
-      child: SizedBox.expand(
-        child: Center(
-          child: Text(
-            text,
-            style: theme.textTheme.titleLarge,
-          ),
+      child: FloatingActionButton(
+        heroTag: index.toString(),
+        hoverColor: Colors.transparent,
+        focusColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        highlightElevation: 0.0,
+        onPressed: () => navigateToPage(index),
+        backgroundColor: Constants.navBar,
+        elevation: 0.0,
+        child: Icon(
+          icon,
+          color: isSelected
+              ? Constants.primaryColor
+              : Constants.navButtonNotSelected,
         ),
       ),
     );

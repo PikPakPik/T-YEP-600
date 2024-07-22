@@ -74,8 +74,7 @@ class LoginFormState extends State<LoginForm> {
                     await userProvider.login(
                         _emailController.text, _passwordController.text);
                     if (context.mounted) {
-                      SmartHikeApp.navBarKey.currentState
-                          ?.navigateToSpecificPage(2);
+                      SmartHikeApp.navBarKey.currentState?.navigateToPage(1);
                     }
                   } catch (e) {
                     if (e is Exception) {

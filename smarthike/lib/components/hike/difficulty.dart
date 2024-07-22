@@ -40,18 +40,35 @@ class Difficulty extends StatelessWidget {
 
     return Row(
       children: [
-        Icon(
-          icon,
-          color: color,
-          weight: 15,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: color,
+              size: 22,
+            ),
+          ],
         ),
-        const SizedBox(width: 4),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 14,
-            color: color,
-          ),
+        const SizedBox(width: 5),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              LocaleKeys.hike_details_difficulty.tr(),
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey[400],
+              ),
+            ),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 14,
+                color: color,
+              ),
+            ),
+          ],
         ),
       ],
     );

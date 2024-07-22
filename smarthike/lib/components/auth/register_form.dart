@@ -230,7 +230,7 @@ class RegisterFormState extends State<RegisterForm> {
                         );
                         if (context.mounted) {
                           SmartHikeApp.navBarKey.currentState
-                              ?.navigateToSpecificPage(2);
+                              ?.navigateToPage(1);
                         }
                       } catch (e) {
                         if (e is Exception) {

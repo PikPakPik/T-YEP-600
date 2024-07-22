@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marqueer/marqueer.dart';
 import 'package:smarthike/components/hike/details_card.dart';
 import 'package:smarthike/models/hike.dart';
 import 'package:smarthike/models/fav_hike.dart';
@@ -10,7 +11,8 @@ class HorizontalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String imageUrl = hike is Hike ? hike.imageUrl : "assets/images/hikeImageWaiting.jpg";
+    final String imageUrl =
+        hike is Hike ? hike.imageUrl : "assets/images/hikeImageWaiting.jpg";
     final String name = hike is Hike ? hike.name : (hike as HikeFav).name;
 
     return LayoutBuilder(
@@ -35,13 +37,31 @@ class HorizontalCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        name,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      LayoutBuilder(builder: (context, constraints) {
+                        String displayName = '$name      ';
+                        return name.length > 22
+                            ? SizedBox(
+                                height: 20,
+                                child: Marqueer(
+                                  restartAfterInteractionDuration:
+                                      const Duration(seconds: 3),
+                                  child: Text(
+                                    displayName,
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                name,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                      }),
                       if (hike is Hike) ...[
                         DetailsCard(hike: hike),
                       ],
