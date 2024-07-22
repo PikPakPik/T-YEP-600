@@ -419,6 +419,27 @@
                         "required": false,
                         "type": "integer",
                         "default": 30
+                    },
+                    {
+                        "name": "difficulty",
+                        "in": "query",
+                        "description": "Set the difficulty oh hikes",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "hiking_time",
+                        "in": "query",
+                        "description": "Set the time duration of hikes",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "hike_distance",
+                        "in": "query",
+                        "description": "Set the distance in meters of the hike",
+                        "required": false,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
@@ -847,7 +868,8 @@
                 },
                 "lastLogin": {
                     "type": "string",
-                    "format": "date-time"
+                    "format": "date-time",
+                    "nullable": true
                 },
                 "createdAt": {
                     "type": "string",
@@ -855,7 +877,8 @@
                 },
                 "updatedAt": {
                     "type": "string",
-                    "format": "date-time"
+                    "format": "date-time",
+                    "nullable": true
                 }
             }
         },
@@ -913,10 +936,17 @@
                     "type": "string"
                 },
                 "difficulty": {
-                    "type": "string"
+                    "type": "string",
+                    "nullable": true
                 },
                 "hikingTime": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1D5H30M",
+                    "nullable": true
+                },
+                "distance": {
+                    "type": "string",
+                    "nullable": true
                 },
                 "positiveAltitude": {
                     "type": "string",
@@ -964,7 +994,8 @@
                 },
                 "updatedAt": {
                     "type": "string",
-                    "format": "date-time"
+                    "format": "date-time",
+                    "nullable": true
                 }
             }
         },
