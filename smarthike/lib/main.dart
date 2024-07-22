@@ -169,13 +169,15 @@ class _NavigationExampleState extends State<NavigationBarApp> {
     });
   }
 
-  bool _isSubPageOf(int mainPageIndex) {
-    return (mainPageIndex == settingsPageIndex &&
+  bool _isSubPageOf(int parentPage) {
+    return (parentPage == settingsPageIndex &&
             currentPageIndex >= languagePageIndex &&
             currentPageIndex <= deleteAccountPageIndex) ||
-        (mainPageIndex == profilePageIndex &&
+        (parentPage == profilePageIndex &&
             (currentPageIndex == registerPageIndex ||
-                currentPageIndex == signInPageIndex));
+                currentPageIndex == signInPageIndex)) ||
+        (parentPage == hikeListPageIndex &&
+            currentPageIndex == editProfilePageIndex);
   }
 
   @override
@@ -185,6 +187,8 @@ class _NavigationExampleState extends State<NavigationBarApp> {
         : (_isSubPageOf(profilePageIndex)
             ? profilePageIndex
             : currentPageIndex);
+
+    selectedIndex = selectedIndex.clamp(0, 2);
 
     return Scaffold(
       bottomNavigationBar: NavigationBar(
@@ -217,15 +221,7 @@ class _NavigationExampleState extends State<NavigationBarApp> {
           onEditProfilePressed: () => navigateToPage(editProfilePageIndex),
         ),
         const DeleteAccountWarningPage(),
-        Consumer<UserProvider>(
-          builder: (context, userProvider, child) {
-            if (userProvider.user != null) {
-              return EditProfilePage(user: userProvider.user!);
-            } else {
-              return Container();
-            }
-          },
-        ),
+        const EditProfilePage(),
         const HikeListPage(),
       ][currentPageIndex],
     );

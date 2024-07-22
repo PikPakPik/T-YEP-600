@@ -324,7 +324,7 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
                   textColor: Colors.black,
                   radius: 5,
                   onPressed: () {
-                    SmartHikeApp.navBarKey.currentState?.navigateToPage(8);
+                    SmartHikeApp.navBarKey.currentState?.navigateToPage(9);
                   },
                 ),
               ],

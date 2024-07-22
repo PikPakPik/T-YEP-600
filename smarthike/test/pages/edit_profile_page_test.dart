@@ -43,10 +43,9 @@ void main() async {
         lastname: 'Doe',
         email: 'john.doe@example.com');
 
-    await tester.pumpWidget(makeTestableWidget(
-        child: EditProfilePage(
-      user: user,
-    )));
+    when(mockUserProvider.user).thenReturn(user);
+
+    await tester.pumpWidget(makeTestableWidget(child: EditProfilePage()));
 
     expect(find.text('John'), findsOneWidget);
     expect(find.text('Doe'), findsOneWidget);
@@ -61,12 +60,10 @@ void main() async {
         lastname: 'Doe',
         email: 'john.doe@example.com');
 
+    when(mockUserProvider.user).thenReturn(user);
     when(mockUserProvider.updateUser(any)).thenAnswer((_) async {});
 
-    await tester.pumpWidget(makeTestableWidget(
-        child: EditProfilePage(
-      user: user,
-    )));
+    await tester.pumpWidget(makeTestableWidget(child: EditProfilePage()));
 
     await tester.enterText(find.byType(TextFormField).at(0), 'Jane');
     await tester.enterText(find.byType(TextFormField).at(1), 'Doe');
