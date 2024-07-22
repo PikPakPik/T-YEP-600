@@ -37,7 +37,6 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
   Position? currentLocation;
   List<dynamic> points = [];
   List<Hike> hikes = [];
-  final double _initialSheetChildSize = 0.3;
   double _dragScrollSheetExtent = 0;
 
   double _widgetHeight = 0;
@@ -306,8 +305,18 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
     return Stack(
       children: [
         if (!_isLoading && !_showCompletionMessage)
+          NotificationListener<DraggableScrollableNotification>(
+            onNotification: _handleDraggableScrollNotification,
+            child: DraggableScrollableSheet(
+              initialChildSize: 0.1,
+              maxChildSize: 0.3,
+              minChildSize: 0.1,
+              builder: _buildScrollableSheet,
+            ),
+          ),
+        if (!_isLoading && !_showCompletionMessage)
           Positioned(
-            bottom: _fabPosition + _fabPositionPadding,
+            bottom: _fabPosition == 0 ? 70 : _fabPosition,
             right: _fabPositionPadding,
             width: 100,
             child: Column(
@@ -330,16 +339,6 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
               ],
             ),
           ),
-        if (!_isLoading && !_showCompletionMessage)
-          NotificationListener<DraggableScrollableNotification>(
-            onNotification: _handleDraggableScrollNotification,
-            child: DraggableScrollableSheet(
-              initialChildSize: _initialSheetChildSize,
-              maxChildSize: 0.3,
-              minChildSize: 0.1,
-              builder: _buildScrollableSheet,
-            ),
-          ),
       ],
     );
   }
@@ -349,7 +348,6 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
     setState(() {
       _widgetHeight = context.size!.height;
       _dragScrollSheetExtent = notification.extent;
-
       _fabPosition = _dragScrollSheetExtent * _widgetHeight;
     });
     return true;
