@@ -4,6 +4,7 @@ import click
 import os
 import pandas as pd
 from services.overpass import Overpass
+import math
 
 INFO = '\033[94m'
 SUCCESS = '\033[92m'
@@ -30,11 +31,15 @@ def importHikes(filename: str):
         for index, row in df.iterrows():
             new_hike = Hike(
                 osmId = int(row['osm_id']),
-                name = row['name'] if row['name'] is not None else f"Hike {index}",
+                name = str(row['name']),
                 firstNodeLat = str(row['first_node_lat']),
                 firstNodeLon = str(row['first_node_lon']),
                 lastNodeLat = str(row['last_node_lat']),
-                lastNodeLon = str(row['last_node_lon'])
+                lastNodeLon = str(row['last_node_lon']),
+                hikingTime = None if math.isnan(row['hiking_time']) is True else str(row['hiking_time']),
+                distance = None if math.isnan(row['distance']) is True else str(row['distance']),
+                positiveAltitude = None if math.isnan(row['positive_altitude']) is True else str(row['positive_altitude']),
+                negativeAltitude = None if math.isnan(row['positive_altitude']) is True else str(row['negative_altitude'])
             )
             db.session.add(new_hike)
             
@@ -60,8 +65,9 @@ def importMetadata():
     total_hikes = hikes.count()
 
     for offset in range(0, total_hikes, batch_size):
-        hikes_batch = db.session.query(Hike).filter(Hike.distance.is_(None), Hike.hikingTime.is_(None)).offset(offset).limit(batch_size).all()
+        hikes_batch = hikes.offset(offset).limit(batch_size).all()
         print(f"{WARNING}Processing batch {offset // batch_size + 1} / {total_hikes // batch_size + 1}{NO_COLOR}")
+        print(offset, len(hikes_batch))
 
         for hike in hikes_batch:
             print(f"{INFO}Processing hike {hike.id} - {hike.name}{NO_COLOR}")
@@ -70,7 +76,6 @@ def importMetadata():
             hike.hikingTime = overpass.getDuration(float(hike.distance), 4.0)
             print(f"{SUCCESS}Processed hike {hike.id} - {hike.name}{NO_COLOR}")
             db.session.commit()
-            pass
 
     print("All hikes processed")
 
@@ -82,7 +87,7 @@ def importAltitude():
     total_hikes = hikes.count()
 
     for offset in range(0, total_hikes, batch_size):
-        hikes_batch = db.session.query(Hike).filter(Hike.positiveAltitude.is_(None), Hike.negativeAltitude.is_(None)).offset(offset).limit(batch_size).all()
+        hikes_batch = hikes.offset(offset).limit(batch_size).all()
         print(f"{WARNING}Processing batch {offset // batch_size + 1} / {total_hikes // batch_size + 1}\n{NO_COLOR}")
 
         for hike in hikes_batch:
@@ -94,6 +99,5 @@ def importAltitude():
             hike.negativeAltitude = altitude_negative
             print(f"{SUCCESS}Processed hike {hike.id} - {hike.name}\n{NO_COLOR}")
             db.session.commit()
-            pass
 
     print("All hikes processed")
