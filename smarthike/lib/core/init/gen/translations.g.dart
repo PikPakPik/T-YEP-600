@@ -97,7 +97,19 @@ abstract class  LocaleKeys {
   static const hike_details_difficulty_steps = 'hike.details.difficulty_steps';
   static const hike_details_unknown = 'hike.details.unknown';
   static const hike_details = 'hike.details';
+  static const hike_all_hikes = 'hike.all_hikes';
   static const hike_see_hikes = 'hike.see_hikes';
   static const hike = 'hike';
+  static const filter_distance = 'filter.distance';
+  static const filter_time = 'filter.time';
+  static const filter_difficulty = 'filter.difficulty';
+  static const filter_location = 'filter.location';
+  static const filter_apply_filters = 'filter.apply_filters';
+  static const filter_difficulty_levels_difficulty = 'filter.difficulty_levels.difficulty';
+  static const filter_difficulty_levels_easy = 'filter.difficulty_levels.easy';
+  static const filter_difficulty_levels_medium = 'filter.difficulty_levels.medium';
+  static const filter_difficulty_levels_difficult = 'filter.difficulty_levels.difficult';
+  static const filter_difficulty_levels = 'filter.difficulty_levels';
+  static const filter = 'filter';
 
 }

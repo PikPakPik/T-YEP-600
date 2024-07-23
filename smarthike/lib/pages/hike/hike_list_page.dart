@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smarthike/components/hike/custom_app_bar.dart';
 import 'package:smarthike/components/hike/horizontal_card.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/providers/hike_provider.dart';
 
 class HikeListPage extends StatefulWidget {
-  const HikeListPage({super.key});
+  final VoidCallback onFilterButtonPressed;
+
+  const HikeListPage({
+    super.key,
+    required this.onFilterButtonPressed,
+  });
 
   @override
   HikeListPageState createState() => HikeListPageState();
@@ -27,6 +33,10 @@ class HikeListPageState extends State<HikeListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.thirdColor,
+      appBar: CustomAppBar(
+        onFilterButtonPressed: widget.onFilterButtonPressed,
+        isHikeListPage: true,
+      ),
       body: Consumer<HikeProvider>(
         builder: (context, hikeProvider, child) {
           final hikes = hikeProvider.hikes;

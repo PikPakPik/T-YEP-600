@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:smarthike/pages/hike/filter_page.dart';
 import 'package:smarthike/pages/hike/hike_list_page.dart';
 import 'package:smarthike/pages/map_page.dart';
 
@@ -80,6 +81,7 @@ const int securityPageIndex = 6;
 const int deleteAccountPageIndex = 7;
 const int editProfilePageIndex = 8;
 const int hikeListPageIndex = 9;
+const int filterPageIndex = 10;
 
 class AppInitializer extends StatefulWidget {
   final Widget child;
@@ -222,7 +224,9 @@ class _NavigationExampleState extends State<NavigationBarApp> {
         ),
         const DeleteAccountWarningPage(),
         const EditProfilePage(),
-        const HikeListPage(),
+        HikeListPage(
+            onFilterButtonPressed: () => navigateToPage(filterPageIndex)),
+        const FilterPage(),
       ][currentPageIndex],
     );
   }

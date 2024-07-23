@@ -114,6 +114,20 @@
       },
     "unknown": "unknown"
     },
+    "all_hikes" : "All hikes",
     "see_hikes": "See all"
+  },
+  "filter": {
+    "distance": "Distance (km)",
+    "time": "Hiking time (hours)",
+    "difficulty": "Difficulty",
+    "location": "Location",
+    "apply_filters": "Apply Filters",
+    "difficulty_levels": {
+      "difficulty": "Difficulty",
+      "easy": "Easy",
+      "medium": "Medium",
+      "difficult": "Difficult"
+    }
   }
 }
