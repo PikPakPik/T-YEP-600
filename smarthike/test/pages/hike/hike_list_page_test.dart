@@ -39,8 +39,12 @@ void main() async {
         fallbackLocale: const Locale('en'),
         child: ChangeNotifierProvider<HikeProvider>(
           create: (_) => hikeProvider,
-          child: const MaterialApp(
-            home: HikeListPage(),
+          child: MaterialApp(
+            home: HikeListPage(
+              onFilterButtonPressed: () {
+                // Add your filter button logic here for the test
+              },
+            ),
           ),
         ),
       ),

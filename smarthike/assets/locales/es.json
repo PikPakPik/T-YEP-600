@@ -114,6 +114,20 @@
       },
     "unknown": "Desconocido"
     },
+    "all_hikes": "Todas las excursiones",
     "see_hikes": "Ver todas"
+  },
+  "filter": {
+    "distance": "Distancia (km)",
+    "time": "Tiempo de caminata (horas)",
+    "difficulty": "Dificultad",
+    "location": "Ubicación",
+    "apply_filters": "Aplicar Filtros",
+    "difficulty_levels": {
+      "difficulty": "Dificultad",
+      "easy": "Fácil",
+      "medium": "Medio",
+      "difficult": "Difícil"
+    }
   }
 }
