@@ -114,6 +114,20 @@
       },
     "unknown": "Inconnu"
     },
+    "all_hikes": "Toutes les randonnées",
     "see_hikes": "Voir tout"
+  },
+  "filter": {
+    "distance": "Nombre de km",
+    "time": "Temps de marche (en h)",
+    "difficulty": "Niveau de difficulté",
+    "location": "Localisation",
+    "apply_filters": "Appliquer les filtres",
+    "difficulty_levels": {
+      "difficulty": "Difficulté",
+      "easy": "Facile",
+      "medium": "Moyen",
+      "difficult": "Difficile"
+    }
   }
 }
