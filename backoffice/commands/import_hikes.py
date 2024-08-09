@@ -36,6 +36,7 @@ def importHikes(filename: str):
                 firstNodeLon = str(row['first_node_lon']),
                 lastNodeLat = str(row['last_node_lat']),
                 lastNodeLon = str(row['last_node_lon']),
+                difficulty = str(row['difficulty']),
                 hikingTime = None if math.isnan(row['hiking_time']) is True else str(row['hiking_time']),
                 distance = None if math.isnan(row['distance']) is True else str(row['distance']),
                 positiveAltitude = None if math.isnan(row['positive_altitude']) is True else str(row['positive_altitude']),
