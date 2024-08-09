@@ -23,7 +23,7 @@ class HikeListPageState extends State<HikeListPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       final hikeProvider = Provider.of<HikeProvider>(context, listen: false);
       hikeProvider.loadPaginatedHikesData(1);
     });
