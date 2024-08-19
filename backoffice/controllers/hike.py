@@ -260,28 +260,30 @@ def get_hike_geometry(hike_id):
         )
 
     try:
-        query = f"[out:json][timeout:25];(rel(id:{hike.osmId}););(._;>;);out body;>;"
+        query = f"[out:json][timeout:25];(rel(id:{hike.osmId}););(._;>;);out geom;>;"
         response = requests.get("https://overpass-api.de/api/interpreter", params={'data': query})
         data = response.json()
         
         elements = data.get('elements', [])
-        nodes = [element for element in elements if element['type'] == 'node']
-        ways = [element for element in elements if element['type'] == 'way']
-
-        node_map = {node['id']: node for node in nodes}
-        
+        relation = next((element for element in elements if element['type'] == 'relation'), None)
         way_polylines = []
 
-        for way in ways:
-            way_nodes = way['nodes']
-            way_polylines_points = []
-            for i in range(len(way_nodes) - 1):
-                start_node = node_map.get(way_nodes[i])
-                end_node = node_map.get(way_nodes[i + 1])
-                if start_node and end_node:
-                    way_polylines_points.append({'lat': start_node['lat'], 'lon': start_node['lon']})
-                    way_polylines_points.append({'lat': end_node['lat'], 'lon': end_node['lon']})
-            way_polylines.append(way_polylines_points)
+        for i in range(len(relation['members'])):
+            way = relation['members'][i]
+            if way['type'] == 'way':
+                way_points = []
+                for point in way['geometry']:
+                    way_points.append({'lat': point['lat'], 'lon': point['lon']})
+
+                if i < len(relation['members']) - 1:
+                    next_way = relation['members'][i + 1]
+                    if next_way['type'] == 'way':
+                        if way_points[-1] == {'lat': next_way['geometry'][0]['lat'], 'lon': next_way['geometry'][0]['lon']}:
+                            pass
+                        elif way_points[-1] == {'lat': next_way['geometry'][-1]['lat'], 'lon': next_way['geometry'][-1]['lon']}:
+                            way_points.reverse()
+
+            way_polylines.append(way_points)
 
         return app.response_class(
             response=json.dumps(way_polylines),

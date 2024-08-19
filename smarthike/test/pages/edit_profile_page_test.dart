@@ -5,6 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/models/user.dart';
 import 'package:smarthike/pages/edit_profile_page.dart';
 import 'package:smarthike/providers/user_provider.dart';
@@ -70,7 +71,7 @@ void main() async {
     await tester.enterText(
         find.byType(TextFormField).at(2), 'jane.doe@example.com');
 
-    await tester.tap(find.text('Enregistrer'));
+    await tester.tap(find.text(LocaleKeys.register_form_form_save.tr()));
     await tester.pumpAndSettle();
 
     verify(mockUserProvider.updateUser(any)).called(1);

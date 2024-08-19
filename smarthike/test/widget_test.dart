@@ -13,7 +13,7 @@ import 'package:smarthike/utils/shared_preferences_util.dart';
 void main() {
   testWidgets('NavigationBarApp has 3 navigation destinations',
       (WidgetTester tester) async {
-    await dotenv.load();
+    await dotenv.load(fileName: '../../../.env');
     SharedPreferences.setMockInitialValues({});
 
     await EasyLocalization.ensureInitialized();
@@ -27,11 +27,11 @@ void main() {
           providers: [
             Provider<AuthService>(
                 create: (_) => AuthService(
-                    apiService: ApiService(token: ''),
+                    apiService: ApiService(),
                     sharedPreferencesUtil: SharedPreferencesUtil.instance)),
             Provider<HikeService>(
-                create: (_) => HikeService(apiService: ApiService(token: ''))),
-            Provider<ApiService>(create: (_) => ApiService(token: '')),
+                create: (_) => HikeService(apiService: ApiService())),
+            Provider<ApiService>(create: (_) => ApiService()),
           ],
           child: const SmartHikeApp(),
         ),

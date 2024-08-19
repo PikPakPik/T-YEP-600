@@ -11,9 +11,8 @@ class ApiService {
       ? dotenv.env['API_URL_ANDROID']!
       : dotenv.env['API_URL_OTHER']!;
   Dio _dio = Dio();
-  final String _token;
 
-  ApiService({Dio? dio, required String token}) : _token = token {
+  ApiService({Dio? dio}) {
     _dio = dio ?? Dio();
 
     _dio.options.baseUrl = _baseURL;
@@ -27,7 +26,7 @@ class ApiService {
 
     _dio.options.headers = {
       HttpHeaders.userAgentHeader: 'dio',
-      'Authorization': 'Bearer ${savedToken ?? _token}',
+      'Authorization': 'Bearer $savedToken',
       'common-header': 'xx',
       'Content-Type': 'application/json',
     };

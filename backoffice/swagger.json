@@ -940,8 +940,8 @@
                     "nullable": true
                 },
                 "hikingTime": {
-                    "type": "string",
-                    "example": "1D5H30M",
+                    "type": "integer",
+                    "format": "number",
                     "nullable": true
                 },
                 "distance": {

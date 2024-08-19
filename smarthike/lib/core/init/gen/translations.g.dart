@@ -28,6 +28,7 @@ abstract class  LocaleKeys {
   static const register_form_next = 'register.form.next';
   static const register_form_back = 'register.form.back';
   static const register_form_register = 'register.form.register';
+  static const register_form_form_save = 'register.form.form_save';
   static const register_form_error_firstname_required = 'register.form.error.firstname_required';
   static const register_form_error_lastname_required = 'register.form.error.lastname_required';
   static const register_form_error_email_required = 'register.form.error.email_required';

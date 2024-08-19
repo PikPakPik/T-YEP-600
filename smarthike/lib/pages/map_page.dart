@@ -31,6 +31,7 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
   late HikeService hikeService;
   late Completer<MapController> controllerCompleter = Completer();
   late List<Marker> markers = [];
+  late List<Marker> startAndEndMarkers = [];
   late final tileProvider = const FMTCStore('mapStore').getTileProvider();
   bool _isFollowing = true;
   Stream<LocationMarkerPosition>? _positionStream;
@@ -50,6 +51,9 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
 
   final PageController _pageController = PageController(viewportFraction: 1);
 
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
   @override
   void initState() {
     super.initState();
@@ -57,12 +61,20 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
     hikeService = Provider.of<HikeService>(context, listen: false);
     _initializeAsync();
     _setupPageController();
+
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 10),
+      vsync: this,
+    )..repeat();
+
+    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
   }
 
   @override
   void dispose() {
     _pageController.removeListener(_onPageViewScroll);
     _pageController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -169,13 +181,65 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
 
   Future<void> _fetchHikeGeometry(int hikeId) async {
     final response = await hikeService.getHikeGeometry(hikeId);
-    selectedPolylines.clear();
-    for (var way in response) {
-      setState(() {
+    setState(() {
+      startAndEndMarkers.clear();
+      selectedPolylines.clear();
+      for (var i = 0; i < response.length; i++) {
+        var way = response[i];
         selectedPolylines.add(
-            Polyline(points: way.points, strokeWidth: 4.0, color: Colors.red));
-      });
-    }
+          Polyline(
+              points: way.points,
+              strokeWidth: 5.0,
+              borderColor: Colors.black,
+              borderStrokeWidth: 2.0,
+              color: Colors.deepOrange),
+        );
+      }
+      if (response.isNotEmpty) {
+        _addStartAndEndMarkers(
+            response.first.points.first, response.last.points.last);
+      }
+    });
+  }
+
+  void _addStartAndEndMarkers(LatLng start, LatLng end) {
+    setState(() {
+      startAndEndMarkers.add(
+        Marker(
+          width: 30,
+          height: 30,
+          point: start,
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2),
+            ),
+          ),
+        ),
+      );
+      startAndEndMarkers.add(
+        Marker(
+          point: end,
+          width: 20,
+          height: 20,
+          child: Container(
+            width: 40,
+            height: 20,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.white, width: 2),
+              image: const DecorationImage(
+                image: AssetImage('assets/images/checkerboard_pattern.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+      );
+    });
   }
 
   @override
@@ -220,6 +284,11 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
             maxZoom: 15,
             markers: markers,
             builder: _buildClusterMarker,
+            polygonOptions: const PolygonOptions(
+                color: Colors.transparent,
+                borderColor: Colors.red,
+                borderStrokeWidth: 2,
+                pattern: StrokePattern.dotted()),
           ),
         ),
         if (_positionStream != null)
@@ -245,6 +314,11 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
         if (selectedPolylines.isNotEmpty)
           PolylineLayer(
             polylines: selectedPolylines,
+          ),
+        _buildAnimatedPolyline(),
+        if (startAndEndMarkers.isNotEmpty)
+          MarkerLayer(
+            markers: startAndEndMarkers,
           ),
         const Positioned(
           left: 0,
@@ -397,5 +471,100 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
 
   void _onMapCreated(MapController controller) {
     controllerCompleter.complete(controller);
+  }
+
+  List<LatLng> _getOrderedPoints(List<Polyline> polylines) {
+    List<LatLng> orderedPoints = [];
+
+    for (var polyline in polylines) {
+      if (orderedPoints.isEmpty) {
+        orderedPoints.addAll(polyline.points);
+      } else {
+        LatLng lastPoint = orderedPoints.last;
+        LatLng firstPoint = polyline.points.first;
+
+        if (lastPoint.latitude == firstPoint.latitude &&
+            lastPoint.longitude == firstPoint.longitude) {
+          orderedPoints.addAll(polyline.points.sublist(1));
+        } else {
+          orderedPoints.addAll(polyline.points.reversed.toList());
+        }
+      }
+    }
+
+    return orderedPoints;
+  }
+
+  Widget _buildAnimatedPolyline() {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        if (selectedPolylines.isEmpty) return SizedBox.shrink();
+
+        List<LatLng> allPoints = _getOrderedPoints(selectedPolylines);
+
+        double totalDistance = 0;
+        for (int i = 0; i < allPoints.length - 1; i++) {
+          totalDistance += _calculateDistance(allPoints[i], allPoints[i + 1]);
+        }
+
+        double progress = min(_animation.value * totalDistance, totalDistance);
+        LatLng animatedPosition =
+            _getPositionAlongPolyline(allPoints, progress);
+        return MarkerLayer(
+          markers: [
+            Marker(
+              point: animatedPosition,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white.withOpacity(0.8),
+                  border: Border.all(color: Colors.red, width: 10),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  double _calculateDistance(LatLng start, LatLng end) {
+    const double earthRadius = 6371000;
+    double dLat = _degreesToRadians(end.latitude - start.latitude);
+    double dLon = _degreesToRadians(end.longitude - start.longitude);
+    double a = sin(dLat / 2) * sin(dLat / 2) +
+        cos(_degreesToRadians(start.latitude)) *
+            cos(_degreesToRadians(end.latitude)) *
+            sin(dLon / 2) *
+            sin(dLon / 2);
+    double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+    return earthRadius * c;
+  }
+
+  double _degreesToRadians(double degrees) {
+    return degrees * (pi / 180);
+  }
+
+  LatLng _getPositionAlongPolyline(List<LatLng> points, double distance) {
+    double traveled = 0;
+
+    for (int i = 0; i < points.length - 1; i++) {
+      double segmentDistance = _calculateDistance(points[i], points[i + 1]);
+      if (traveled + segmentDistance >= distance) {
+        double remainingDistance = distance - traveled;
+        double ratio = remainingDistance / segmentDistance;
+
+        return LatLng(
+          points[i].latitude +
+              (points[i + 1].latitude - points[i].latitude) * ratio,
+          points[i].longitude +
+              (points[i + 1].longitude - points[i].longitude) * ratio,
+        );
+      }
+      traveled += segmentDistance;
+    }
+
+    return points.last;
   }
 }

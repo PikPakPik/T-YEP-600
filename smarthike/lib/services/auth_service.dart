@@ -65,6 +65,7 @@ class AuthService {
 
   Future<User?> logout() async {
     await SharedPreferencesUtil.instance.setString('token', '');
+    await apiService.updateToken('');
     return null;
   }
 
