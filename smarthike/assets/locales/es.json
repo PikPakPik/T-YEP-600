@@ -31,6 +31,7 @@
       "next": "Siguiente",
       "back": "Atrás",
       "register": "Registro",
+      "form_save": "Guardar",
       "error": {
         "firstname_required": "Por favor, ingrese su nombre",
         "lastname_required": "Por favor, ingrese su apellido",

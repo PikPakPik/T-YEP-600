@@ -30,7 +30,7 @@ import 'package:smarthike/utils/shared_preferences_util.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: "../.env");
 
   final sharedPreferencesUtil = SharedPreferencesUtil.instance;
   String? lang = await sharedPreferencesUtil.getString('lang') ??
@@ -44,7 +44,7 @@ Future<void> main() async {
   }
   await const FMTCStore('mapStore').manage.create();
 
-  final apiService = ApiService(token: '');
+  final apiService = ApiService();
 
   runApp(
     MultiProvider(

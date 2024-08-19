@@ -34,9 +34,7 @@ class HikeService {
   Future<List<Ways>> getHikeGeometry(int hikeId) async {
     try {
       final response = await apiService.get('/hike/$hikeId/geometry');
-      List<dynamic> ways =
-          response; // Supposons que la réponse est directement la liste des chemins
-      // Transforme chaque chemin en une liste de HikeGeometry
+      List<dynamic> ways = response;
       return ways.map((way) {
         List<LatLng> points = (way as List<dynamic>)
             .map((pointJson) =>
@@ -58,7 +56,7 @@ class HikeService {
       while (hasNextPage) {
         final response = await apiService.get('/hikes?limit=1000&page=$page');
         items.addAll(response['items']);
-        hasNextPage = response['nextPage'] != null;
+        hasNextPage = false;
         page++;
       }
       return items

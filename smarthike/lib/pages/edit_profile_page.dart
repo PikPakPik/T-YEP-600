@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/models/user.dart';
 import 'package:smarthike/providers/user_provider.dart';
 import 'package:smarthike/constants.dart';
@@ -79,10 +81,14 @@ class EditProfilePageState extends State<EditProfilePage> {
                         children: <Widget>[
                           TextFormField(
                             initialValue: _user.firstname,
-                            decoration: InputDecoration(labelText: 'Prénom'),
+                            decoration: InputDecoration(
+                                labelText:
+                                    LocaleKeys.register_form_firstname.tr()),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre prénom';
+                                return LocaleKeys
+                                    .register_form_error_firstname_required
+                                    .tr();
                               }
                               return null;
                             },
@@ -92,11 +98,14 @@ class EditProfilePageState extends State<EditProfilePage> {
                           ),
                           TextFormField(
                             initialValue: _user.lastname,
-                            decoration:
-                                InputDecoration(labelText: 'Nom de famille'),
+                            decoration: InputDecoration(
+                                labelText:
+                                    LocaleKeys.register_form_lastname.tr()),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre nom de famille';
+                                return LocaleKeys
+                                    .register_form_error_lastname_required
+                                    .tr();
                               }
                               return null;
                             },
@@ -106,14 +115,18 @@ class EditProfilePageState extends State<EditProfilePage> {
                           ),
                           TextFormField(
                             initialValue: _user.email,
-                            decoration: InputDecoration(labelText: 'Email'),
+                            decoration: InputDecoration(
+                                labelText: LocaleKeys.register_form_email.tr()),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Veuillez entrer votre email';
+                                return LocaleKeys
+                                    .login_form_error_email_required
+                                    .tr();
                               }
                               if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
                                   .hasMatch(value)) {
-                                return 'Veuillez entrer un email valide';
+                                return LocaleKeys.login_form_error_email_invalid
+                                    .tr();
                               }
                               return null;
                             },
@@ -124,7 +137,8 @@ class EditProfilePageState extends State<EditProfilePage> {
                           const SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: _saveProfile,
-                            child: Text('Enregistrer'),
+                            child:
+                                Text(LocaleKeys.register_form_form_save.tr()),
                           ),
                         ],
                       ),

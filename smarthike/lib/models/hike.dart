@@ -3,16 +3,15 @@ import 'package:logger/web.dart';
 
 class Hike {
   final int id;
-  final int osmId;
+  final BigInt osmId;
   final String name;
   final String firstNodeLat;
   final String firstNodeLon;
   final String lastNodeLat;
   final String lastNodeLon;
-  final double? distance;
-  final double? elevationGain;
-  final double? maxAlt;
-  final double? minAlt;
+  final String? distance;
+  final String? positiveAltitude;
+  final String? negativeAltitude;
   final int? difficulty;
   final int? hikingTime;
   final String imageUrl;
@@ -25,10 +24,9 @@ class Hike {
     required this.firstNodeLon,
     required this.lastNodeLat,
     required this.lastNodeLon,
-    this.distance = 0,
-    this.elevationGain = 0,
-    this.maxAlt = 0,
-    this.minAlt = 0,
+    this.distance = "0",
+    this.positiveAltitude = "0",
+    this.negativeAltitude = "0",
     this.difficulty = 0,
     this.hikingTime = 0,
     this.imageUrl = "",
@@ -39,19 +37,19 @@ class Hike {
     try {
       Hike hike = Hike(
         id: json['id'] as int,
-        osmId: json['osmId'] as int,
+        osmId: BigInt.parse(json['osmId'].toString()),
         name: json['name'] as String,
         firstNodeLat: json['firstNodeLat'] as String,
         firstNodeLon: json['firstNodeLon'] as String,
         lastNodeLat: json['lastNodeLat'] as String,
         lastNodeLon: json['lastNodeLon'] as String,
-        distance: (json['distance'] as num?)?.toDouble(),
-        elevationGain: (json['elevationGain'] as num?)?.toDouble(),
-        maxAlt: (json['maxAlt'] as num?)?.toDouble(),
-        minAlt: (json['minAlt'] as num?)?.toDouble(),
+        distance: (json['distance'] as String?),
+        positiveAltitude: (json['positiveAltitude'] as String?),
+        negativeAltitude: (json['negativeAltitude'] as String?),
         difficulty: json['difficulty'] as int?,
         hikingTime: json['hikingTime'] as int?,
-        imageUrl: json['imageUrl'] as String? ?? 'assets/images/hikeImageWaiting.jpg',
+        imageUrl:
+            json['imageUrl'] as String? ?? 'assets/images/hikeImageWaiting.jpg',
       );
       return hike;
     } catch (e) {
@@ -61,7 +59,7 @@ class Hike {
   }
 
   Map<String, dynamic> toJson() => {
-        'id' : id,
+        'id': id,
         'osmId': osmId,
         'name': name,
         'firstNodeLat': firstNodeLat,
@@ -69,9 +67,8 @@ class Hike {
         'lastNodeLat': lastNodeLat,
         'lastNodeLon': lastNodeLon,
         'distance': distance,
-        'elevationGain': elevationGain,
-        'maxAlt': maxAlt,
-        'minAlt': minAlt,
+        'positiveAltitude': positiveAltitude,
+        'negativeAltitude': negativeAltitude,
         'difficulty': difficulty,
         'hikingTime': hikingTime,
         'imageUrl': imageUrl,

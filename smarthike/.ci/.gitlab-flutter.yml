@@ -2,11 +2,11 @@ image: ghcr.io/cirruslabs/flutter
 
 cache:
   paths:
-    - '**/.dart_tool/'
-    - '**/pubspec.lock'
-    - '**/.flutter-plugins*'
-    - '**/.packages'
-    - '**/.pub-cache'
+    - "**/.dart_tool/"
+    - "**/pubspec.lock"
+    - "**/.flutter-plugins*"
+    - "**/.packages"
+    - "**/.pub-cache"
 
 install_dependencies_front:
   stage: install
@@ -26,8 +26,8 @@ install_dependencies_front:
 lints_front:
   stage: lints
   script:
-    - cd smarthike
     - cp .env.example .env
+    - cd smarthike
     - flutter analyze
   rules:
     - if: "$CI_MERGE_REQUEST_IID || $CI_COMMIT_BRANCH =~ /^(develop|main)/"
@@ -41,8 +41,8 @@ lints_front:
 tests_front:
   stage: tests
   script:
-    - cd smarthike
     - cp .env.example .env
+    - cd smarthike
     - flutter test --coverage ./lib
     - lcov -r coverage/lcov.info -o coverage/lcov_cleaned.info
     - genhtml coverage/lcov_cleaned.info --output=coverage
@@ -63,8 +63,8 @@ tests_front:
 build_front:
   stage: build
   script:
-    - cd smarthike
     - cp .env.example .env
+    - cd smarthike
     - flutter build apk --release --build-number ${CI_JOB_ID:0:8}
     - flutter build appbundle --release --build-number ${CI_JOB_ID:0:8}
     - mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/app-release-${CI_JOB_ID:0:8}.apk
