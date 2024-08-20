@@ -6,22 +6,22 @@ import 'package:provider/provider.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/components/auth/login_form.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'register_form_test.mocks.dart';
 
-@GenerateMocks([UserProvider])
+@GenerateMocks([AuthProvider])
 void main() async {
   SharedPreferences.setMockInitialValues({});
   await EasyLocalization.ensureInitialized();
 
   group('LoginForm Tests', () {
-    late MockUserProvider mockUserProvider;
+    late MockAuthProvider mockAuthProvider;
 
     setUp(() {
-      mockUserProvider = MockUserProvider();
+      mockAuthProvider = MockAuthProvider();
     });
 
     Widget makeTestableWidget({required Widget child}) {
@@ -30,8 +30,8 @@ void main() async {
         fallbackLocale: const Locale('en'),
         path: 'assets/locales',
         child: MaterialApp(
-          home: ChangeNotifierProvider<UserProvider>(
-            create: (_) => mockUserProvider,
+          home: ChangeNotifierProvider<AuthProvider>(
+            create: (_) => mockAuthProvider,
             child: child,
           ),
         ),
@@ -66,7 +66,7 @@ void main() async {
 
     testWidgets('successful login with valid email and password',
         (WidgetTester tester) async {
-      when(mockUserProvider.login(any, any)).thenAnswer((_) async {});
+      when(mockAuthProvider.login(any, any)).thenAnswer((_) async {});
 
       await tester.pumpWidget(makeTestableWidget(child: const LoginForm()));
       await tester.enterText(
@@ -77,7 +77,7 @@ void main() async {
       await tester.tap(find.byType(CustomButton));
       await tester.pumpAndSettle();
 
-      verify(mockUserProvider.login('test@example.com', 'password123'))
+      verify(mockAuthProvider.login('test@example.com', 'password123'))
           .called(1);
     });
   });

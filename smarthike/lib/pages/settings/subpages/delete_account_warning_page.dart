@@ -6,7 +6,7 @@ import 'package:smarthike/components/button.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/main.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 
 class DeleteAccountWarningPage extends StatefulWidget {
   const DeleteAccountWarningPage({super.key});
@@ -48,7 +48,7 @@ class DeleteAccountWarningPageState extends State<DeleteAccountWarningPage> {
   ];
 
   void _showConfirmationBottomSheet(
-      BuildContext context, UserProvider userProvider) {
+      BuildContext context, AuthProvider authProvider) {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
@@ -69,7 +69,7 @@ class DeleteAccountWarningPageState extends State<DeleteAccountWarningPage> {
                               foregroundColor: Colors.white,
                               backgroundColor: Colors.red),
                           onPressed: () {
-                            userProvider.deleteUser();
+                            authProvider.deleteUser();
                             Navigator.pop(context);
                             Fluttertoast.showToast(
                                 textColor: Colors.white,
@@ -99,7 +99,7 @@ class DeleteAccountWarningPageState extends State<DeleteAccountWarningPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Constants.thirdColor,
-        body: Consumer<UserProvider>(builder: (context, userProvider, child) {
+        body: Consumer<AuthProvider>(builder: (context, authProvider, child) {
           return Padding(
               padding: const EdgeInsets.all(16.0),
               child: SingleChildScrollView(
@@ -149,7 +149,7 @@ class DeleteAccountWarningPageState extends State<DeleteAccountWarningPage> {
                       text: LocaleKeys.settings_delete_account_confirm_button
                           .tr(),
                       onPressed: () {
-                        _showConfirmationBottomSheet(context, userProvider);
+                        _showConfirmationBottomSheet(context, authProvider);
                       },
                     ),
                   ),

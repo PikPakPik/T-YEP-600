@@ -47,4 +47,5 @@ class Hike(db.Model):
             'id': self.id,
             'osmId': self.osmId,
             'name': self.name,
+            'files': [file.serialize() for file in self.files],
         }

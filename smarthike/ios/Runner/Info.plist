@@ -8,6 +8,12 @@
 		<string>fr</string>
 		<string>es</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Access to take a photo by camera</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Access to pick a photo</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Access to pick a photo</string>
 	<key>com.apple.security.network.client</key>
 	<true/>
 	<key>CADisableMinimumFrameDurationOnPhone</key>

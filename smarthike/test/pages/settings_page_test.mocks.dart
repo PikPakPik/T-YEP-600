@@ -9,7 +9,7 @@ import 'dart:ui' as _i7;
 import 'package:logger/web.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:smarthike/models/user.dart' as _i6;
-import 'package:smarthike/providers/user_provider.dart' as _i4;
+import 'package:smarthike/providers/auth_provider.dart' as _i4;
 import 'package:smarthike/services/auth_service.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -45,11 +45,11 @@ class _FakeLogger_1 extends _i1.SmartFake implements _i3.Logger {
         );
 }
 
-/// A class which mocks [UserProvider].
+/// A class which mocks [AuthProvider].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserProvider extends _i1.Mock implements _i4.UserProvider {
-  MockUserProvider() {
+class MockAuthProvider extends _i1.Mock implements _i4.AuthProvider {
+  MockAuthProvider() {
     _i1.throwOnMissingStub(this);
   }
 

@@ -8,7 +8,7 @@ import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/models/fav_hike.dart';
 
-import '../providers/user_provider.dart';
+import '../providers/auth_provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -29,21 +29,21 @@ class ProfilePageState extends State<ProfilePage> {
   late VoidCallback onRegisterButtonPressed;
   late VoidCallback onSignInButtonPressed;
   late ApiService apiService;
-  late UserProvider userProvider;
+  late AuthProvider authProvider;
   @override
   void initState() {
     super.initState();
     onRegisterButtonPressed = widget.onRegisterButtonPressed;
     onSignInButtonPressed = widget.onSignInButtonPressed;
     apiService = Provider.of<ApiService>(context, listen: false);
-    userProvider = Provider.of<UserProvider>(context, listen: false);
-    if (userProvider.user != null) {
+    authProvider = Provider.of<AuthProvider>(context, listen: false);
+    if (authProvider.user != null) {
       getFavHikes();
     }
   }
 
   Future<void> getFavHikes() async {
-    if (userProvider.user != null) {
+    if (authProvider.user != null) {
       final response = await apiService.get('/hike/favorites');
       final data = response;
 
@@ -59,9 +59,9 @@ class ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.thirdColor,
-      body: Consumer<UserProvider>(
-        builder: (context, userProvider, child) {
-          final user = userProvider.user;
+      body: Consumer<AuthProvider>(
+        builder: (context, authProvider, child) {
+          final user = authProvider.user;
           return user != null
               ? Center(
                   child: SingleChildScrollView(
@@ -252,17 +252,21 @@ class ProfilePageState extends State<ProfilePage> {
                               ),
                               const SizedBox(height: 10),
                               Expanded(
-                                child: PageView.builder(
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10, horizontal: 10),
-                                      child: HorizontalCard(
-                                          hike: favHikes[index]),
-                                    );
-                                  },
-                                  itemCount: favHikes.length,
-                                ),
+                                child: favHikes.isNotEmpty
+                                    ? PageView.builder(
+                                        itemBuilder: (context, index) {
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 10, horizontal: 10),
+                                            child: HorizontalCard(
+                                                hike: favHikes[index]),
+                                          );
+                                        },
+                                        itemCount: favHikes.length,
+                                      )
+                                    : Center(
+                                        child: Text(
+                                            'Aucune randonnée favorite')), // Message si vide
                               ),
                               const SizedBox(height: 20),
                               SizedBox(
@@ -272,7 +276,7 @@ class ProfilePageState extends State<ProfilePage> {
                                   text: LocaleKeys.auth_logout.tr(),
                                   backgroundColor: Colors.red,
                                   onPressed: () {
-                                    userProvider.logout();
+                                    authProvider.logout();
                                   },
                                 ),
                               ),

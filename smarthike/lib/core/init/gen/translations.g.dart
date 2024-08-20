@@ -81,7 +81,9 @@ abstract class  LocaleKeys {
   static const settings = 'settings';
   static const api_security_login_invalid_credentials = 'api.security.login.invalid_credentials';
   static const api_security_login = 'api.security.login';
+  static const api_security_must_be_login_to_favorite = 'api.security.must_be_login_to_favorite';
   static const api_security = 'api.security';
+  static const api_error_ = 'api.error.';
   static const api_error_unknown = 'api.error.unknown';
   static const api_error = 'api.error';
   static const api = 'api';
@@ -95,9 +97,18 @@ abstract class  LocaleKeys {
   static const hike_details_difficulty_steps_easy = 'hike.details.difficulty_steps.easy';
   static const hike_details_difficulty_steps_medium = 'hike.details.difficulty_steps.medium';
   static const hike_details_difficulty_steps_difficult = 'hike.details.difficulty_steps.difficult';
+  static const hike_details_difficulty_steps_very_difficult = 'hike.details.difficulty_steps.very_difficult';
   static const hike_details_difficulty_steps = 'hike.details.difficulty_steps';
   static const hike_details_unknown = 'hike.details.unknown';
   static const hike_details = 'hike.details';
+  static const hike_files_add = 'hike.files.add';
+  static const hike_files_camera = 'hike.files.camera';
+  static const hike_files_gallery = 'hike.files.gallery';
+  static const hike_files_upload = 'hike.files.upload';
+  static const hike_files_image_no_selected = 'hike.files.image.no_selected';
+  static const hike_files_image_uploaded = 'hike.files.image.uploaded';
+  static const hike_files_image = 'hike.files.image';
+  static const hike_files = 'hike.files';
   static const hike_all_hikes = 'hike.all_hikes';
   static const hike_see_hikes = 'hike.see_hikes';
   static const hike = 'hike';
@@ -106,11 +117,6 @@ abstract class  LocaleKeys {
   static const filter_difficulty = 'filter.difficulty';
   static const filter_location = 'filter.location';
   static const filter_apply_filters = 'filter.apply_filters';
-  static const filter_difficulty_levels_difficulty = 'filter.difficulty_levels.difficulty';
-  static const filter_difficulty_levels_easy = 'filter.difficulty_levels.easy';
-  static const filter_difficulty_levels_medium = 'filter.difficulty_levels.medium';
-  static const filter_difficulty_levels_difficult = 'filter.difficulty_levels.difficult';
-  static const filter_difficulty_levels = 'filter.difficulty_levels';
   static const filter = 'filter';
 
 }

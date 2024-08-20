@@ -51,6 +51,10 @@ dependencies:
   flutter_map_tile_caching: ^9.1.0
   flutter_map_compass: ^1.0.3
   marqueer: ^1.4.5
+  image_picker: ^0.8.5+3
+  carousel_slider: ^5.0.0
+  badges: ^3.1.2
+  http_parser: ^4.0.2
 
 dev_dependencies:
   flutter_test:

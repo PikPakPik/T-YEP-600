@@ -8,7 +8,7 @@ import 'package:smarthike/components/dropdown.dart';
 import 'package:smarthike/components/input.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/main.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
 
@@ -34,7 +34,7 @@ class RegisterFormState extends State<RegisterForm> {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Material(
       color: Colors.transparent,
@@ -222,7 +222,7 @@ class RegisterFormState extends State<RegisterForm> {
                   onPressed: () async {
                     if (_formRegisterKey.currentState!.validate()) {
                       try {
-                        await userProvider.register(
+                        await authProvider.register(
                           _firstnameRegisterController.text,
                           _lastnameRegisterController.text,
                           _emailRegisterController.text,

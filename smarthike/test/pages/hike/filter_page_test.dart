@@ -42,7 +42,7 @@ void main() {
     // Vérifie que le dropdown est affiché
     expect(
         find.widgetWithText(DropdownButtonFormField<String>,
-            tr(LocaleKeys.filter_difficulty_levels_difficulty)),
+            tr(LocaleKeys.hike_details_difficulty)),
         findsOneWidget);
 
     // Vérifie que le champ de texte est affiché
@@ -94,18 +94,18 @@ void main() {
     await tester.tap(difficultyDropdown);
     await tester.pumpAndSettle();
 
-    expect(find.text(tr(LocaleKeys.filter_difficulty_levels_easy)),
+    expect(find.text(tr(LocaleKeys.hike_details_difficulty_steps_easy)),
         findsOneWidget);
-    expect(find.text(tr(LocaleKeys.filter_difficulty_levels_medium)),
+    expect(find.text(tr(LocaleKeys.hike_details_difficulty_steps_medium)),
         findsOneWidget);
-    expect(find.text(tr(LocaleKeys.filter_difficulty_levels_difficult)),
+    expect(find.text(tr(LocaleKeys.hike_details_difficulty_steps_difficult)),
         findsOneWidget);
 
     await tester
-        .tap(find.text(tr(LocaleKeys.filter_difficulty_levels_easy)).last);
+        .tap(find.text(tr(LocaleKeys.hike_details_difficulty_steps_easy)).last);
     await tester.pumpAndSettle();
 
-    expect(find.text(tr(LocaleKeys.filter_difficulty_levels_easy)),
+    expect(find.text(tr(LocaleKeys.hike_details_difficulty_steps_easy)),
         findsOneWidget);
   });
 

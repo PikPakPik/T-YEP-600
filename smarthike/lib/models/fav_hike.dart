@@ -1,37 +1,33 @@
 import 'dart:convert';
 import 'package:logger/web.dart';
+import 'package:smarthike/models/base_hike.dart';
+import 'package:smarthike/models/hike_file.dart';
 
-class HikeFav {
-  final int id;
-  final int osmId;
-  final String name;
-
+class HikeFav extends BaseHike {
   HikeFav({
-    required this.id,
-    required this.osmId,
-    required this.name,
+    required super.id,
+    required super.osmId,
+    required super.name,
+    super.files = const [],
   });
 
   factory HikeFav.fromJson(Map<String, dynamic> json) {
     Logger logger = Logger();
     try {
-      HikeFav hike = HikeFav(
+      return HikeFav(
         id: json['id'] as int,
         osmId: json['osmId'] as int,
         name: json['name'] as String,
+        files: (json['files'] as List<dynamic>?)
+                ?.map((item) => HikeFile.fromJson(item))
+                .toList() ??
+            [],
       );
-      return hike;
     } catch (e) {
       logger.e("Erreur lors de la création de la randonnée favorite: $e");
       rethrow;
     }
   }
-
-  Map<String, dynamic> toJson() => {
-        'id' : id,
-        'osmId': osmId,
-        'name': name,
-      };
 
   factory HikeFav.fromRawJson(String str) => HikeFav.fromJson(json.decode(str));
 

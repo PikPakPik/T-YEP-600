@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/models/user.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/main.dart';
 
@@ -36,7 +36,7 @@ class EditProfilePageState extends State<EditProfilePage> {
         email: _email,
       );
 
-      await Provider.of<UserProvider>(context, listen: false)
+      await Provider.of<AuthProvider>(context, listen: false)
           .updateUser(updatedUser);
 
       SmartHikeApp.navBarKey.currentState?.navigateToPage(1);
@@ -49,8 +49,8 @@ class EditProfilePageState extends State<EditProfilePage> {
         backgroundColor: Constants.thirdColor,
         body: Center(
           child:
-              Consumer<UserProvider>(builder: (context, userProvider, child) {
-            _user = userProvider.user!;
+              Consumer<AuthProvider>(builder: (context, authProvider, child) {
+            _user = authProvider.user!;
             return SingleChildScrollView(
               child: Container(
                 width: 350,

@@ -8,7 +8,7 @@ import 'dart:ui' as _i6;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:smarthike/models/hike.dart' as _i4;
-import 'package:smarthike/providers/hike_provider.dart' as _i3;
+import 'package:smarthike/providers/hike_paginated_provider.dart' as _i3;
 import 'package:smarthike/services/hike_service.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -90,6 +90,15 @@ class MockHikeProvider extends _i1.Mock implements _i3.HikeProvider {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+
+  @override
+  void selectHike(_i4.Hike? hike) => super.noSuchMethod(
+        Invocation.method(
+          #selectHike,
+          [hike],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(

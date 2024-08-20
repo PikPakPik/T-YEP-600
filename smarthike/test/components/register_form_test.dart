@@ -7,19 +7,19 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthike/components/auth/register_form.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 
 import 'register_form_test.mocks.dart';
 
-@GenerateMocks([UserProvider])
+@GenerateMocks([AuthProvider])
 void main() async {
   SharedPreferences.setMockInitialValues({});
   await EasyLocalization.ensureInitialized();
   group('RegisterForm Tests', () {
-    late MockUserProvider mockUserProvider;
+    late MockAuthProvider mockAuthProvider;
 
     setUp(() {
-      mockUserProvider = MockUserProvider();
+      mockAuthProvider = MockAuthProvider();
     });
 
     Widget makeTestableWidget({required Widget child}) {
@@ -28,8 +28,8 @@ void main() async {
         fallbackLocale: const Locale('en'),
         path: 'assets/locales',
         child: MaterialApp(
-          home: ChangeNotifierProvider<UserProvider>(
-            create: (_) => mockUserProvider,
+          home: ChangeNotifierProvider<AuthProvider>(
+            create: (_) => mockAuthProvider,
             child: child,
           ),
         ),
@@ -99,7 +99,7 @@ void main() async {
 
     testWidgets('successful registration with valid data',
         (WidgetTester tester) async {
-      when(mockUserProvider.register(any, any, any, any))
+      when(mockAuthProvider.register(any, any, any, any))
           .thenAnswer((_) async => Future.value());
 
       await tester.pumpWidget(makeTestableWidget(child: const RegisterForm()));
@@ -134,7 +134,7 @@ void main() async {
       await tester.tap(find.byKey(const Key('register_button')));
       await tester.pumpAndSettle();
 
-      verify(mockUserProvider.register(
+      verify(mockAuthProvider.register(
               argThat(contains('John')),
               argThat(contains('Doe')),
               argThat(contains('test@example.com')),

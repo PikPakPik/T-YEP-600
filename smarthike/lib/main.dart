@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:smarthike/pages/hike/hike_details.dart';
 import 'package:smarthike/pages/hike/filter_page.dart';
 import 'package:smarthike/pages/hike/hike_list_page.dart';
 import 'package:smarthike/pages/map_page.dart';
@@ -21,10 +22,12 @@ import 'package:smarthike/pages/settings/language_page.dart';
 import 'package:smarthike/pages/settings/security_page.dart';
 import 'package:smarthike/pages/settings/subpages/delete_account_warning_page.dart';
 import 'package:smarthike/pages/settings_page.dart';
-import 'package:smarthike/providers/hike_provider.dart';
+import 'package:smarthike/providers/hike_paginated_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 import 'package:smarthike/providers/user_provider.dart';
 import 'package:smarthike/services/auth_service.dart';
 import 'package:smarthike/services/hike_service.dart';
+import 'package:smarthike/services/user_service.dart';
 import 'package:smarthike/utils/shared_preferences_util.dart';
 
 Future<void> main() async {
@@ -59,6 +62,12 @@ Future<void> main() async {
         Provider<HikeService>(
           create: (context) => HikeService(apiService: apiService),
         ),
+        Provider<UserService>(
+          create: (context) => UserService(
+            apiService: apiService,
+            sharedPreferencesUtil: sharedPreferencesUtil,
+          ),
+        )
       ],
       child: EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('fr'), Locale('es')],
@@ -81,7 +90,8 @@ const int securityPageIndex = 6;
 const int deleteAccountPageIndex = 7;
 const int editProfilePageIndex = 8;
 const int hikeListPageIndex = 9;
-const int filterPageIndex = 10;
+const int hikeDetailsIndex = 10;
+const int filterPageIndex = 11;
 
 class AppInitializer extends StatefulWidget {
   final Widget child;
@@ -100,7 +110,7 @@ class AppInitializerState extends State<AppInitializer> {
   }
 
   Future<void> _initializeApp() async {
-    await Provider.of<UserProvider>(context, listen: false).loadUserData();
+    await Provider.of<AuthProvider>(context, listen: false).loadUserData();
   }
 
   @override
@@ -125,13 +135,16 @@ class SmartHikeApp extends StatelessWidget {
 
     final authService = Provider.of<AuthService>(context);
     final hikeService = Provider.of<HikeService>(context);
+    final userService = Provider.of<UserService>(context);
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (_) => UserProvider(authService: authService)),
+            create: (_) => AuthProvider(authService: authService)),
         ChangeNotifierProvider(
             create: (_) => HikeProvider(hikeService: hikeService)),
+        ChangeNotifierProvider(
+            create: (_) => UserProvider(userService: userService)),
       ],
       child: AppInitializer(
         child: MaterialApp(
@@ -225,7 +238,9 @@ class _NavigationExampleState extends State<NavigationBarApp> {
         const DeleteAccountWarningPage(),
         const EditProfilePage(),
         HikeListPage(
-            onFilterButtonPressed: () => navigateToPage(filterPageIndex)),
+            onFilterButtonPressed: () => navigateToPage(filterPageIndex),
+            onDetailsPressed: () => navigateToPage(hikeDetailsIndex)),
+        const HikeDetailsPage(),
         const FilterPage(),
       ][currentPageIndex],
     );

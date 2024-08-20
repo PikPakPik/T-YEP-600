@@ -11,9 +11,9 @@ void main() {
         (WidgetTester tester) async {
       final Hike testHike = Hike(
           id: 1,
-          osmId: BigInt.from(123),
+          osmId: 123,
           name: 'Mountain Trail',
-          imageUrl: '',
+          files: [],
           firstNodeLat: '45.521563',
           firstNodeLon: '45.521563',
           lastNodeLat: '45.521563',

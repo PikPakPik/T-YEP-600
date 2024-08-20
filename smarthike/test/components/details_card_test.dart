@@ -13,7 +13,7 @@ void main() async {
   group('DetailsCard Widget Tests', () {
     final Hike testHike = Hike(
       id: 1,
-      osmId: BigInt.from(123),
+      osmId: 123,
       name: 'Test Hike',
       firstNodeLat: '45.521563',
       firstNodeLon: '45.521563',
