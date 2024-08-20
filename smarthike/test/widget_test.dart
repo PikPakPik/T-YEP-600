@@ -8,6 +8,7 @@ import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/main.dart';
 import 'package:smarthike/services/auth_service.dart';
 import 'package:smarthike/services/hike_service.dart';
+import 'package:smarthike/services/user_service.dart';
 import 'package:smarthike/utils/shared_preferences_util.dart';
 
 void main() {
@@ -32,6 +33,10 @@ void main() {
             Provider<HikeService>(
                 create: (_) => HikeService(apiService: ApiService())),
             Provider<ApiService>(create: (_) => ApiService()),
+            Provider<UserService>(
+                create: (_) => UserService(
+                    apiService: ApiService(),
+                    sharedPreferencesUtil: SharedPreferencesUtil.instance)),
           ],
           child: const SmartHikeApp(),
         ),

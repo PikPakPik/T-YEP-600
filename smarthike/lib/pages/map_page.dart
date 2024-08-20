@@ -18,6 +18,7 @@ import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/main.dart';
 import 'package:smarthike/models/hike.dart';
 import 'package:smarthike/services/hike_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -63,7 +64,7 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
     _setupPageController();
 
     _animationController = AnimationController(
-      duration: const Duration(seconds: 10),
+      duration: Duration(seconds: 10),
       vsync: this,
     )..repeat();
 
@@ -80,8 +81,17 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
 
   Future<void> _initializeAsync() async {
     await _initLocationService();
-    await _loadHikes();
+    await _loadHikesFromStorage();
     _updateLoadingState(false, showCompletion: true);
+  }
+
+  Future<void> _loadHikesFromStorage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? hikesJson = prefs.getString('hikes');
+
+    if (hikesJson != null) {
+      _updateHikes(Hike.fromJsonList(hikesJson));
+    }
   }
 
   Future<void> _initLocationService() async {
@@ -97,8 +107,10 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
     try {
       final response = await hikeService.getAllHikes();
       _updateHikes(response);
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setString('hikes', Hike.toJsonList(response));
     } catch (e) {
-      // Handle errors
+      throw Exception('Erreur lors du chargement des randonnées : $e');
     }
   }
 
@@ -184,6 +196,15 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
     setState(() {
       startAndEndMarkers.clear();
       selectedPolylines.clear();
+
+      const int minDuration = 5;
+      const int maxDuration = 60;
+      int duration = response.length.clamp(minDuration, maxDuration);
+      _animationController.duration = Duration(seconds: duration);
+      _animationController.reset(); // Réinitialiser l'animation
+      _animationController.forward(); // Démarrer l'animation
+
+      _animationController.repeat(); // Répéter l'animation
       for (var i = 0; i < response.length; i++) {
         var way = response[i];
         selectedPolylines.add(
@@ -379,6 +400,19 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
     return Stack(
       children: [
         if (!_isLoading && !_showCompletionMessage)
+          Positioned(
+            top: 50,
+            left: MediaQuery.of(context).size.width / 2 - 100,
+            right: MediaQuery.of(context).size.width / 2 - 100,
+            child: CustomButton(
+              text: 'Recharger les randonnées',
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              radius: 40,
+              onPressed: _reloadHikes,
+            ),
+          ),
+        if (!_isLoading && !_showCompletionMessage)
           NotificationListener<DraggableScrollableNotification>(
             onNotification: _handleDraggableScrollNotification,
             child: DraggableScrollableSheet(
@@ -415,6 +449,16 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
           ),
       ],
     );
+  }
+
+  void _reloadHikes() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await _loadHikes();
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   bool _handleDraggableScrollNotification(

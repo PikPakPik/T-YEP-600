@@ -2,22 +2,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:smarthike/models/user.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 import 'package:smarthike/services/auth_service.dart';
 
 import 'user_providers_test.mocks.dart';
 
 @GenerateMocks([AuthService])
 void main() {
-  late UserProvider userProvider;
+  late AuthProvider authProvider;
   late MockAuthService mockAuthService;
 
   setUp(() {
     mockAuthService = MockAuthService();
-    userProvider = UserProvider(authService: mockAuthService);
+    authProvider = AuthProvider(authService: mockAuthService);
   });
 
-  group('UserProvider', () {
+  group('AuthProvider', () {
     test('login success', () async {
       final user = User(
           id: 1, firstname: 'John', lastname: 'Doe', email: 'test@example.com');
@@ -25,9 +25,9 @@ void main() {
       when(mockAuthService.login('test@example.com', 'password'))
           .thenAnswer((_) async => user);
 
-      await userProvider.login('test@example.com', 'password');
+      await authProvider.login('test@example.com', 'password');
 
-      expect(userProvider.user, user);
+      expect(authProvider.user, user);
       verify(mockAuthService.login('test@example.com', 'password')).called(1);
     });
 
@@ -39,10 +39,10 @@ void main() {
               'John', 'Doe', 'test@example.com', 'password'))
           .thenAnswer((_) async => user);
 
-      await userProvider.register(
+      await authProvider.register(
           'John', 'Doe', 'test@example.com', 'password');
 
-      expect(userProvider.user, user);
+      expect(authProvider.user, user);
       verify(mockAuthService.register(
               'John', 'Doe', 'test@example.com', 'password'))
           .called(1);
@@ -50,8 +50,8 @@ void main() {
 
     test('logout', () async {
       when(mockAuthService.logout()).thenAnswer((_) async => null);
-      await userProvider.logout();
-      expect(userProvider.user, isNull);
+      await authProvider.logout();
+      expect(authProvider.user, isNull);
       verify(mockAuthService.logout()).called(1);
     });
   });

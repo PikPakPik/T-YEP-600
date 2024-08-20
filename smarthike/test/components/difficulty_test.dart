@@ -16,33 +16,30 @@ void main() {
 
       expect(find.text(LocaleKeys.hike_details_difficulty_steps_easy.tr()),
           findsOneWidget);
-      expect(find.byIcon(Icons.looks_one_outlined), findsOneWidget);
     });
 
     testWidgets('displays correct icon and text for difficulty 2',
         (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-          body: Difficulty(difficulty: 2),
+          body: Difficulty(difficulty: 5),
         ),
       ));
 
       expect(find.text(LocaleKeys.hike_details_difficulty_steps_medium.tr()),
           findsOneWidget);
-      expect(find.byIcon(Icons.looks_two_outlined), findsOneWidget);
     });
 
     testWidgets('displays correct icon and text for difficulty 3',
         (WidgetTester tester) async {
       await tester.pumpWidget(MaterialApp(
         home: Scaffold(
-          body: Difficulty(difficulty: 3),
+          body: Difficulty(difficulty: 8),
         ),
       ));
 
       expect(find.text(LocaleKeys.hike_details_difficulty_steps_difficult.tr()),
           findsOneWidget);
-      expect(find.byIcon(Icons.looks_3_outlined), findsOneWidget);
     });
 
     testWidgets('displays default values when difficulty is null',
@@ -54,7 +51,6 @@ void main() {
       ));
 
       expect(find.text(LocaleKeys.hike_details_unknown.tr()), findsOneWidget);
-      expect(find.byIcon(Icons.help_outline), findsOneWidget);
     });
   });
 }

@@ -61,12 +61,14 @@ class ApiService {
     return responseJson;
   }
 
-  Future<dynamic> post(String path, dynamic data) async {
+    Future<dynamic> post(String path, {dynamic data}) async {
     dynamic responseJson;
     try {
-      final response = await _dio.post(_baseURL + path,
-          data: data,
-          options: Options()..headers = {'Content-Type': 'application/json'});
+      final response = await _dio.post(
+        _baseURL + path,
+        data: data ?? {},
+        options: Options()..headers = {'Content-Type': 'application/json'},
+      );
       responseJson = returnResponse(response);
     } on SocketException {
       throw Exception('No Internet connection');

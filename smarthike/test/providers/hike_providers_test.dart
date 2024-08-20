@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:smarthike/providers/hike_provider.dart';
+import 'package:smarthike/providers/hike_paginated_provider.dart';
 import 'package:smarthike/services/hike_service.dart';
 
 import 'hike_providers_test.mocks.dart';

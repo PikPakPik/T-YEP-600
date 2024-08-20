@@ -8,18 +8,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/models/user.dart';
 import 'package:smarthike/pages/edit_profile_page.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 
 import 'profile_page_test.mocks.dart';
 
-@GenerateMocks([UserProvider])
+@GenerateMocks([AuthProvider])
 void main() async {
   SharedPreferences.setMockInitialValues({});
   await EasyLocalization.ensureInitialized();
-  late MockUserProvider mockUserProvider;
+  late MockAuthProvider mockAuthProvider;
 
   setUp(() {
-    mockUserProvider = MockUserProvider();
+    mockAuthProvider = MockAuthProvider();
   });
 
   Widget makeTestableWidget({required Widget child}) {
@@ -28,8 +28,8 @@ void main() async {
       fallbackLocale: const Locale('en'),
       path: 'assets/locales',
       child: MaterialApp(
-        home: ChangeNotifierProvider<UserProvider>(
-          create: (_) => mockUserProvider,
+        home: ChangeNotifierProvider<AuthProvider>(
+          create: (_) => mockAuthProvider,
           child: child,
         ),
       ),
@@ -44,7 +44,7 @@ void main() async {
         lastname: 'Doe',
         email: 'john.doe@example.com');
 
-    when(mockUserProvider.user).thenReturn(user);
+    when(mockAuthProvider.user).thenReturn(user);
 
     await tester.pumpWidget(makeTestableWidget(child: EditProfilePage()));
 
@@ -61,8 +61,8 @@ void main() async {
         lastname: 'Doe',
         email: 'john.doe@example.com');
 
-    when(mockUserProvider.user).thenReturn(user);
-    when(mockUserProvider.updateUser(any)).thenAnswer((_) async {});
+    when(mockAuthProvider.user).thenReturn(user);
+    when(mockAuthProvider.updateUser(any)).thenAnswer((_) async {});
 
     await tester.pumpWidget(makeTestableWidget(child: EditProfilePage()));
 
@@ -74,6 +74,6 @@ void main() async {
     await tester.tap(find.text(LocaleKeys.register_form_form_save.tr()));
     await tester.pumpAndSettle();
 
-    verify(mockUserProvider.updateUser(any)).called(1);
+    verify(mockAuthProvider.updateUser(any)).called(1);
   });
 }

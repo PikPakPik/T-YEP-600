@@ -8,19 +8,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/models/user.dart';
 import 'package:smarthike/pages/profile_page.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 
 import 'profile_page_test.mocks.dart';
 
-@GenerateMocks([UserProvider, ApiService])
+@GenerateMocks([AuthProvider, ApiService])
 void main() async {
   SharedPreferences.setMockInitialValues({});
   await EasyLocalization.ensureInitialized();
-  late MockUserProvider userProvider;
+  late MockAuthProvider authProvider;
   late MockApiService apiService;
 
   setUp(() {
-    userProvider = MockUserProvider();
+    authProvider = MockAuthProvider();
     apiService = MockApiService();
   });
 
@@ -32,7 +32,7 @@ void main() async {
       child: MultiProvider(
         providers: [
           Provider<ApiService>(create: (_) => apiService),
-          ChangeNotifierProvider<UserProvider>(create: (_) => userProvider),
+          ChangeNotifierProvider<AuthProvider>(create: (_) => authProvider),
         ],
         child: MaterialApp(
           home: child,
@@ -49,11 +49,11 @@ void main() async {
         lastname: 'Doe',
         email: 'john.doe@example.com');
 
-    when(userProvider.user).thenReturn(user);
+    when(authProvider.user).thenReturn(user);
     when(apiService.get("/hike/favorites")).thenAnswer((_) async => {
           "items": [
-            {"id": 1, "name": "Hike 1", "osmId" : 1},
-            {"id": 2, "name": "Hike 2", "osmId" : 2}
+            {"id": 1, "name": "Hike 1", "osmId": 1},
+            {"id": 2, "name": "Hike 2", "osmId": 2}
           ]
         });
 
@@ -69,11 +69,11 @@ void main() async {
 
   testWidgets('ProfilePage shows login page when not logged in',
       (WidgetTester tester) async {
-    when(userProvider.user).thenReturn(null);
+    when(authProvider.user).thenReturn(null);
     when(apiService.get("/hike/favorites")).thenAnswer((_) async => {
           "items": [
-            {"id": 1, "name": "Hike 1", "osmId" : 1},
-            {"id": 2, "name": "Hike 2", "osmId" : 2}
+            {"id": 1, "name": "Hike 1", "osmId": 1},
+            {"id": 2, "name": "Hike 2", "osmId": 2}
           ]
         });
     await tester.pumpWidget(makeTestableWidget(

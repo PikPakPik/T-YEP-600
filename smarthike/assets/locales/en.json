@@ -93,9 +93,11 @@
     "security": {
       "login": {
         "invalid_credentials": "Invalid credentials"
-      }
+      },
+      "must_be_login_to_favorite": "You must log in to add to favorites"
     },
     "error": {
+      "": "An error occurred",
       "unknown": "An unknown error occurred"
     }
   },
@@ -111,9 +113,20 @@
       "difficulty_steps": {
         "easy": "Easy",
         "medium": "Medium",
-        "difficult": "Difficult"
+        "difficult": "Difficult",
+        "very_difficult": "Very Difficult"
       },
     "unknown": "unknown"
+    },
+    "files":{
+      "add": "Add an image for",
+      "camera": "Cámara",
+      "gallery": "Galería",
+      "upload": "Descargar",
+      "image": {
+        "no_selected": "No image selected",
+        "uploaded": "New image uploaded"
+      } 
     },
     "all_hikes" : "All hikes",
     "see_hikes": "See all"
@@ -123,12 +136,6 @@
     "time": "Hiking time (hours)",
     "difficulty": "Difficulty",
     "location": "Location",
-    "apply_filters": "Apply Filters",
-    "difficulty_levels": {
-      "difficulty": "Difficulty",
-      "easy": "Easy",
-      "medium": "Medium",
-      "difficult": "Difficult"
-    }
+    "apply_filters": "Apply Filters"
   }
 }

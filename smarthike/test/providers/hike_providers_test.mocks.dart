@@ -61,6 +61,16 @@ class MockHikeService extends _i1.Mock implements _i3.HikeService {
       ) as _i4.Future<_i5.PaginatedHike?>);
 
   @override
+  _i4.Future<List<_i3.Ways>> getHikeGeometry(int? hikeId) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getHikeGeometry,
+          [hikeId],
+        ),
+        returnValue: _i4.Future<List<_i3.Ways>>.value(<_i3.Ways>[]),
+      ) as _i4.Future<List<_i3.Ways>>);
+
+  @override
   _i4.Future<List<_i6.Hike>> getAllHikes() => (super.noSuchMethod(
         Invocation.method(
           #getAllHikes,

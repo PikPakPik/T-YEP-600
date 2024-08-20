@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:smarthike/components/button.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 
 class SettingsPage extends StatelessWidget {
   final VoidCallback onLanguageButtonPressed;
@@ -19,7 +19,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Constants.thirdColor,
-        body: Consumer<UserProvider>(builder: (context, userProvider, child) {
+        body: Consumer<AuthProvider>(builder: (context, authProvider, child) {
           return Center(
               child: Container(
                   width: 350,
@@ -61,7 +61,7 @@ class SettingsPage extends StatelessWidget {
                         isEnable: false,
                         onPressed: () {},
                       ),
-                      if (userProvider.user != null)
+                      if (authProvider.user != null)
                         CustomButton(
                           key: const Key('security_button'),
                           text: LocaleKeys.settings_privacy_security.tr(),

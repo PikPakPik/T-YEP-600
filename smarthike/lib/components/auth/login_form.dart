@@ -8,7 +8,7 @@ import 'package:smarthike/components/input.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/main.dart'; // Added this line to import the main.dart file
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -24,7 +24,7 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Material(
       color: Colors.transparent,
@@ -71,7 +71,7 @@ class LoginFormState extends State<LoginForm> {
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
                   try {
-                    await userProvider.login(
+                    await authProvider.login(
                         _emailController.text, _passwordController.text);
                     if (context.mounted) {
                       SmartHikeApp.navBarKey.currentState?.navigateToPage(1);

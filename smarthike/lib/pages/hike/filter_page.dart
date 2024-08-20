@@ -13,7 +13,7 @@ class FilterPage extends StatefulWidget {
 }
 
 class FilterPageState extends State<FilterPage> {
-  String _difficulty = tr(LocaleKeys.filter_difficulty_levels_difficulty);
+  String _difficulty = tr(LocaleKeys.hike_details_difficulty);
   String _location = tr(LocaleKeys.filter_location);
   double min = 0, max = 2090;
   RangeValues distanceRangeValues = RangeValues(0, 2090);
@@ -118,10 +118,11 @@ class FilterPageState extends State<FilterPage> {
             ),
           ),
           items: <String>[
-            tr(LocaleKeys.filter_difficulty_levels_difficulty),
-            tr(LocaleKeys.filter_difficulty_levels_easy),
-            tr(LocaleKeys.filter_difficulty_levels_medium),
-            tr(LocaleKeys.filter_difficulty_levels_difficult)
+            tr(LocaleKeys.hike_details_difficulty),
+            tr(LocaleKeys.hike_details_difficulty_steps_easy),
+            tr(LocaleKeys.hike_details_difficulty_steps_medium),
+            tr(LocaleKeys.hike_details_difficulty_steps_difficult),
+            tr(LocaleKeys.hike_details_difficulty_steps_very_difficult),
           ].map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,

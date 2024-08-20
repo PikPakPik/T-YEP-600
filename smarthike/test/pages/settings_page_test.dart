@@ -7,18 +7,18 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/pages/settings_page.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 
-@GenerateMocks([UserProvider])
+@GenerateMocks([AuthProvider])
 import 'settings_page_test.mocks.dart';
 
 void main() async {
   SharedPreferences.setMockInitialValues({});
   await EasyLocalization.ensureInitialized();
-  late MockUserProvider userProvider;
+  late MockAuthProvider authProvider;
 
   setUp(() {
-    userProvider = MockUserProvider();
+    authProvider = MockAuthProvider();
   });
 
   Widget makeTestableWidget({required Widget child}) {
@@ -27,8 +27,8 @@ void main() async {
       fallbackLocale: const Locale('en'),
       path: 'assets/locales',
       child: MaterialApp(
-        home: ChangeNotifierProvider<UserProvider>(
-          create: (_) => userProvider,
+        home: ChangeNotifierProvider<AuthProvider>(
+          create: (_) => authProvider,
           child: child,
         ),
       ),
@@ -37,7 +37,7 @@ void main() async {
 
   testWidgets('SettingsPage displays buttons with correct text',
       (WidgetTester tester) async {
-    when(userProvider.user).thenReturn(null);
+    when(authProvider.user).thenReturn(null);
 
     await EasyLocalization.ensureInitialized();
     await tester.pumpWidget(

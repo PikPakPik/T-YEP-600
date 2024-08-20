@@ -3,14 +3,16 @@ import 'package:provider/provider.dart';
 import 'package:smarthike/components/hike/custom_app_bar.dart';
 import 'package:smarthike/components/hike/horizontal_card.dart';
 import 'package:smarthike/constants.dart';
-import 'package:smarthike/providers/hike_provider.dart';
+import 'package:smarthike/providers/hike_paginated_provider.dart';
 
 class HikeListPage extends StatefulWidget {
+  final VoidCallback onDetailsPressed;
   final VoidCallback onFilterButtonPressed;
 
   const HikeListPage({
     super.key,
     required this.onFilterButtonPressed,
+    required this.onDetailsPressed,
   });
 
   @override
@@ -19,13 +21,17 @@ class HikeListPage extends StatefulWidget {
 
 class HikeListPageState extends State<HikeListPage> {
   final ScrollController _scrollController = ScrollController();
+  late VoidCallback onDetailsPressed;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final hikeProvider = Provider.of<HikeProvider>(context, listen: false);
-      hikeProvider.loadPaginatedHikesData(1);
+    onDetailsPressed = widget.onDetailsPressed;
+    Future.delayed(Duration.zero, () {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        final hikeProvider = Provider.of<HikeProvider>(context, listen: false);
+        hikeProvider.loadPaginatedHikesData(1);
+      });
     });
   }
 
@@ -62,6 +68,10 @@ class HikeListPageState extends State<HikeListPage> {
                   return HorizontalCard(
                     key: Key(hike.id.toString()),
                     hike: hike,
+                    onPressed: () {
+                      hikeProvider.selectHike(hike);
+                      onDetailsPressed();
+                    },
                   );
                 }
               },

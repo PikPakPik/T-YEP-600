@@ -4,7 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthike/pages/settings/subpages/delete_account_warning_page.dart';
-import 'package:smarthike/providers/user_provider.dart';
+import 'package:smarthike/providers/auth_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:smarthike/core/init/gen/translations.g.dart';
 import 'package:smarthike/services/auth_service.dart';
@@ -39,7 +39,7 @@ void main() async {
     await tester.pumpWidget(
       makeTestableWidget(
         child: ChangeNotifierProvider(
-          create: (_) => UserProvider(authService: authService),
+          create: (_) => AuthProvider(authService: authService),
           child: const MaterialApp(
             home: DeleteAccountWarningPage(),
           ),
@@ -67,7 +67,7 @@ void main() async {
     await tester.pumpWidget(
       makeTestableWidget(
         child: ChangeNotifierProvider(
-          create: (_) => UserProvider(
+          create: (_) => AuthProvider(
             authService: authService,
           ),
           child: const MaterialApp(

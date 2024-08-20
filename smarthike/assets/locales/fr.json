@@ -93,9 +93,11 @@
     "security": {
       "login": {
         "invalid_credentials": "Identifiants invalides"
-      }
+      },
+      "must_be_login_to_favorite": "Vous devez vous connecter pour ajouter aux favoris"
     },
     "error": {
+      "":"Une erreur s'est produite",
       "unknown": "Une erreur inconnue s'est produite"
     }
   },
@@ -111,9 +113,20 @@
       "difficulty_steps": {
         "easy": "Facile",
         "medium": "Moyen",
-        "difficult": "Difficile"
+        "difficult": "Difficile",
+        "very_difficult": "Très Difficile"
       },
     "unknown": "Inconnu"
+    },
+    "files":{
+      "add": "Ajouter une image pour",
+      "camera": "Caméra",
+      "gallery": "Galerie",
+      "upload": "Télécharger",
+      "image": {
+        "no_selected": "Aucune image sélectionnée",
+        "uploaded": "Nouvelle image téléchargée"
+      }
     },
     "all_hikes": "Toutes les randonnées",
     "see_hikes": "Voir tout"
@@ -123,12 +136,6 @@
     "time": "Temps de marche (en h)",
     "difficulty": "Niveau de difficulté",
     "location": "Localisation",
-    "apply_filters": "Appliquer les filtres",
-    "difficulty_levels": {
-      "difficulty": "Difficulté",
-      "easy": "Facile",
-      "medium": "Moyen",
-      "difficult": "Difficile"
-    }
+    "apply_filters": "Appliquer les filtres"
   }
 }

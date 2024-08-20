@@ -19,7 +19,7 @@ class AuthService {
         'password': password,
       });
 
-      final response = await apiService.post('/login', formData);
+      final response = await apiService.post('/login', data:formData);
       final token = response['token'];
       await apiService.updateToken(token);
 
@@ -44,7 +44,7 @@ class AuthService {
         'password': password
       });
 
-      final response = await apiService.post('/register', formData);
+      final response = await apiService.post('/register', data:formData);
       final token = response['token'];
       await apiService.updateToken(token);
 

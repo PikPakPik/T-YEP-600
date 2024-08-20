@@ -4,6 +4,7 @@ import 'package:smarthike/services/hike_service.dart';
 
 class HikeProvider extends ChangeNotifier {
   final List<Hike> _hikes = [];
+  Hike? _selectedHike;
   int? _nextPage;
   int? _previousPage;
   int _currentPage = 1;
@@ -15,6 +16,7 @@ class HikeProvider extends ChangeNotifier {
   HikeProvider({required this.hikeService});
 
   List<Hike> get hikes => _hikes;
+  Hike? get selectedHike => _selectedHike;
   int? get nextPage => _nextPage;
   int? get previousPage => _previousPage;
   int get currentPage => _currentPage;
@@ -25,7 +27,6 @@ class HikeProvider extends ChangeNotifier {
     if (_isLoading) return;
 
     _isLoading = true;
-    notifyListeners();
 
     try {
       final paginatedHike = await hikeService.getListHikes(page);
@@ -42,5 +43,10 @@ class HikeProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  void selectHike(Hike hike) {
+    _selectedHike = hike;
+    notifyListeners();
   }
 }

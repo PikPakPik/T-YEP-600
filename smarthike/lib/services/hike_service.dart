@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:smarthike/api/smarthike_api.dart';
 import 'package:smarthike/models/hike.dart';
 import 'package:smarthike/models/paginated_hike.dart';
+import 'package:http_parser/http_parser.dart';
 
 class Ways {
   final List<LatLng> points;
@@ -69,6 +72,38 @@ class HikeService {
         throw DioException.connectionError(
             requestOptions: e.requestOptions, reason: "Internal server error");
       }
+    }
+  }
+
+  Future<String> uploadHikeImage(int hikeId, File file) async {
+    final formData = FormData.fromMap({
+      'file': await MultipartFile.fromFile(file.path,
+          filename: file.path, contentType: MediaType('image', 'jpeg')),
+      'id': hikeId,
+    });
+
+    try {
+      final response = await apiService.post(
+        '/hike/$hikeId/image',
+        data: formData,
+      );
+      return response['i18n'];
+    } on DioException catch (e) {
+      if (e.response != null) {
+        throw Exception(e.response?.data['i18n']);
+      } else {
+        throw DioException.connectionError(
+            requestOptions: e.requestOptions, reason: "Internal server error");
+      }
+    }
+  }
+
+  Future<Hike> getHike(int? hikeId) async {
+    try {
+      final response = await apiService.get('/hike/$hikeId');
+      return Hike.fromJson(response);
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }
