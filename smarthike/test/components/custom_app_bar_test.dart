@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smarthike/components/hike/custom_app_bar.dart';
+import 'package:smarthike/providers/filter_provider.dart';
 
 void main() {
   setUpAll(() async {
@@ -16,9 +18,12 @@ void main() {
       supportedLocales: const [Locale('en'), Locale('es'), Locale('fr')],
       path: 'assets/locales',
       fallbackLocale: Locale('en'),
-      child: MaterialApp(
-        home: Scaffold(
-          body: child,
+      child: ChangeNotifierProvider<FilterProvider>(
+        create: (_) => FilterProvider(),
+        child: MaterialApp(
+          home: Scaffold(
+            body: child,
+          ),
         ),
       ),
     );
@@ -27,11 +32,14 @@ void main() {
   testWidgets('CustomAppBar displays correctly for filter page',
       (WidgetTester tester) async {
     await tester.pumpWidget(createWidgetForTesting(
-        child: CustomAppBar(
-      isFilterPage: true,
-    )));
+      child: CustomAppBar(
+        isFilterPage: true,
+        hasActiveFilters: false,
+        onBackPressed: () {},
+      ),
+    ));
 
-    expect(find.text('All hikes'), findsOneWidget);
+    expect(find.byType(TextField), findsOneWidget);
     expect(find.byIcon(Icons.tune), findsOneWidget);
     expect(find.byIcon(Icons.arrow_back), findsOneWidget);
   });
@@ -39,9 +47,13 @@ void main() {
   testWidgets('CustomAppBar displays correctly for hike list page',
       (WidgetTester tester) async {
     await tester.pumpWidget(createWidgetForTesting(
-        child: CustomAppBar(
-      isHikeListPage: true,
-    )));
+      child: CustomAppBar(
+        isHikeListPage: true,
+        hasActiveFilters: false,
+        isFilterPage: false,
+        onBackPressed: () {},
+      ),
+    ));
 
     expect(find.byIcon(Icons.search), findsOneWidget);
     expect(find.byIcon(Icons.tune), findsOneWidget);
@@ -50,20 +62,21 @@ void main() {
 
   testWidgets('CustomAppBar back button navigates correctly',
       (WidgetTester tester) async {
-    final navKey = GlobalKey<NavigatorState>();
+    bool backButtonPressed = false;
 
-    await tester.pumpWidget(MaterialApp(
-      navigatorKey: navKey,
-      home: Scaffold(
-        appBar: CustomAppBar(
-          isFilterPage: true,
-        ),
+    await tester.pumpWidget(createWidgetForTesting(
+      child: CustomAppBar(
+        isFilterPage: true,
+        hasActiveFilters: false,
+        onBackPressed: () {
+          backButtonPressed = true;
+        },
       ),
     ));
 
     await tester.tap(find.byIcon(Icons.arrow_back));
     await tester.pumpAndSettle();
 
-    expect(navKey.currentState?.canPop(), false);
+    expect(backButtonPressed, isTrue);
   });
 }

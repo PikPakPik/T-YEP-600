@@ -3,13 +3,15 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
+import 'dart:io' as _i7;
 
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i8;
 import 'package:smarthike/api/smarthike_api.dart' as _i2;
-import 'package:smarthike/models/hike.dart' as _i6;
-import 'package:smarthike/models/paginated_hike.dart' as _i5;
-import 'package:smarthike/services/hike_service.dart' as _i3;
+import 'package:smarthike/models/hike.dart' as _i3;
+import 'package:smarthike/models/paginated_hike.dart' as _i6;
+import 'package:smarthike/services/hike_service.dart' as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -34,10 +36,20 @@ class _FakeApiService_0 extends _i1.SmartFake implements _i2.ApiService {
         );
 }
 
+class _FakeHike_1 extends _i1.SmartFake implements _i3.Hike {
+  _FakeHike_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [HikeService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHikeService extends _i1.Mock implements _i3.HikeService {
+class MockHikeService extends _i1.Mock implements _i4.HikeService {
   MockHikeService() {
     _i1.throwOnMissingStub(this);
   }
@@ -52,30 +64,94 @@ class MockHikeService extends _i1.Mock implements _i3.HikeService {
       ) as _i2.ApiService);
 
   @override
-  _i4.Future<_i5.PaginatedHike?> getListHikes(int? page) => (super.noSuchMethod(
+  _i5.Future<List<String>> searchCities(String? query) => (super.noSuchMethod(
+        Invocation.method(
+          #searchCities,
+          [query],
+        ),
+        returnValue: _i5.Future<List<String>>.value(<String>[]),
+      ) as _i5.Future<List<String>>);
+
+  @override
+  _i5.Future<Map<String, dynamic>?> getCityCoordinates(String? cityName) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getCityCoordinates,
+          [cityName],
+        ),
+        returnValue: _i5.Future<Map<String, dynamic>?>.value(),
+      ) as _i5.Future<Map<String, dynamic>?>);
+
+  @override
+  _i5.Future<_i6.PaginatedHike?> getListHikes(
+    int? page, {
+    required Map<String, dynamic>? filters,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
           #getListHikes,
           [page],
+          {#filters: filters},
         ),
-        returnValue: _i4.Future<_i5.PaginatedHike?>.value(),
-      ) as _i4.Future<_i5.PaginatedHike?>);
+        returnValue: _i5.Future<_i6.PaginatedHike?>.value(),
+      ) as _i5.Future<_i6.PaginatedHike?>);
 
   @override
-  _i4.Future<List<_i3.Ways>> getHikeGeometry(int? hikeId) =>
+  _i5.Future<List<_i4.Ways>> getHikeGeometry(int? hikeId) =>
       (super.noSuchMethod(
         Invocation.method(
           #getHikeGeometry,
           [hikeId],
         ),
-        returnValue: _i4.Future<List<_i3.Ways>>.value(<_i3.Ways>[]),
-      ) as _i4.Future<List<_i3.Ways>>);
+        returnValue: _i5.Future<List<_i4.Ways>>.value(<_i4.Ways>[]),
+      ) as _i5.Future<List<_i4.Ways>>);
 
   @override
-  _i4.Future<List<_i6.Hike>> getAllHikes() => (super.noSuchMethod(
+  _i5.Future<List<_i3.Hike>> getAllHikes() => (super.noSuchMethod(
         Invocation.method(
           #getAllHikes,
           [],
         ),
-        returnValue: _i4.Future<List<_i6.Hike>>.value(<_i6.Hike>[]),
-      ) as _i4.Future<List<_i6.Hike>>);
+        returnValue: _i5.Future<List<_i3.Hike>>.value(<_i3.Hike>[]),
+      ) as _i5.Future<List<_i3.Hike>>);
+
+  @override
+  _i5.Future<String> uploadHikeImage(
+    int? hikeId,
+    _i7.File? file,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #uploadHikeImage,
+          [
+            hikeId,
+            file,
+          ],
+        ),
+        returnValue: _i5.Future<String>.value(_i8.dummyValue<String>(
+          this,
+          Invocation.method(
+            #uploadHikeImage,
+            [
+              hikeId,
+              file,
+            ],
+          ),
+        )),
+      ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<_i3.Hike> getHike(int? hikeId) => (super.noSuchMethod(
+        Invocation.method(
+          #getHike,
+          [hikeId],
+        ),
+        returnValue: _i5.Future<_i3.Hike>.value(_FakeHike_1(
+          this,
+          Invocation.method(
+            #getHike,
+            [hikeId],
+          ),
+        )),
+      ) as _i5.Future<_i3.Hike>);
 }

@@ -9,7 +9,7 @@ class Hike extends BaseHike {
   final String lastNodeLat;
   final String lastNodeLon;
   final String imageUrl;
-  final String? distance;
+  final double? distance;
   final String? positiveAltitude;
   final String? negativeAltitude;
   final int? difficulty;
@@ -24,7 +24,7 @@ class Hike extends BaseHike {
     required this.lastNodeLat,
     required this.lastNodeLon,
     this.imageUrl = 'assets/images/hikeImageWaiting.jpg',
-    this.distance = "0",
+    this.distance = 0,
     this.positiveAltitude = "0",
     this.negativeAltitude = "0",
     this.difficulty = 0,
@@ -43,7 +43,7 @@ class Hike extends BaseHike {
         firstNodeLon: json['firstNodeLon'] as String,
         lastNodeLat: json['lastNodeLat'] as String,
         lastNodeLon: json['lastNodeLon'] as String,
-        distance: (json['distance'] as String?),
+        distance: (json['distance'] as double?),
         positiveAltitude: (json['positiveAltitude'] as String?),
         negativeAltitude: (json['negativeAltitude'] as String?),
         difficulty: json['difficulty'] as int?,

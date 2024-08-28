@@ -35,6 +35,8 @@ class PaginatedHike {
     }
   }
 
+  bool? get hasNextPage => null;
+
   Map<String, dynamic> toJson() => {
         'items': List<dynamic>.from(items.map((x) => x.toJson())),
         'nextPage': nextPage,
