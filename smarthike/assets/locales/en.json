@@ -136,6 +136,12 @@
     "time": "Hiking time (hours)",
     "difficulty": "Difficulty",
     "location": "Location",
-    "apply_filters": "Apply Filters"
+    "apply_filters": "Apply Filters",
+    "reset_filters": "Reset Filters",
+    "no_hikes_found": "No hikes found",
+    "filter_location": "Search for a city (min. 3 characters)",
+    "hike_reset_filters": "Reinitialise"
+
+  
   }
 }

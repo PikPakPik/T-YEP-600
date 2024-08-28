@@ -7,6 +7,7 @@ import 'package:smarthike/models/hike.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 void main() async {
+  TestWidgetsFlutterBinding.ensureInitialized();
   SharedPreferences.setMockInitialValues({});
   await EasyLocalization.ensureInitialized();
 
@@ -19,52 +20,79 @@ void main() async {
       firstNodeLon: '45.521563',
       lastNodeLat: '45.521563',
       lastNodeLon: '45.521563',
-      distance: '10',
+      distance: 10.0,
       positiveAltitude: '1500',
       negativeAltitude: '200',
       hikingTime: 60,
       difficulty: 2,
     );
 
-    testWidgets('DetailsCard shows correct text when showStats is true',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: EasyLocalization(
-              supportedLocales: const [Locale('en')],
-              path: 'resources/langs',
-              fallbackLocale: Locale('en'),
-              child: DetailsCard(hike: testHike, showStats: true),
-            ),
-          ),
+    Widget createTestWidget({required Widget child}) {
+      return EasyLocalization(
+        supportedLocales: const [Locale('en')],
+        path: 'assets/locales',
+        fallbackLocale: Locale('en'),
+        child: MaterialApp(
+          home: Scaffold(body: child),
         ),
       );
+    }
 
-      expect(find.text('10 km'), findsOneWidget);
-      expect(find.text('1500 m'), findsOneWidget);
-      expect(find.text('0h 1m'), findsOneWidget);
+    testWidgets('DetailsCard shows correct text when showStats is true',
+        (WidgetTester tester) async {
+      await tester.pumpWidget(createTestWidget(
+        child: DetailsCard(hike: testHike, showStats: true),
+      ));
+
+      await tester.pumpAndSettle();
+
+      // Vérifier la présence de la distance
+      expect(
+          find.byWidgetPredicate(
+              (widget) => widget is Text && widget.data == '10.0 km'),
+          findsOneWidget);
+
+      // Vérifier la présence de l'altitude
+      expect(
+          find.byWidgetPredicate(
+              (widget) => widget is Text && widget.data == '1500 m'),
+          findsOneWidget);
+
+      // Vérifier la présence du temps de randonnée
+      expect(
+          find.byWidgetPredicate(
+              (widget) => widget is Text && widget.data == '0h 1m'),
+          findsOneWidget);
+
       expect(find.byType(Difficulty), findsOneWidget);
     });
 
     testWidgets('DetailsCard does not show stats when showStats is false',
         (WidgetTester tester) async {
-      await tester.pumpWidget(
-        MaterialApp(
-          home: Scaffold(
-            body: EasyLocalization(
-              supportedLocales: const [Locale('en')],
-              path: 'resources/langs',
-              fallbackLocale: Locale('en'),
-              child: DetailsCard(hike: testHike, showStats: false),
-            ),
-          ),
-        ),
-      );
+      await tester.pumpWidget(createTestWidget(
+        child: DetailsCard(hike: testHike, showStats: false),
+      ));
 
-      expect(find.text('10 km'), findsNothing);
-      expect(find.text('1500 m'), findsNothing);
-      expect(find.text('0h 1m'), findsNothing);
+      await tester.pumpAndSettle();
+
+      expect(
+          find.byWidgetPredicate((widget) =>
+              widget is Text &&
+              widget.data!.contains('10') &&
+              widget.data!.toLowerCase().contains('km')),
+          findsNothing);
+      expect(
+          find.byWidgetPredicate((widget) =>
+              widget is Text &&
+              widget.data!.contains('1500') &&
+              widget.data!.toLowerCase().contains('m')),
+          findsNothing);
+      expect(
+          find.byWidgetPredicate((widget) =>
+              widget is Text &&
+              widget.data!.contains('1') &&
+              widget.data!.toLowerCase().contains('m')),
+          findsNothing);
       expect(find.byType(Difficulty), findsNothing);
     });
   });

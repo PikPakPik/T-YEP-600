@@ -22,6 +22,7 @@ import 'package:smarthike/pages/settings/language_page.dart';
 import 'package:smarthike/pages/settings/security_page.dart';
 import 'package:smarthike/pages/settings/subpages/delete_account_warning_page.dart';
 import 'package:smarthike/pages/settings_page.dart';
+import 'package:smarthike/providers/filter_provider.dart';
 import 'package:smarthike/providers/hike_paginated_provider.dart';
 import 'package:smarthike/providers/auth_provider.dart';
 import 'package:smarthike/providers/user_provider.dart';
@@ -67,7 +68,10 @@ Future<void> main() async {
             apiService: apiService,
             sharedPreferencesUtil: sharedPreferencesUtil,
           ),
-        )
+        ),
+        ChangeNotifierProvider(
+          create: (context) => FilterProvider(),
+        ),
       ],
       child: EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('fr'), Locale('es')],
@@ -177,6 +181,7 @@ class NavigationBarApp extends StatefulWidget {
 
 class _NavigationExampleState extends State<NavigationBarApp> {
   int currentPageIndex = 0;
+  Map<String, dynamic>? currentFilters;
 
   void navigateToPage(int index) {
     setState(() {
@@ -204,6 +209,16 @@ class _NavigationExampleState extends State<NavigationBarApp> {
             : currentPageIndex);
 
     selectedIndex = selectedIndex.clamp(0, 2);
+
+    void applyFilters(Map<String, dynamic> filters) {
+      setState(() {
+        currentFilters = filters;
+        currentPageIndex = hikeListPageIndex;
+      });
+      // Forcer le rechargement des randonnées
+      Provider.of<HikeProvider>(context, listen: false)
+          .loadPaginatedHikesData(1, filters: filters, reset: false);
+    }
 
     return Scaffold(
       bottomNavigationBar: NavigationBar(
@@ -239,9 +254,10 @@ class _NavigationExampleState extends State<NavigationBarApp> {
         const EditProfilePage(),
         HikeListPage(
             onFilterButtonPressed: () => navigateToPage(filterPageIndex),
+            filters: currentFilters,
             onDetailsPressed: () => navigateToPage(hikeDetailsIndex)),
         const HikeDetailsPage(),
-        const FilterPage(),
+        FilterPage(onApplyFilters: applyFilters),
       ][currentPageIndex],
     );
   }

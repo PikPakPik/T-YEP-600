@@ -13,9 +13,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'register_form_test.mocks.dart';
 
 @GenerateMocks([AuthProvider])
-void main() async {
-  SharedPreferences.setMockInitialValues({});
-  await EasyLocalization.ensureInitialized();
+void main() {
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences.setMockInitialValues({});
+    await EasyLocalization.ensureInitialized();
+  });
 
   group('LoginForm Tests', () {
     late MockAuthProvider mockAuthProvider;
@@ -27,8 +30,8 @@ void main() async {
     Widget makeTestableWidget({required Widget child}) {
       return EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('fr')],
-        fallbackLocale: const Locale('en'),
         path: 'assets/locales',
+        fallbackLocale: const Locale('en'),
         child: MaterialApp(
           home: ChangeNotifierProvider<AuthProvider>(
             create: (_) => mockAuthProvider,
@@ -40,15 +43,15 @@ void main() async {
 
     testWidgets('invalid email shows an error message',
         (WidgetTester tester) async {
-      await tester.runAsync(() async {
-        await tester.pumpWidget(makeTestableWidget(child: const LoginForm()));
-        await tester.pumpAndSettle();
-        await tester.enterText(
-            find.byKey(const Key('email_login_field')), 'email');
-        await tester.pumpAndSettle();
-        expect(find.text(LocaleKeys.login_form_error_email_invalid.tr()),
-            findsOneWidget);
-      });
+      await tester.pumpWidget(makeTestableWidget(child: const LoginForm()));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(
+          find.byKey(const Key('email_login_field')), 'email');
+      await tester.pumpAndSettle();
+
+      expect(find.text(LocaleKeys.login_form_error_email_invalid.tr()),
+          findsOneWidget);
     });
 
     testWidgets('empty password shows an error message',

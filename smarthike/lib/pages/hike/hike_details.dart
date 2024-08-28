@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart' hide CarouselController;
+import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import 'package:smarthike/api/smarthike_api.dart';
@@ -29,7 +29,7 @@ class HikeDetailsPageState extends State<HikeDetailsPage> {
   List<HikeFav> favHikes = [];
   late ApiService apiService;
   late AuthProvider authProvider;
-  late Hike hike;
+  late Hike? hike;
 
   @override
   void initState() {
@@ -51,6 +51,10 @@ class HikeDetailsPageState extends State<HikeDetailsPage> {
           .getHike(hikeId);
       setState(() {
         hike = fetchedHike;
+      });
+    } else {
+      setState(() {
+        hike = null;
       });
     }
   }
@@ -127,9 +131,12 @@ class HikeDetailsPageState extends State<HikeDetailsPage> {
       backgroundColor: Constants.thirdColor,
       body: Builder(
         builder: (BuildContext context) {
-          final isFavorite = favHikes.any((favHike) => favHike.id == hike.id);
-          final List<HikeFile> files = (hike.files.isNotEmpty)
-              ? hike.files.map((file) {
+          if (hike == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          final isFavorite = favHikes.any((favHike) => favHike.id == hike!.id);
+          final List<HikeFile> files = (hike!.files.isNotEmpty)
+              ? hike!.files.map((file) {
                   return HikeFile(
                       id: file.id,
                       link: kDebugMode
@@ -145,7 +152,7 @@ class HikeDetailsPageState extends State<HikeDetailsPage> {
                   padding: const EdgeInsets.only(top: 30),
                   child: Stack(
                     children: [
-                      _buildImageCarousel(context, files, hike),
+                      _buildImageCarousel(context, files, hike!),
                       Positioned(
                         top: 35,
                         left: 16,
@@ -170,7 +177,7 @@ class HikeDetailsPageState extends State<HikeDetailsPage> {
                     children: [
                       Expanded(
                         child: Text(
-                          hike.name,
+                          hike!.name,
                           style: const TextStyle(
                               fontSize: 24, fontWeight: FontWeight.bold),
                           maxLines: 2,
@@ -188,9 +195,9 @@ class HikeDetailsPageState extends State<HikeDetailsPage> {
                               ),
                               onPressed: () {
                                 if (!isFavorite) {
-                                  addToFavorite(hike);
+                                  addToFavorite(hike!);
                                 } else {
-                                  removeFromFavorite(hike);
+                                  removeFromFavorite(hike!);
                                 }
                               },
                             )
@@ -215,7 +222,7 @@ class HikeDetailsPageState extends State<HikeDetailsPage> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(16.0),
-                    child: DetailsCard(hike: hike),
+                    child: DetailsCard(hike: hike!),
                   ),
                 ),
               ],

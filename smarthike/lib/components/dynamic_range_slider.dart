@@ -6,6 +6,8 @@ class DynamicRangeSlider extends StatelessWidget {
   final double min, max;
   final ValueChanged<RangeValues> onChanged;
   final ValueChanged<RangeValues>? onChangeEnd;
+  final int divisions;
+  final String unit;
 
   const DynamicRangeSlider({
     super.key,
@@ -14,8 +16,15 @@ class DynamicRangeSlider extends StatelessWidget {
     required this.min,
     required this.max,
     required this.onChanged,
+    required this.divisions,
     this.onChangeEnd,
+    this.unit = 'km',
+    required RangeValues initialRangeValues,
   });
+
+  String _formatValue(double value) {
+    return value.toStringAsFixed(0);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +43,7 @@ class DynamicRangeSlider extends StatelessWidget {
               child: Text(label, style: kTextStyle),
             ),
             Text(
-              '${currentRangeValues.start.round().toString()} - ${currentRangeValues.end.round().toString()}',
+              '${_formatValue(currentRangeValues.start)} - ${_formatValue(currentRangeValues.end)} $unit',
               style: kTextStyle,
             ),
           ],
@@ -53,10 +62,10 @@ class DynamicRangeSlider extends StatelessWidget {
             values: currentRangeValues,
             min: min,
             max: max,
-            divisions: 100,
+            divisions: divisions,
             labels: RangeLabels(
-              currentRangeValues.start.round().toString(),
-              currentRangeValues.end.round().toString(),
+              '${_formatValue(currentRangeValues.start)} $unit',
+              '${_formatValue(currentRangeValues.end)} $unit',
             ),
             onChanged: onChanged,
             onChangeEnd: onChangeEnd,
@@ -65,10 +74,8 @@ class DynamicRangeSlider extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text('min: ${min.round()}',
-                style: kTextStyle), // Assurez-vous que min est arrondi
-            Text('max: ${max.round()}',
-                style: kTextStyle), // Assurez-vous que max est arrondi
+            Text('min: ${_formatValue(min)} $unit', style: kTextStyle),
+            Text('max: ${_formatValue(max)} $unit', style: kTextStyle),
           ],
         ),
       ],

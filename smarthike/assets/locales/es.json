@@ -136,6 +136,9 @@
     "time": "Tiempo de caminata (horas)",
     "difficulty": "Dificultad",
     "location": "Ubicación",
-    "apply_filters": "Aplicar Filtros"
+    "apply_filters": "Aplicar Filtros",
+    "reset_filters": "Restablecer Filtros",
+    "filter_location": "Buscar una ciudad (mín. 3 caracteres)",
+    "hike_reset_filters": "Reiniciar"
   }
 }

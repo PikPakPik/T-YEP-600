@@ -136,6 +136,9 @@
     "time": "Temps de marche (en h)",
     "difficulty": "Niveau de difficulté",
     "location": "Localisation",
-    "apply_filters": "Appliquer les filtres"
+    "apply_filters": "Appliquer les filtres",
+    "reset_filters": "Réinitialiser les filtres",
+    "filter_location": "Rechercher une ville (min. 3 caractères)",
+    "hike_reset_filters": "Réinitialiser"
   }
 }

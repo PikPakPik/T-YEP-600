@@ -4,10 +4,12 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
-import 'dart:ui' as _i6;
+import 'dart:ui' as _i7;
 
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i6;
 import 'package:smarthike/models/hike.dart' as _i4;
+import 'package:smarthike/providers/filter_provider.dart' as _i8;
 import 'package:smarthike/providers/hike_paginated_provider.dart' as _i3;
 import 'package:smarthike/services/hike_service.dart' as _i2;
 
@@ -76,16 +78,37 @@ class MockHikeProvider extends _i1.Mock implements _i3.HikeProvider {
       ) as bool);
 
   @override
+  Map<String, dynamic> get currentFilters => (super.noSuchMethod(
+        Invocation.getter(#currentFilters),
+        returnValue: <String, dynamic>{},
+      ) as Map<String, dynamic>);
+
+  @override
+  bool get hasFilters => (super.noSuchMethod(
+        Invocation.getter(#hasFilters),
+        returnValue: false,
+      ) as bool);
+
+  @override
   bool get hasListeners => (super.noSuchMethod(
         Invocation.getter(#hasListeners),
         returnValue: false,
       ) as bool);
 
   @override
-  _i5.Future<void> loadPaginatedHikesData(int? page) => (super.noSuchMethod(
+  _i5.Future<void> loadPaginatedHikesData(
+    int? page, {
+    Map<String, dynamic>? filters,
+    required bool? reset,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
           #loadPaginatedHikesData,
           [page],
+          {
+            #filters: filters,
+            #reset: reset,
+          },
         ),
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
@@ -101,7 +124,70 @@ class MockHikeProvider extends _i1.Mock implements _i3.HikeProvider {
       );
 
   @override
-  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+  void clearFilters() => super.noSuchMethod(
+        Invocation.method(
+          #clearFilters,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  _i5.Future<void> loadNextPage() => (super.noSuchMethod(
+        Invocation.method(
+          #loadNextPage,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> loadPreviousPage() => (super.noSuchMethod(
+        Invocation.method(
+          #loadPreviousPage,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  _i5.Future<void> refreshHikes() => (super.noSuchMethod(
+        Invocation.method(
+          #refreshHikes,
+          [],
+        ),
+        returnValue: _i5.Future<void>.value(),
+        returnValueForMissingStub: _i5.Future<void>.value(),
+      ) as _i5.Future<void>);
+
+  @override
+  void updateFilters(Map<String, dynamic>? newFilters) => super.noSuchMethod(
+        Invocation.method(
+          #updateFilters,
+          [newFilters],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  String getAppliedFiltersDescription() => (super.noSuchMethod(
+        Invocation.method(
+          #getAppliedFiltersDescription,
+          [],
+        ),
+        returnValue: _i6.dummyValue<String>(
+          this,
+          Invocation.method(
+            #getAppliedFiltersDescription,
+            [],
+          ),
+        ),
+      ) as String);
+
+  @override
+  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -110,7 +196,106 @@ class MockHikeProvider extends _i1.Mock implements _i3.HikeProvider {
       );
 
   @override
-  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #removeListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void dispose() => super.noSuchMethod(
+        Invocation.method(
+          #dispose,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void notifyListeners() => super.noSuchMethod(
+        Invocation.method(
+          #notifyListeners,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
+/// A class which mocks [FilterProvider].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFilterProvider extends _i1.Mock implements _i8.FilterProvider {
+  MockFilterProvider() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  Map<String, dynamic> get filters => (super.noSuchMethod(
+        Invocation.getter(#filters),
+        returnValue: <String, dynamic>{},
+      ) as Map<String, dynamic>);
+
+  @override
+  String get cityName => (super.noSuchMethod(
+        Invocation.getter(#cityName),
+        returnValue: _i6.dummyValue<String>(
+          this,
+          Invocation.getter(#cityName),
+        ),
+      ) as String);
+
+  @override
+  bool get hasActiveFilters => (super.noSuchMethod(
+        Invocation.getter(#hasActiveFilters),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  bool get hasListeners => (super.noSuchMethod(
+        Invocation.getter(#hasListeners),
+        returnValue: false,
+      ) as bool);
+
+  @override
+  void setFilters(Map<String, dynamic>? filters) => super.noSuchMethod(
+        Invocation.method(
+          #setFilters,
+          [filters],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void setCityName(String? cityName) => super.noSuchMethod(
+        Invocation.method(
+          #setCityName,
+          [cityName],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void resetFilters() => super.noSuchMethod(
+        Invocation.method(
+          #resetFilters,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void addListener(_i7.VoidCallback? listener) => super.noSuchMethod(
+        Invocation.method(
+          #addListener,
+          [listener],
+        ),
+        returnValueForMissingStub: null,
+      );
+
+  @override
+  void removeListener(_i7.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],

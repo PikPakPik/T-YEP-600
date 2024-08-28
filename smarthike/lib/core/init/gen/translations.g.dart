@@ -117,6 +117,10 @@ abstract class  LocaleKeys {
   static const filter_difficulty = 'filter.difficulty';
   static const filter_location = 'filter.location';
   static const filter_apply_filters = 'filter.apply_filters';
+  static const filter_reset_filters = 'filter.reset_filters';
+  static const filter_no_hikes_found = 'filter.no_hikes_found';
+  static const filter_filter_location = 'filter.filter_location';
+  static const filter_hike_reset_filters = 'filter.hike_reset_filters';
   static const filter = 'filter';
 
 }

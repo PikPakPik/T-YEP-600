@@ -127,8 +127,8 @@ def get_hikes():
     longitude = request.args.get('longitude', type=str)
     distance = request.args.get('distance', 30, type=int)
     difficulty = request.args.get('difficulty', type=str)
-    hiking_time = request.args.get('hiking_time', type=int)
-    hike_distance = request.args.get('hike_distance', type=int)
+    hiking_time = request.args.get('hiking_time', type=str)
+    hike_distance = request.args.get('hike_distance', type=str)
 
     if limit > 1000:
         return app.response_class(
@@ -158,10 +158,16 @@ def get_hikes():
         hikes_query = hikes_query.filter(Hike.difficulty == difficulty)
 
     if hiking_time is not None:
-        hikes_query = hikes_query.filter(Hike.hikingTime <= hiking_time)
+        min, max = hiking_time.split(';')
+        hikes_query = hikes_query.filter(Hike.hikingTime >= int(min), Hike.hikingTime <= int(max))
+        hikes_query = hikes_query.order_by(Hike.hikingTime)
 
     if hike_distance is not None:
-        hikes_query = hikes_query.filter(Hike.distance <= hike_distance)
+        min, max = hike_distance.split(';')
+        hikes_query = hikes_query.filter(Hike.distance >= int(min), Hike.distance <= int(max))
+        hikes_query = hikes_query.order_by(Hike.distance)
+
+    app.logger.info(hikes_query)
 
     totalItems = hikes_query.count()
     hikes = hikes_query.offset((page - 1) * limit).limit(limit).all()

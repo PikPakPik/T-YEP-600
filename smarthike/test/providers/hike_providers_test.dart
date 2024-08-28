@@ -18,12 +18,12 @@ void main() {
 
   group('HikeProvider', () {
     test('loadPaginatedHikesData', () async {
-      when(mockHikeService.getListHikes(1)).thenAnswer((_) async => null);
+      when(mockHikeService.getListHikes(1, filters: {})).thenAnswer((_) async => null);
 
-      await hikeProvider.loadPaginatedHikesData(1);
+      await hikeProvider.loadPaginatedHikesData(1, reset: false);
 
       expect(hikeProvider.hikes, isEmpty);
-      verify(mockHikeService.getListHikes(1)).called(1);
+      verify(mockHikeService.getListHikes(1, filters: {})).called(1);
     });
   });
 }
