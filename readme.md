@@ -6,7 +6,7 @@ End-of-year project for our first year in the MSC program at Epitech Nantes.
 We're a team of 5 students working on a project to offer our users personalized hiking routes to reach their final goal.
 
 # What is Smart'Hike ?
-Smart'Hike is a mobile application that allows you to create personalized hiking routes.
+Smart'Hike is a mobile application that references hiking trails on a map and provides information about them.
 
 # Technologies
 ![](https://img.shields.io/badge/Flutter-ED8B00?style=for-the-badge&logo=flutter&color=20232a)
@@ -24,10 +24,10 @@ make install ENV={local|dev|ci|prod}
 ```
 ### With bash file
 ```bash
-Usage: ./smarthike {env(local|dev|ci|prod)} {build|down|re-build|logs|install|test}
+Usage: ./smarthike {env(local|dev|ci|prod)} {build|down|re-build|logs|initialize|test}
 
 ./smarthike.sh local build
-./smarthike.sh local install
+./smarthike.sh local initialize
 ```
 
 ## Authors
