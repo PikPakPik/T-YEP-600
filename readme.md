@@ -42,6 +42,7 @@ Usage: ./smarthike {env(local|dev|ci|prod)} {build|down|re-build|logs|initialize
 
 ## API Documentation
 [Swagger by Redoc](http://tyep600.valentinrgt.fr/)
+[Figma](https://www.figma.com/design/Q5YMinXrxrl18pxnFNJG2G/Smart'Hike?m=auto&t=Q9byDwlfsKCJIs4j-1)
 
 ## Contributing
 
