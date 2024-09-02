@@ -103,6 +103,7 @@
   },
   "hike": {
     "hike": "Excursión",
+    "reload_hikes": "Recargar excursiones",
     "details": {
       "distance": "Distancia",
       "max_altitude": "Altitud máxima",

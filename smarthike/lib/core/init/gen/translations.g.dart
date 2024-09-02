@@ -88,6 +88,7 @@ abstract class  LocaleKeys {
   static const api_error = 'api.error';
   static const api = 'api';
   static const hike_hike = 'hike.hike';
+  static const hike_reload_hikes = 'hike.reload_hikes';
   static const hike_details_distance = 'hike.details.distance';
   static const hike_details_max_altitude = 'hike.details.max_altitude';
   static const hike_details_min_altitude = 'hike.details.min_altitude';

@@ -103,6 +103,7 @@
   },
   "hike":{
     "hike":"hike",
+    "reload_hikes": "Reload hikes",
     "details":{
       "distance": "Distance",
       "max_altitude": "Max altitude",

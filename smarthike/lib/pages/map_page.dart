@@ -405,7 +405,7 @@ class MapPageState extends State<MapPage> with SingleTickerProviderStateMixin {
             left: MediaQuery.of(context).size.width / 2 - 100,
             right: MediaQuery.of(context).size.width / 2 - 100,
             child: CustomButton(
-              text: 'Recharger les randonnées',
+              text: LocaleKeys.hike_reload_hikes.tr(),
               backgroundColor: Colors.red,
               textColor: Colors.white,
               radius: 40,
