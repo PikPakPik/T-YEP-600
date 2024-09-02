@@ -152,6 +152,7 @@ class SmartHikeApp extends StatelessWidget {
       ],
       child: AppInitializer(
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           builder: FToastBuilder(),
           supportedLocales: easyLocalization.supportedLocales,
           localizationsDelegates: easyLocalization.delegates,
@@ -215,7 +216,7 @@ class _NavigationExampleState extends State<NavigationBarApp> {
         currentFilters = filters;
         currentPageIndex = hikeListPageIndex;
       });
-      // Forcer le rechargement des randonnées
+
       Provider.of<HikeProvider>(context, listen: false)
           .loadPaginatedHikesData(1, filters: filters, reset: false);
     }

@@ -4,6 +4,7 @@ import 'package:smarthike/components/hike/custom_app_bar.dart';
 import 'package:smarthike/constants.dart';
 import 'package:smarthike/components/dynamic_range_slider.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:smarthike/main.dart';
 import 'package:smarthike/services/hike_service.dart';
 import '../../core/init/gen/translations.g.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +56,7 @@ class FilterPageState extends State<FilterPage> {
     if (query.length >= 3 && RegExp(r'^[a-zA-Z0-9]').hasMatch(query)) {
       try {
         final cities = await _hikeService.searchCities(query);
-        if (!mounted) return; // Assurez-vous que le widget est toujours monté
+        if (!mounted) return;
         setState(() {
           _suggestedCities = cities;
         });
@@ -86,8 +87,8 @@ class FilterPageState extends State<FilterPage> {
         child: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(20),
-            constraints: const BoxConstraints(
-              maxHeight: 650,
+            constraints: BoxConstraints(
+              maxHeight: MediaQuery.of(context).size.height * 0.9,
               maxWidth: 400,
             ),
             decoration: BoxDecoration(
@@ -116,7 +117,7 @@ class FilterPageState extends State<FilterPage> {
                   },
                   initialRangeValues: RangeValues(0, 1000),
                 ),
-                const SizedBox(height: 47),
+                const SizedBox(height: 20), // Reduced height
                 DynamicRangeSlider(
                   label: tr(LocaleKeys.filter_time),
                   currentRangeValues: timeRangeValues,
@@ -142,7 +143,7 @@ class FilterPageState extends State<FilterPage> {
                 _buildCityAutocomplete(),
                 const SizedBox(height: 20),
                 _buildResetButton(),
-                const Spacer(),
+                const SizedBox(height: 20),
                 _buildApplyFiltersButton(),
               ],
             ),
@@ -276,20 +277,20 @@ class FilterPageState extends State<FilterPage> {
           if (_cityController.text.isNotEmpty) {
             final coordinates =
                 await _hikeService.getCityCoordinates(_cityController.text);
-            if (!mounted) {
-              return; // Assurez-vous que le widget est toujours monté
-            }
             if (coordinates != null) {
               filters['latitude'] = coordinates['latitude'].toString();
               filters['longitude'] = coordinates['longitude'].toString();
             }
           }
 
+          if (!mounted) {
+            return;
+          }
           Provider.of<FilterProvider>(context, listen: false)
               .setFilters(filters);
           widget.onApplyFilters(filters);
 
-          Navigator.pop(context);
+          SmartHikeApp.navBarKey.currentState?.navigateToPage(9);
         },
         style: ButtonStyle(
           backgroundColor:
