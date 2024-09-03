@@ -75,12 +75,11 @@ class HikeListPageState extends State<HikeListPage> {
     return Scaffold(
       backgroundColor: Constants.thirdColor,
       appBar: CustomAppBar(
-        onFilterButtonPressed: widget.onFilterButtonPressed,
-        isHikeListPage: true,
-        hasActiveFilters: _filterProvider.hasActiveFilters,
-        isFilterPage: false,
-        onBackPressed: () {},
-      ),
+          onFilterButtonPressed: widget.onFilterButtonPressed,
+          isHikeListPage: true,
+          hasActiveFilters: _filterProvider.hasActiveFilters,
+          isFilterPage: false,
+          onBackPressed: () {}),
       body: Column(
         children: [
           _buildResetFiltersButton(),

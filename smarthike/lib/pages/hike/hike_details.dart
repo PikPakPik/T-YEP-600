@@ -140,7 +140,7 @@ class HikeDetailsPageState extends State<HikeDetailsPage> {
                   return HikeFile(
                       id: file.id,
                       link: kDebugMode
-                          ? 'http://localhost:9000${file.link}'
+                          ? 'http://10.29.125.217:9000${file.link}'
                           : file.link);
                 }).toList()
               : [HikeFile(id: 0, link: "assets/images/hikeImageWaiting.jpg")];

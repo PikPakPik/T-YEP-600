@@ -14,7 +14,7 @@ class HorizontalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final String fileLink = hike.files.isNotEmpty
         ? (kDebugMode && !kIsWeb
-            ? 'http://localhost:9000${hike.files[0].link}'
+            ? 'http://10.29.125.217:9000${hike.files[0].link}'
             : hike.files[0].link)
         : 'assets/images/hikeImageWaiting.jpg';
 
